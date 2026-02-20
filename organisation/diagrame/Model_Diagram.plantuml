@@ -1,0 +1,97 @@
+@startuml Model_Diagram
+skinparam classAttributeIconSize 0
+
+!define MODEL_COLOR #D0E6FF
+
+package "Model" {
+
+class MoteurJeu MODEL_COLOR {
+  - Grille grille
+  - ScoreManager scoreManager
+  - VerrouManager verrouManager
+  - Generateur generateur
+  - int score
+  - int nbCoups
+  - boolean finie
+  - long seed
+  --
+  + jouerCoup(estLigne, index, decalage)
+  + estFinie()
+  + getScore()
+  + getNbCoups()
+  + getGrille()
+}
+
+class Grille MODEL_COLOR {
+  - Case[][] cases
+  - Generateur generateur
+  --
+  + initialiser()
+  + glisserLigne(index, decalage)
+  + glisserColonne(index, decalage)
+  + detecterSeries()
+  + supprimerSeries(series)
+  + appliquerGravite()
+  + remplir()
+  + estStable()
+  + existeCoupPossible()
+}
+
+class Case MODEL_COLOR {
+  - TypeElement type
+  - boolean verrouille
+  --
+  + getType()
+  + setType(type)
+  + estVerrouille()
+  + verrouiller()
+  + deverrouiller()
+}
+
+class Serie MODEL_COLOR {
+  - List<Position> positions
+  --
+  + longueur()
+  + getPositions()
+}
+
+class Position MODEL_COLOR {
+  - int ligne
+  - int colonne
+  --
+  + getLigne()
+  + getColonne()
+}
+
+class ScoreManager MODEL_COLOR {
+  + calculerScore(series)
+}
+
+class VerrouManager MODEL_COLOR {
+  - Generateur generateur
+  --
+  + ajouterVerrouSiNecessaire(grille, nbCoups)
+}
+
+class Generateur MODEL_COLOR {
+  - Random random
+  --
+  + Generateur(seed)
+  + typeAleatoire()
+}
+
+enum TypeElement MODEL_COLOR
+
+}
+
+MoteurJeu --> Grille
+MoteurJeu --> ScoreManager
+MoteurJeu --> VerrouManager
+MoteurJeu --> Generateur
+
+Grille --> Case
+Grille --> Serie
+Serie --> Position
+Case --> TypeElement
+
+@enduml

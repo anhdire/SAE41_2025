@@ -1,0 +1,76 @@
+@startuml View_Controller_Diagram
+skinparam classAttributeIconSize 0
+
+!define VIEW_COLOR #D5F5D5
+!define CONTROLLER_COLOR #FFE0B3
+!define LISTENER_COLOR #DDDDDD
+
+' ==============================
+' VIEW
+' ==============================
+
+package "View" {
+
+class MenuActivity VIEW_COLOR
+class JeuActivity VIEW_COLOR
+class OptionsActivity VIEW_COLOR
+class SeedActivity VIEW_COLOR
+
+interface ElementRenderer VIEW_COLOR {
+  + getDrawable(type)
+}
+
+class NormalRenderer VIEW_COLOR
+class DaltonienRenderer VIEW_COLOR
+
+}
+
+' ==============================
+' CONTROLLER
+' ==============================
+
+package "Controller" {
+
+class MenuController CONTROLLER_COLOR {
+  + demarrerPartieNormale()
+  + demarrerPartieDestinee(seed)
+  + ouvrirOptions()
+}
+
+class JeuController CONTROLLER_COLOR {
+  - MoteurJeu moteur
+  --
+  + glisserLigne(index, decalage)
+  + glisserColonne(index, decalage)
+  + verifierFin()
+}
+
+class OptionsController CONTROLLER_COLOR {
+  + activerHardMode(actif)
+  + activerModeDaltonien(actif)
+}
+
+class MenuClickListener LISTENER_COLOR
+class JeuTouchListener LISTENER_COLOR
+class OptionsSwitchListener LISTENER_COLOR
+
+}
+
+' ==============================
+' RELATIONS VIEW -> CONTROLLER
+' ==============================
+
+MenuActivity --> MenuController
+JeuActivity --> JeuController
+OptionsActivity --> OptionsController
+SeedActivity --> MenuController
+
+MenuClickListener --> MenuController
+JeuTouchListener --> JeuController
+OptionsSwitchListener --> OptionsController
+
+JeuActivity --> ElementRenderer
+ElementRenderer <|-- NormalRenderer
+ElementRenderer <|-- DaltonienRenderer
+
+@enduml

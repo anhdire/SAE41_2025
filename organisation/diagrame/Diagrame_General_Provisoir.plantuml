@@ -1,0 +1,175 @@
+@startuml Diagrame_Generale_Provisoir
+skinparam classAttributeIconSize 0
+
+' ==============================
+' COLORS
+' ==============================
+!define MODEL_COLOR #D0E6FF
+!define VIEW_COLOR #D5F5D5
+!define CONTROLLER_COLOR #FFE0B3
+!define LISTENER_COLOR #DDDDDD
+
+' ==============================
+' MODEL (BLEU)
+' ==============================
+
+package "Model" {
+
+class MoteurJeu MODEL_COLOR {
+  - Grille grille
+  - ScoreManager scoreManager
+  - VerrouManager verrouManager
+  - Generateur generateur
+  - int score
+  - int nbCoups
+  - boolean finie
+  - long seed
+  --
+  + jouerCoup(estLigne, index, decalage)
+  + estFinie()
+  + getScore()
+  + getNbCoups()
+  + getGrille()
+}
+
+class Grille MODEL_COLOR {
+  - Case[][] cases
+  - Generateur generateur
+  --
+  + initialiser()
+  + glisserLigne(index, decalage)
+  + glisserColonne(index, decalage)
+  + detecterSeries()
+  + supprimerSeries(series)
+  + appliquerGravite()
+  + remplir()
+  + estStable()
+  + existeCoupPossible()
+}
+
+class Case MODEL_COLOR {
+  - TypeElement type
+  - boolean verrouille
+  --
+  + getType()
+  + setType(type)
+  + estVerrouille()
+  + verrouiller()
+  + deverrouiller()
+}
+
+class Serie MODEL_COLOR {
+  - List<Position> positions
+  --
+  + longueur()
+  + getPositions()
+}
+
+class Position MODEL_COLOR {
+  - int ligne
+  - int colonne
+  --
+  + getLigne()
+  + getColonne()
+}
+
+class ScoreManager MODEL_COLOR {
+  + calculerScore(series)
+}
+
+class VerrouManager MODEL_COLOR {
+  - Generateur generateur
+  --
+  + ajouterVerrouSiNecessaire(grille, nbCoups)
+}
+
+class Generateur MODEL_COLOR {
+  - Random random
+  --
+  + Generateur(seed)
+  + typeAleatoire()
+}
+
+enum TypeElement MODEL_COLOR
+
+}
+
+' ==============================
+' VIEW (VERT)
+' ==============================
+
+package "View" {
+
+class MenuActivity VIEW_COLOR
+class JeuActivity VIEW_COLOR
+class OptionsActivity VIEW_COLOR
+class SeedActivity VIEW_COLOR
+
+interface ElementRenderer VIEW_COLOR {
+  + getDrawable(type)
+}
+
+class NormalRenderer VIEW_COLOR
+class DaltonienRenderer VIEW_COLOR
+
+}
+
+' ==============================
+' CONTROLLER (ORANGE)
+' ==============================
+
+package "Controller" {
+
+class MenuController CONTROLLER_COLOR {
+  + demarrerPartieNormale()
+  + demarrerPartieDestinee(seed)
+  + ouvrirOptions()
+}
+
+class JeuController CONTROLLER_COLOR {
+  - MoteurJeu moteur
+  --
+  + glisserLigne(index, decalage)
+  + glisserColonne(index, decalage)
+  + verifierFin()
+}
+
+class OptionsController CONTROLLER_COLOR {
+  + activerHardMode(actif)
+  + activerModeDaltonien(actif)
+}
+
+}
+
+
+' ==============================
+' RELATIONS
+' ==============================
+
+MoteurJeu --> Grille
+MoteurJeu --> ScoreManager
+MoteurJeu --> VerrouManager
+MoteurJeu --> Generateur
+
+Grille --> Case
+Grille --> Serie
+Serie --> Position
+Case --> TypeElement
+
+JeuController --> MoteurJeu
+MenuController --> MoteurJeu
+
+JeuActivity --> JeuController
+MenuActivity --> MenuController
+OptionsActivity --> OptionsController
+SeedActivity --> MenuController
+
+JeuActivity --> ElementRenderer
+ElementRenderer <|-- NormalRenderer
+ElementRenderer <|-- DaltonienRenderer
+
+MenuClickListener --> MenuController
+JeuTouchListener --> JeuController
+OptionsSwitchListener --> OptionsController
+
+@enduml
