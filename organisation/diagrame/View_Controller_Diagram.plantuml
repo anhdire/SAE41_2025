@@ -1,76 +1,97 @@
-@startuml View_Controller_Diagram
+@startuml Model_Diagram
 skinparam classAttributeIconSize 0
 
-!define VIEW_COLOR #D5F5D5
-!define CONTROLLER_COLOR #FFE0B3
-!define LISTENER_COLOR #DDDDDD
+!define MODEL_COLOR #D0E6FF
 
-' ==============================
-' VIEW
-' ==============================
+package "Model" {
 
-package "View" {
-
-class MenuActivity VIEW_COLOR
-class JeuActivity VIEW_COLOR
-class OptionsActivity VIEW_COLOR
-class SeedActivity VIEW_COLOR
-
-interface ElementRenderer VIEW_COLOR {
-  + getDrawable(type)
-}
-
-class NormalRenderer VIEW_COLOR
-class DaltonienRenderer VIEW_COLOR
-
-}
-
-' ==============================
-' CONTROLLER
-' ==============================
-
-package "Controller" {
-
-class MenuController CONTROLLER_COLOR {
-  + demarrerPartieNormale()
-  + demarrerPartieDestinee(seed)
-  + ouvrirOptions()
-}
-
-class JeuController CONTROLLER_COLOR {
-  - MoteurJeu moteur
+class MoteurJeu MODEL_COLOR {
+  - grille: Grille
+  - scoreManager: ScoreManager
+  - verrouManager: VerrouManager
+  - generateur: Generateur
+  - score: int
+  - nbCoups: int
+  - finie: boolean
+  - seed: long
   --
-  + glisserLigne(index, decalage)
-  + glisserColonne(index, decalage)
-  + verifierFin()
+  + jouerCoup(estLigne: boolean, index: int, decalage: int): void
+  + estFinie(): boolean
+  + getScore(): int
+  + getNbCoups(): int
+  + getGrille(): Grille
 }
 
-class OptionsController CONTROLLER_COLOR {
-  + activerHardMode(actif)
-  + activerModeDaltonien(actif)
+class Grille MODEL_COLOR {
+  - cases: Case[][]
+  - generateur: Generateur
+  --
+  + initialiser(): void
+  + glisserLigne(index: int, decalage: int): void
+  + glisserColonne(index: int, decalage: int): void
+  + detecterSeries(): List<Serie>
+  + supprimerSeries(series: List<Serie>): void
+  + appliquerGravite(): void
+  + remplir(): void
+  + estStable(): boolean
+  + existeCoupPossible(): boolean
 }
 
-class MenuClickListener LISTENER_COLOR
-class JeuTouchListener LISTENER_COLOR
-class OptionsSwitchListener LISTENER_COLOR
+class Case MODEL_COLOR {
+  - type: TypeElement
+  - verrouille: boolean
+  --
+  + getType(): TypeElement
+  + setType(type: TypeElement): void
+  + estVerrouille(): boolean
+  + verrouiller(): void
+  + deverrouiller(): void
+}
+
+class Serie MODEL_COLOR {
+  - positions: List<Position>
+  --
+  + longueur(): int
+  + getPositions(): List<Position>
+}
+
+class Position MODEL_COLOR {
+  - ligne: int
+  - colonne: int
+  --
+  + getLigne(): int
+  + getColonne(): int
+}
+
+class ScoreManager MODEL_COLOR {
+  + calculerScore(series: List<Serie>): int
+}
+
+class VerrouManager MODEL_COLOR {
+  - generateur: Generateur
+  --
+  + ajouterVerrouSiNecessaire(grille: Grille, nbCoups: int): void
+}
+
+class Generateur MODEL_COLOR {
+  - random: Random
+  --
+  + Generateur(seed: long)
+  + typeAleatoire(): TypeElement
+}
+
+enum TypeElement MODEL_COLOR
 
 }
 
-' ==============================
-' RELATIONS VIEW -> CONTROLLER
-' ==============================
+MoteurJeu --> Grille
+MoteurJeu --> ScoreManager
+MoteurJeu --> VerrouManager
+MoteurJeu --> Generateur
 
-MenuActivity --> MenuController
-JeuActivity --> JeuController
-OptionsActivity --> OptionsController
-SeedActivity --> MenuController
-
-MenuClickListener --> MenuController
-JeuTouchListener --> JeuController
-OptionsSwitchListener --> OptionsController
-
-JeuActivity --> ElementRenderer
-ElementRenderer <|-- NormalRenderer
-ElementRenderer <|-- DaltonienRenderer
+Grille --> Case
+Grille --> Serie
+Serie --> Position
+Case --> TypeElement
 
 @enduml

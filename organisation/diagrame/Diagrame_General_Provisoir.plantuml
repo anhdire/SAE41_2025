@@ -1,93 +1,90 @@
 @startuml Diagrame_Generale_Provisoir
 skinparam classAttributeIconSize 0
 
-' ==============================
-' COLORS
-' ==============================
 !define MODEL_COLOR #D0E6FF
 !define VIEW_COLOR #D5F5D5
 !define CONTROLLER_COLOR #FFE0B3
 !define LISTENER_COLOR #DDDDDD
 
 ' ==============================
-' MODEL (BLEU)
+' MODEL
 ' ==============================
 
 package "Model" {
 
 class MoteurJeu MODEL_COLOR {
-  - Grille grille
-  - ScoreManager scoreManager
-  - VerrouManager verrouManager
-  - Generateur generateur
-  - int score
-  - int nbCoups
-  - boolean finie
-  - long seed
+  - grille: Grille
+  - scoreManager: ScoreManager
+  - verrouManager: VerrouManager
+  - generateur: Generateur
+  - score: int
+  - nbCoups: int
+  - finie: boolean
+  - seed: long
   --
-  + jouerCoup(estLigne, index, decalage)
-  + estFinie()
-  + getScore()
-  + getNbCoups()
-  + getGrille()
+  + jouerCoup(estLigne: boolean, index: int, decalage: int): void
+  + estFinie(): boolean
+  + getScore(): int
+  + getNbCoups(): int
+  + getGrille(): Grille
 }
 
 class Grille MODEL_COLOR {
-  - Case[][] cases
-  - Generateur generateur
+  - cases: Case[][]
+  - generateur: Generateur
   --
-  + initialiser()
-  + glisserLigne(index, decalage)
-  + glisserColonne(index, decalage)
-  + detecterSeries()
-  + supprimerSeries(series)
-  + appliquerGravite()
-  + remplir()
-  + estStable()
-  + existeCoupPossible()
+  + initialiser(): void
+  + glisserLigne(index: int, decalage: int): void
+  + glisserColonne(index: int, decalage: int): void
+  + detecterSeries(): List<Serie>
+  + supprimerSeries(series: List<Serie>): void
+  + appliquerGravite(): void
+  + remplir(): void
+  + estStable(): boolean
+  + existeCoupPossible(): boolean
 }
 
 class Case MODEL_COLOR {
-  - TypeElement type
-  - boolean verrouille
+  - type: TypeElement
+  - verrouille: boolean
   --
-  + getType()
-  + setType(type)
-  + estVerrouille()
-  + verrouiller()
-  + deverrouiller()
+  + getType(): TypeElement
+  + setType(type: TypeElement): void
+  + estVerrouille(): boolean
+  + verrouiller(): void
+  + deverrouiller(): void
 }
 
 class Serie MODEL_COLOR {
-  - List<Position> positions
+  - positions: List<Position>
   --
-  + longueur()
-  + getPositions()
+  + longueur(): int
+  + getPositions(): List<Position>
 }
 
 class Position MODEL_COLOR {
-  - int ligne
-  - int colonne
+  - ligne: int
+  - colonne: int
   --
-  + getLigne()
-  + getColonne()
+  + getLigne(): int
+  + getColonne(): int
 }
 
 class ScoreManager MODEL_COLOR {
-  + calculerScore(series)
+  + calculerScore(series: List<Serie>): int
 }
 
 class VerrouManager MODEL_COLOR {
-  - Generateur generateur
+  - generateur: Generateur
   --
-  + ajouterVerrouSiNecessaire(grille, nbCoups)
+  + ajouterVerrouSiNecessaire(grille: Grille, nbCoups: int): void
 }
 
 class Generateur MODEL_COLOR {
-  - Random random
+  - random: Random
   --
-  + Generateur(seed)
-  + typeAleatoire()
+  + Generateur(seed: long)
+  + typeAleatoire(): TypeElement
 }
 
 enum TypeElement MODEL_COLOR
@@ -95,7 +92,7 @@ enum TypeElement MODEL_COLOR
 }
 
 ' ==============================
-' VIEW (VERT)
+' VIEW
 ' ==============================
 
 package "View" {
@@ -106,7 +103,7 @@ class OptionsActivity VIEW_COLOR
 class SeedActivity VIEW_COLOR
 
 interface ElementRenderer VIEW_COLOR {
-  + getDrawable(type)
+  + getDrawable(type: TypeElement): Drawable
 }
 
 class NormalRenderer VIEW_COLOR
@@ -115,32 +112,35 @@ class DaltonienRenderer VIEW_COLOR
 }
 
 ' ==============================
-' CONTROLLER (ORANGE)
+' CONTROLLER
 ' ==============================
 
 package "Controller" {
 
 class MenuController CONTROLLER_COLOR {
-  + demarrerPartieNormale()
-  + demarrerPartieDestinee(seed)
-  + ouvrirOptions()
+  + demarrerPartieNormale(): void
+  + demarrerPartieDestinee(seed: long): void
+  + ouvrirOptions(): void
 }
 
 class JeuController CONTROLLER_COLOR {
-  - MoteurJeu moteur
+  - moteur: MoteurJeu
   --
-  + glisserLigne(index, decalage)
-  + glisserColonne(index, decalage)
-  + verifierFin()
+  + glisserLigne(index: int, decalage: int): void
+  + glisserColonne(index: int, decalage: int): void
+  + verifierFin(): boolean
 }
 
 class OptionsController CONTROLLER_COLOR {
-  + activerHardMode(actif)
-  + activerModeDaltonien(actif)
+  + activerHardMode(actif: boolean): void
+  + activerModeDaltonien(actif: boolean): void
 }
 
-}
+class MenuClickListener LISTENER_COLOR
+class JeuTouchListener LISTENER_COLOR
+class OptionsSwitchListener LISTENER_COLOR
 
+}
 
 ' ==============================
 ' RELATIONS
