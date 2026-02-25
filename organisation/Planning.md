@@ -58,14 +58,14 @@ EPIC concernés :
 
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
-| US11 | Grille.java, Serie.java | 🟥 | A |
-| US12 | Grille.java | 🟥 | A |
-| US13 | Grille.java | 🟥 | D |
-| US14 | Grille.java, Generateur.java | 🟥 | D |
-| US15 | MoteurJeu.java | 🟥 | A |
-| US16 | ScoreManager.java | 🟥 | D |
-| US17 | ScoreManager.java | 🟥 | D |
-| US18 | MoteurJeu.java | 🟥 | Y |
+| US11 | Grille.java, Serie.java | 🟥 | A      |
+| US12 | Grille.java | 🟥 | A      |
+| US13 | Grille.java | 🟥 | D      |
+| US14 | Grille.java, Generateur.java | 🟥 | D      |
+| US15 | MoteurJeu.java | 🟥 | A      |
+| US16 | ScoreManager.java | 🟥 | Y      |
+| US17 | ScoreManager.java | 🟥 | D      |
+| US18 | MoteurJeu.java | 🟥 | Y      |
 
 ### Résumé des US du sprint 2
 
