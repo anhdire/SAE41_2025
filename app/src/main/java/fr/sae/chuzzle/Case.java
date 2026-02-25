@@ -16,7 +16,7 @@ public class Case {
         return verrouille;
     }
 
-    public void verroiller() {
+    public void verrouiller() {
         this.verrouille = true;
     }
     public void deverrouiller() {
