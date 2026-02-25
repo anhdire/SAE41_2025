@@ -7,5 +7,4 @@ public enum TypeElement {
     VIOLET,//#CC79A7
     JAUNE,//##F0E442
     BLEU_CIEL;//#56B4E9
- }
-//selection de couleur adapter au type de daltonisme de type protanopie et deutéranopie
+}
