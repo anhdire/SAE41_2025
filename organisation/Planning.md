@@ -31,7 +31,7 @@ EPIC concernés :
 |------|--------------------|--------|--------|
 | US05 | Grille.java, Case.java | 🟩 | Y |
 | US06 | TypeElement.java, Generateur.java | 🟩 | Y |
-| US07 | Grille.java | 🟨 | D |
+| US07 | Grille.java | 🟩 | D |
 | US08 | Grille.java | 🟥 | A |
 | US09 | Grille.java | 🟩 | D |
 | US10 | MoteurJeu.java | 🟥 | A |
@@ -59,8 +59,8 @@ EPIC concernés :
 |------|--------------------|--------|--------|
 | US11 | Grille.java, Serie.java | 🟩 | D |
 | US12 | Grille.java | 🟥 | A |
-| US13 | Grille.java | 🟥 | D |
-| US14 | Grille.java, Generateur.java | 🟥 | D |
+| US13 | Grille.java | 🟨 | D |
+| US14 | Grille.java, Generateur.java | 🟨 | D |
 | US15 | MoteurJeu.java | 🟥 | A |
 | US16 | ScoreManager.java | 🟥 | Y |
 | US17 | ScoreManager.java | 🟥 | A |

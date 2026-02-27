@@ -4,6 +4,11 @@ public class Case {
     private TypeElement type;
     private boolean verrouille;
 
+    public Case(TypeElement type) {
+        this.type = type;
+        this.verrouille = false;
+    }
+
     public TypeElement getType() {
         return type;
     }

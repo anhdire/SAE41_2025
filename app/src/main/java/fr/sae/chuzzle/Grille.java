@@ -9,8 +9,46 @@ public class Grille {
     private Case[][] cases;
     private Generateur generateur;
 
-    public void initialiser(){
-        
+    public Grille(int taille, long seed) {
+        this.cases = new Case[taille][taille];
+        this.generateur = new Generateur(seed);
+    }
+
+    public void initialiser() {
+        for (int ligne = 0; ligne < cases.length; ligne++) {
+            for (int colonne = 0; colonne < cases[ligne].length; colonne++) {
+
+                TypeElement type;
+                boolean invalide;
+                /* tant que une ligne ou colone a plus de 2 cases de meme type 
+                je regénère un type pour la case */
+                do {
+                    type = generateur.typeAleatoire();
+                    invalide = false;
+
+                    // je verifie horizontale : éviter 3 identiques
+                    if (colonne >= 2) {
+                        TypeElement t1 = cases[ligne][colonne - 1].getType();
+                        TypeElement t2 = cases[ligne][colonne - 2].getType();
+                        if (t1 == type && t2 == type) {
+                            invalide = true;
+                        }
+                    }
+
+                    // je fais pareil pour la verticale :
+                    if (ligne >= 2) {
+                        TypeElement t1 = cases[ligne - 1][colonne].getType();
+                        TypeElement t2 = cases[ligne - 2][colonne].getType();
+                        if (t1 == type && t2 == type) {
+                            invalide = true;
+                        }
+                    }
+
+                } while (invalide);
+
+                cases[ligne][colonne] = new Case(type);
+            }
+        }
     }
 
     public Case[] glisserLigne(int index , int decalage){
@@ -42,7 +80,7 @@ public class Grille {
         // Mise à jour de la ligne en question
         cases[index] = nouvelleLigne;
         
-        // verifiaction si ya une serie (supprimer) le faire dans le moteur de jeu
+        // pour la verifiaction si ya une serie (supprimer) le faire dans le moteur de jeu
         return temp;
     }
 
