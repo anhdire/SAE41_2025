@@ -32,9 +32,9 @@ EPIC concernés :
 | US05 | Grille.java, Case.java | 🟩 | Y |
 | US06 | TypeElement.java, Generateur.java | 🟩 | Y |
 | US07 | Grille.java | 🟩 | D |
-| US08 | Grille.java | 🟥 | A |
+| US08 | Grille.java | 🟩 | A |
 | US09 | Grille.java | 🟩 | D |
-| US10 | MoteurJeu.java | 🟥 | A |
+| US10 | MoteurJeu.java | 🟩 | A |
 
 ### Résumé des US du sprint 1
 - **US05** : Création de la structure de la grille 6x6.
