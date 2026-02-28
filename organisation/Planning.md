@@ -17,7 +17,7 @@ D = Diallo
 
 ---
 
-# Sprint 1 — 22 février 2025 → 28 février 2025
+# Sprint 1 — 22 février 2025 -> 28 février 2025
 
 ## Objectif du sprint
 À la fin du sprint, le modèle du jeu doit fonctionner sans interface Android.  
@@ -27,17 +27,16 @@ EPIC concernés :
 - EPIC 2 — Grille 6x6 et génération initiale
 - EPIC 3 — Glissement et validation des coups
 
-| US   | Fichiers concernés     | Statut | Membre |
-|------|------------------------|--------|--------|
-| US05 | Grille.java, Case.java | 🟥 | Y      |
-| US06 | TypeElement.java, Generateur.java | 🟥 | Y      |
-| US07 | Grille.java            | 🟥 | D      |
-| US08 | Grille.java            | 🟥 | A      |
-| US09 | Grille.java            | 🟥 | D      |
-| US10 | MoteurJeu.java         | 🟥 | A      |
+| US   | Fichiers concernés | Statut | Membre |
+|------|--------------------|--------|--------|
+| US05 | Grille.java, Case.java | 🟩 | Y |
+| US06 | TypeElement.java, Generateur.java | 🟩 | Y |
+| US07 | Grille.java | 🟩 | D |
+| US08 | Grille.java | 🟥 | A |
+| US09 | Grille.java | 🟩 | D |
+| US10 | MoteurJeu.java | 🟥 | A |
 
 ### Résumé des US du sprint 1
-
 - **US05** : Création de la structure de la grille 6x6.
 - **US06** : Mise en place des 7 types d’éléments et du générateur aléatoire.
 - **US07** : Vérification qu’aucune série initiale n’est présente.
@@ -47,7 +46,7 @@ EPIC concernés :
 
 ---
 
-# Sprint 2 — 1 mars 2025 → 7 mars 2025
+# Sprint 2 — 1 mars 2025 -> 7 mars 2025
 
 ## Objectif du sprint
 À la fin du sprint, un coup valide doit déclencher suppression, gravité, remplissage et résolution complète jusqu’à grille stable avec calcul du score.
@@ -58,17 +57,16 @@ EPIC concernés :
 
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
-| US11 | Grille.java, Serie.java | 🟥 | A      |
-| US12 | Grille.java | 🟥 | A      |
-| US13 | Grille.java | 🟥 | D      |
-| US14 | Grille.java, Generateur.java | 🟥 | D      |
-| US15 | MoteurJeu.java | 🟥 | A      |
-| US16 | ScoreManager.java | 🟥 | Y      |
-| US17 | ScoreManager.java | 🟥 | D      |
-| US18 | MoteurJeu.java | 🟥 | Y      |
+| US11 | Grille.java, Serie.java | 🟩 | D |
+| US12 | Grille.java | 🟥 | A |
+| US13 | Grille.java | 🟨 | D |
+| US14 | Grille.java, Generateur.java | 🟨 | D |
+| US15 | MoteurJeu.java | 🟥 | A |
+| US16 | ScoreManager.java | 🟥 | Y |
+| US17 | ScoreManager.java | 🟥 | A |
+| US18 | MoteurJeu.java | 🟥 | Y |
 
 ### Résumé des US du sprint 2
-
 - **US11** : Détection des séries horizontales et verticales.
 - **US12** : Suppression des séries détectées.
 - **US13** : Application de la gravité.
@@ -80,7 +78,7 @@ EPIC concernés :
 
 ---
 
-# Sprint 3 — 8 mars 2025 → 14 mars 2025
+# Sprint 3 — 8 mars 2025 -> 14 mars 2025
 
 ## Objectif du sprint
 À la fin du sprint, l’application Android doit afficher le menu principal, permettre de lancer une partie normale et afficher la grille avec score et nombre de coups.
@@ -92,13 +90,12 @@ EPIC concernés :
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
 | US01 | MenuActivity.java, activity_menu.xml | 🟥 | Y |
-| US02 | MenuController.java, JeuActivity.java | 🟥 | A |
-| US03 | SeedActivity.java, MenuController.java | 🟥 | Y |
-| US04 | Activities (gestion back) | 🟥 | Y |
+| US02 | MenuController.java, JeuActivity.java, activity_jeu.xml | 🟥 | A |
+| US03 | SeedActivity.java, activity_seed.xml | 🟥 | Y |
+| US04 | MenuActivity.java, JeuActivity.java | 🟥 | Y |
 | US18 | JeuActivity.java, activity_jeu.xml | 🟥 | A |
 
 ### Résumé des US du sprint 3
-
 - **US01** : Création de l’écran de menu principal.
 - **US02** : Lancement d’une partie normale.
 - **US03** : Saisie et transmission de la graine.
@@ -107,7 +104,7 @@ EPIC concernés :
 
 ---
 
-# Sprint 4 — 15 mars 2025 → 21 mars 2025
+# Sprint 4 — 15 mars 2025 -> 21 mars 2025
 
 ## Objectif du sprint
 À la fin du sprint, les verrous doivent fonctionner, la fin de partie doit être détectée automatiquement et les interactions doivent être bloquées après la fin.
@@ -122,11 +119,10 @@ EPIC concernés :
 | US20 | Grille.java | 🟥 | A |
 | US21 | VerrouManager.java | 🟥 | D |
 | US22 | Grille.java, MoteurJeu.java | 🟥 | A |
-| US23 | JeuController.java | 🟥 | Y |
-| US24 | JeuActivity.java | 🟥 | Y |
+| US23 | JeuController.java, JeuActivity.java | 🟥 | Y |
+| US24 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
 
 ### Résumé des US du sprint 4
-
 - **US19** : Apparition des verrous.
 - **US20** : Blocage des lignes et colonnes.
 - **US21** : Accélération progressive des verrous.
@@ -136,7 +132,7 @@ EPIC concernés :
 
 ---
 
-# Sprint 5 — 22 mars 2025 → 29 mars 2025
+# Sprint 5 — 22 mars 2025 -> 29 mars 2025
 
 ## Objectif du sprint
 À la fin du sprint, le hard mode, le mode daltonien, la sauvegarde Android et la restauration de partie doivent être fonctionnels. L’application doit être stable et prête pour la livraison.
@@ -147,14 +143,13 @@ EPIC concernés :
 
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
-| US25 | OptionsActivity.java, OptionsController.java | 🟥 | A |
+| US25 | OptionsActivity.java, OptionsController.java, activity_options.xml | 🟥 | A |
 | US26 | NormalRenderer.java, DaltonienRenderer.java | 🟥 | D |
-| US27 | OptionsActivity.java | 🟥 | Y |
+| US27 | OptionsActivity.java, activity_options.xml | 🟥 | Y |
 | US28 | MoteurJeu.java, SharedPreferences | 🟥 | A |
-| US29 | JeuActivity.java | 🟥 | Y |
+| US29 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
 
 ### Résumé des US du sprint 5
-
 - **US25** : Activation du hard mode.
 - **US26** : Implémentation de l’affichage daltonien.
 - **US27** : Ajout du bouton mode daltonien.
