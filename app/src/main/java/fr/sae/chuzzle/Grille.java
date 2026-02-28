@@ -213,4 +213,8 @@ public class Grille {
     public boolean existeCoupPossible(){
         return true;
     }
+
+    public Case[][] getCases() {
+        return this.cases;
+    }
 }
