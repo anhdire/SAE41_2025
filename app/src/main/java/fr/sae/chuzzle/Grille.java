@@ -237,7 +237,7 @@ public class Grille {
     }
 
     public boolean estStable(){
-        return true;
+        return detecterSeries().isEmpty();
     }
 
     public boolean existeCoupPossible(){

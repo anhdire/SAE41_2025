@@ -89,19 +89,26 @@ EPIC concernés :
 
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
-| US01 | MenuActivity.java, activity_menu.xml | 🟥 | Y |
-| US02 | MenuController.java, JeuActivity.java, activity_jeu.xml | 🟥 | A |
-| US03 | SeedActivity.java, activity_seed.xml | 🟥 | Y |
-| US04 | MenuActivity.java, JeuActivity.java | 🟥 | Y |
-| US18 | JeuActivity.java, activity_jeu.xml | 🟥 | A |
+| US#1 | resoucre xml | 🟥 | D |
+| US01 | MenuActivity.java, activity_menu.xml | 🟥 | D |
+| US02 | MenuController.java, JeuActivity.java, activity_jeu.xml | 🟥 | D |
+| US03 | SeedActivity.java, activity_seed.xml | 🟥 | A |
+| US04 | MenuActivity.java, JeuActivity.java | 🟥 | A |
+| US18 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
+| US19 | VerrouManager.java | 🟥 | D |
+| US20 | Grille.java | 🟥 | Y |
+| US21 | VerrouManager.java | 🟥 | D |
 
 ### Résumé des US du sprint 3
+- **US#1** : Création de la pallete de couleur et de toute les resource de base.
 - **US01** : Création de l’écran de menu principal.
 - **US02** : Lancement d’une partie normale.
 - **US03** : Saisie et transmission de la graine.
 - **US04** : Gestion du bouton retour.
 - **US18** : Affichage du score et du nombre de coups.
-
+- **US19** : Apparition des verrous.
+- **US20** : Blocage des lignes et colonnes.
+- **US21** : Accélération progressive des verrous.
 ---
 
 # Sprint 4 — 15 mars 2025 -> 21 mars 2025
@@ -115,21 +122,25 @@ EPIC concernés :
 
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
-| US19 | VerrouManager.java | 🟥 | D |
-| US20 | Grille.java | 🟥 | A |
-| US21 | VerrouManager.java | 🟥 | D |
-| US22 | Grille.java, MoteurJeu.java | 🟥 | A |
-| US23 | JeuController.java, JeuActivity.java | 🟥 | Y |
-| US24 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
+| US22 | Grille.java, MoteurJeu.java | 🟥 | D |
+| US23 | JeuController.java, JeuActivity.java | 🟥 | A |
+| US24 | JeuActivity.java, activity_jeu.xml | 🟥 | A |
+| US25 | OptionsActivity.java, OptionsController.java, activity_options.xml | 🟥 | D |
+| US26 | NormalRenderer.java, DaltonienRenderer.java | 🟥 | A |
+| US27 | OptionsActivity.java, activity_options.xml | 🟥 | Y |
+| US28 | MoteurJeu.java, SharedPreferences | 🟥 | D |
+| US29 | JeuActivity.java, activity_jeu.xml | 🟥 | A |
 
 ### Résumé des US du sprint 4
-- **US19** : Apparition des verrous.
-- **US20** : Blocage des lignes et colonnes.
-- **US21** : Accélération progressive des verrous.
+
 - **US22** : Détection de fin de partie.
 - **US23** : Désactivation des interactions après la fin.
 - **US24** : Affichage de la graine en fin de partie.
-
+- **US25** : Activation du hard mode.
+- **US26** : Implémentation de l’affichage daltonien.
+- **US27** : Ajout du bouton mode daltonien.
+- **US28** : Sauvegarde automatique de la partie.
+- **US29** : Restauration complète de l’état du jeu.
 ---
 
 # Sprint 5 — 22 mars 2025 -> 29 mars 2025
@@ -143,17 +154,9 @@ EPIC concernés :
 
 | US   | Fichiers concernés | Statut | Membre |
 |------|--------------------|--------|--------|
-| US25 | OptionsActivity.java, OptionsController.java, activity_options.xml | 🟥 | A |
-| US26 | NormalRenderer.java, DaltonienRenderer.java | 🟥 | D |
-| US27 | OptionsActivity.java, activity_options.xml | 🟥 | Y |
-| US28 | MoteurJeu.java, SharedPreferences | 🟥 | A |
-| US29 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
+
 
 ### Résumé des US du sprint 5
-- **US25** : Activation du hard mode.
-- **US26** : Implémentation de l’affichage daltonien.
-- **US27** : Ajout du bouton mode daltonien.
-- **US28** : Sauvegarde automatique de la partie.
-- **US29** : Restauration complète de l’état du jeu.
+
 
 ---
