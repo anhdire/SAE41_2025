@@ -11,6 +11,11 @@ public class Grille {
 
     public Grille(int taille, long seed) {
         this.cases = new Case[taille][taille];
+        for (int i = 0; i < taille; i++) {
+            for (int j = 0; j < taille; j++) {
+                cases[i][j] = new Case(TypeElement.NAN);
+            }
+        }
         this.generateur = new Generateur(seed);
     }
 
@@ -199,11 +204,36 @@ public class Grille {
     }
 
     public void appliquerGravite(){
+        int len = cases.length;
+        for(int col = 0; col < len; col++){
+            int ligneVide = len - 1; // la position de la ligne vide la plus basse
+            // etape 1: je fais tomber les éléments au dessus des cases vides
+            for(int ligne = len - 1; ligne >= 0; ligne--){
+                if(cases[ligne][col].getType() != TypeElement.NAN){
+                    cases[ligneVide][col].setType(
+                        cases[ligne][col].getType()
+                    );
+                    ligneVide--;
+                }
+            }
 
+            // etape 2: je vide les cases plus haut
+            for (int ligne = ligneVide; ligne >= 0; ligne--){
+                cases[ligne][col].setType(TypeElement.NAN);
+            }
+        }
     }
 
     public void remplir(){
-
+        for(int col = 0; col < cases.length; col++){
+            for(int ligne = 0; ligne < cases.length; ligne++){
+                if(cases[ligne][col].getType() == TypeElement.NAN){
+                    cases[ligne][col].setType(
+                        generateur.typeAleatoire()
+                    );
+                }
+            }
+        }
     }
 
     public boolean estStable(){
