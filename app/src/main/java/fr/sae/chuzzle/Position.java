@@ -1,3 +1,4 @@
+package fr.sae.chuzzle;
 public class Position {
     private int ligne;
     private int colonne;

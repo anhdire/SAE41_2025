@@ -1,3 +1,4 @@
+package fr.sae.chuzzle;
 import java.util.ArrayList;
 import java.util.List;
 
