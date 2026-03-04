@@ -1,8 +1,8 @@
 package fr.sae.chuzzle;
-
+import java.util.List;
 public class MoteurJeu {
     private Grille grille;
-   // private ScoreManager scoreManager;
+    private ScoreManager scoreManager;
     // private VerrouManager verrouManager;
     private Generateur generateur;
     private int score;
@@ -48,6 +48,27 @@ public class MoteurJeu {
 
 
         this.nbCoup++;
+        // niveau de cascade = 0
+
+        int niveau = 0;
+
+        // verification qu'il reste encore ou pas des séries :
+        while(!series.isEmpty()){
+            // calcul du score grace à la méthode CalculerScore dans la classe ScoreManager
+            int points = scoreManager.calculerScore(series,niveau);
+            score = score + points;
+            // supression des series
+            grille.supprimerSeries(series);
+            // aplication de la gravité
+            grille.appliquerGravite();
+            // remplissage des cases vides :
+            grille.remplir();
+            // Niveau de cascade incremente :
+            niveau++;
+
+            // verifier si apres cela il ya encore des séries :
+            series = grille.detecterSeries();
+        }
 
         if (!grille.existeCoupPossible()) {
             finie = true;

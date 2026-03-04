@@ -3,7 +3,7 @@ package fr.sae.chuzzle;
 import java.util.List;
 
 public class ScoreManager {
-    public int calculerScore(List<Serie> serie) {
+    public int calculerScore(List<Serie> serie , int n) {
 
 
         int totalBase = 0;
@@ -27,7 +27,12 @@ public class ScoreManager {
         //bonnus sera egale a 0 si il y a une seul serie
         double bonus = (serie.size() - 1) * 0.5;
         //multiplication des bonnus pour arriver au resultat final
-        double scoreFinal = totalBase * (1 + bonus);
+        double scoreAvecSeries = totalBase * (1 + bonus);
+
+        // bonus de cascade :
+
+        double bonusCascade = n * 0.5;
+        double scoreFinal = scoreAvecSeries * (1 + bonusCascade);
 
         return (int) scoreFinal;
     }

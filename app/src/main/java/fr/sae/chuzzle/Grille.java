@@ -1,4 +1,6 @@
 package fr.sae.chuzzle;
+import androidx.annotation.NonNull;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -199,8 +201,19 @@ public class Grille {
         return liste;
     }
 
-    public void supprimerSeries(List<Serie> series){
+    public void supprimerSeries(List<Serie> series) {
+        for (Serie serie : series) {
 
+            for (Position pos : serie.getPositions()) {
+                // recuperation des coordonnées d'une case de la série
+                int ligne = pos.getLigne();
+                int colonne = pos.getColonne();
+                // changement par une case vide
+                cases[ligne][colonne].setType(TypeElement.NAN);
+                // déverouillage de la case
+                cases[ligne][colonne].deverrouiller();
+            }
+        }
     }
 
     public void appliquerGravite(){
