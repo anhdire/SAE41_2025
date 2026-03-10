@@ -64,7 +64,7 @@ EPIC concernés :
 | US15 | MoteurJeu.java | 🟩 | A |
 | US16 | ScoreManager.java | 🟩 | Y |
 | US17 | ScoreManager.java | 🟩 | A |
-| US18 | MoteurJeu.java | 🟨 | Y |
+| US18 | MoteurJeu.java | 🟩 | Y |
 
 ### Résumé des US du sprint 2
 - **US11** : Détection des séries horizontales et verticales.

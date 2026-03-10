@@ -49,6 +49,7 @@ public class MoteurJeu {
 
         this.nbCoup++;
         // niveau de cascade = 0
+        //si le coup peut etre jouer alors on augmente le nombre de coups jouer
 
         int niveau = 0;
 
