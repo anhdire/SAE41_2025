@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="@color/ui_background">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="308dp"
+        android:layout_height="209dp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/logo" />
+
+    <Button
+        android:id="@+id/btnPlay"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/menu_play"
+        android:backgroundTint="@color/ui_button_primary"
+        android:textColor="@color/ui_text_button"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnOptions"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/menu_options"
+        android:backgroundTint="@color/ui_button_secondary"
+        android:textColor="@color/ui_text_button"
+        android:layout_marginBottom="20dp"/>
+
+    <Button
+        android:id="@+id/btnQuit"
+        android:layout_width="@dimen/button_width"
+        android:layout_height="@dimen/button_height"
+        android:text="@string/menu_quit"
+        android:backgroundTint="@color/ui_button_danger"
+        android:textColor="@color/ui_text_button" />
+
+
+
+</LinearLayout>
