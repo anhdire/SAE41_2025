@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Couleur des pieces -->
+    <color name="piece_red">#D55E00</color>
+    <color name="piece_blueOcean">#0072B2</color>
+    <color name="piece_green">#009E73</color>
+    <color name="piece_orange">#E69F00</color>
+    <color name="piece_violet">#CC79A7</color>
+    <color name="piece_yellow">#F0E442</color>
+    <color name="piece_blueSky">#56B4E9</color>
+    <color name="piece_empty">#FFFFFF</color>
+
+    <!-- Couleur de l'interface utilisateur -->
+    <color name="ui_background">#FFFFFFFF</color>
+    <color name="ui_panel">#E0E0E0</color>
+
+    <color name="ui_text_primary">#212121</color>
+    <color name="ui_text_secondary">#616161</color>
+    <color name="ui_text_button">#FFFFFF</color>
+
+    <color name="ui_button_primary">#2C3E50</color>
+    <color name="ui_button_secondary">#546E7A</color>
+    <color name="ui_button_danger">#8E2A2A</color>
+
 </resources>

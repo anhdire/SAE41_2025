@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Chuzzle</string>
+
+    <string name="menu_play">Jouer</string>
+    <string name="menu_options">Options</string>
+    <string name="menu_quit">Quitter</string>
+    <string name="menu_partie_destinee">Partie destinée</string>
+
+    <string name="menu_seed">Graine de génération</string>
+    <string name="menu_hardmode">Mode difficile</string>
 </resources>
