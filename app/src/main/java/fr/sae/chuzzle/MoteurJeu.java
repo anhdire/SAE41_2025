@@ -8,7 +8,7 @@ public class MoteurJeu {
     private int score;
     private int nbCoup;
     private boolean finie;
-    long int seed;
+    long seed;
 
 
     public void jouerCoup(boolean estLigne,int index,int decalage){

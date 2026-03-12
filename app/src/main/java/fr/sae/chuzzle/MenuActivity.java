@@ -3,6 +3,7 @@ package fr.sae.chuzzle;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 public class MenuActivity extends Activity {
@@ -10,6 +11,7 @@ public class MenuActivity extends Activity {
     private Button btnPlay;
     private Button btnOptions;
     private Button btnQuit;
+    private Button btnPartieDestinee;
 
     private MenuController controller;
 
@@ -27,7 +29,7 @@ public class MenuActivity extends Activity {
         btnQuit = findViewById(R.id.btnQuit);
 
         btnPlay.setOnClickListener(
-            new MenuClickListener(controller, MenuClickListener.ACTION_PLAY)
+               new MenuClickListener(controller, MenuClickListener.ACTION_PLAY)
         );
 
         btnOptions.setOnClickListener(

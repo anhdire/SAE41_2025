@@ -1,10 +1,8 @@
 package fr.sae.chuzzle;
-import androidx.annotation.NonNull;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import kotlin.collections.ArrayDeque;
 
 public class Grille {
 
@@ -131,13 +129,10 @@ public class Grille {
 
     public List<Serie> detecterSeries(){
         ArrayList<Serie> liste = new ArrayList<>();
-
         int length = cases.length;
-
         // Detection des séries horizontales
         for (int i = 0; i < length; i++) {
             int compteur = 1;
-
             for (int j = 1; j < length; j++) {
                 TypeElement caseCourant = cases[i][j].getType();
                 TypeElement casePrecedent = cases[i][j - 1].getType();
@@ -155,25 +150,24 @@ public class Grille {
                     compteur = 1;
                 }
             }
+            // je veriife aussi la fin de ligne
+            if (compteur >= 3) {
+                Serie serie = new Serie();
+                for (int k = 0; k < compteur; k++) {
+                    serie.addPosition(new Position(i, length - 1 - k));
+                }
+                liste.add(serie);
+            }
         }
 
-        // je veriife aussi la fin de ligne
-        if (compteur >= 3) {
-            Serie serie = new Serie();
-            for (int k = 0; k < compteur; k++) {
-                serie.addPosition(new Position(i, length - 1 - k));
-            }
-            liste.add(serie);
-        }
+
 
         // Détection des séries verticales
         for(int j = 0 ; j < length ; j++){
             int compteur = 1;
-
             for(int i = 1 ; i < length ; i++){
                 TypeElement caseCourant = cases[i][j].getType();
                 TypeElement casePrecedent = cases[i - 1][j].getType();
-
                 if(caseCourant == casePrecedent){
                     compteur++;
                 }else{
@@ -187,7 +181,6 @@ public class Grille {
                     compteur = 1;
                 }
             }
-
             // je veriife aussi la fin de colonne
             if (compteur >= 3) {
                 Serie serie = new Serie();
@@ -197,7 +190,6 @@ public class Grille {
                 liste.add(serie);
             }
         }
-
         return liste;
     }
 

@@ -1,4 +1,5 @@
 package fr.sae.chuzzle;
+import android.view.View;
 
 public class MenuClickListener implements View.OnClickListener {
 
