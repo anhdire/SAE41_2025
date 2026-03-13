@@ -7,10 +7,10 @@ public class JeuController {
     public JeuController(JeuActivity activity) {
         this.activity = activity;
         long seed = System.currentTimeMillis();
-        moteur = new MoteurJeu();
+        moteur = new MoteurJeu(seed);
     }
 
-    public MoteurJeu getMoteur() {
-        return moteur;
+    public MoteurJeu getMoteur(){
+        return this.moteur;
     }
 }

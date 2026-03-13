@@ -11,6 +11,21 @@ public class MoteurJeu {
     long seed;
 
 
+    public MoteurJeu(long seed){
+        this.seed = seed;
+
+        this.generateur = new Generateur(seed);
+        this.grille = new Grille(6, seed);
+
+        this.scoreManager = new ScoreManager();
+
+        this.score = 0;
+        this.nbCoup = 0;
+        this.finie = false;
+
+        grille.initialiser();
+    }
+
     public void jouerCoup(boolean estLigne,int index,int decalage){
         if (finie) return;
 

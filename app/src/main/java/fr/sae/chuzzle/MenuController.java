@@ -4,7 +4,7 @@ import android.content.Intent;
 
 public class MenuController {
 
-    private  MenuActivity activity;
+    private final MenuActivity activity;
     public MenuController(MenuActivity activity){
         this.activity = activity;
     }
@@ -25,6 +25,6 @@ public class MenuController {
     }
 
     public void quitterJeu() {
-        activity.finish(); // a voir si c'est suffisant pour quitter l'application
+        activity.finish();
     }
 }
