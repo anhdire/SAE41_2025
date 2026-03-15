@@ -1,6 +1,9 @@
 package fr.sae.chuzzle;
 import java.util.List;
 public class MoteurJeu {
+
+    public static final int TAILLE = 6;
+
     private Grille grille;
     private ScoreManager scoreManager;
     // private VerrouManager verrouManager;
@@ -15,7 +18,7 @@ public class MoteurJeu {
         this.seed = seed;
 
         this.generateur = new Generateur(seed);
-        this.grille = new Grille(6, seed);
+        this.grille = new Grille(TAILLE, seed);
 
         this.scoreManager = new ScoreManager();
 

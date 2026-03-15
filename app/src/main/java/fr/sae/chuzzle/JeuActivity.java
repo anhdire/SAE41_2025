@@ -2,28 +2,67 @@ package fr.sae.chuzzle;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.GridLayout;
 
 public class JeuActivity extends Activity {
-    private TextView txtScore;
-    private TextView txtCoups;
-    private JeuController controller;
+
+    private MoteurJeu moteur;
+    private CaseView[][] caseViews;
+
+    private ElementRenderer renderer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
-        controller = new JeuController(this);
 
-        txtScore = findViewById(R.id.txtScore);
-        txtCoups = findViewById(R.id.txtCoups);
+        long seed = System.currentTimeMillis();
+        moteur = new MoteurJeu(seed);
 
-        this.mettreAJourInfos();
+        renderer = new NormalRenderer();
 
+        GridLayout grid = findViewById(R.id.grilleJeu);
+
+        int taille = MoteurJeu.TAILLE_GRILLE;
+
+        caseViews = new CaseView[taille][taille];
+
+        for(int i=0;i<taille;i++){
+            for(int j=0;j<taille;j++){
+
+                CaseView v = new CaseView(this);
+
+                GridLayout.LayoutParams params =
+                        new GridLayout.LayoutParams();
+
+                params.width = 120;
+                params.height = 120;
+
+                v.setLayoutParams(params);
+
+                caseViews[i][j] = v;
+
+                grid.addView(v);
+            }
+        }
+
+        afficherGrille();
     }
 
-    private void mettreAJourInfos(){
-        txtScore.setText("Score : " + controller.getMoteur().getScore());
-        txtCoups.setText("Coups : " + controller.getMoteur().getNbCoup());
+    private void afficherGrille(){
+
+        Case[][] cases = moteur.getGrille().getCases();
+
+        for(int i=0;i<6;i++){
+            for(int j=0;j<6;j++){
+
+                TypeElement type = cases[i][j].getType();
+
+                caseViews[i][j].setDrawable(
+                        renderer.getDrawable(type)
+                );
+            }
+        }
     }
 }

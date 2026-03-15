@@ -95,9 +95,9 @@ EPIC concernés :
 | US03 | SeedActivity.java, activity_seed.xml | 🟨 | A |
 | US04 | MenuActivity.java, JeuActivity.java | 🟥 | A |
 | US18 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
-| US19 | VerrouManager.java | 🟥 | D |
+| US19 | VerrouManager.java | 🟨 | D |
 | US20 | Grille.java | 🟥 | Y |
-| US21 | VerrouManager.java | 🟥 | D |
+| US21 | VerrouManager.java |🟨 | D |
 
 ### Résumé des US du sprint 3
 - **US#1** : Création de la pallete de couleur et de toute les resource de base.
