@@ -91,8 +91,8 @@ EPIC concernés :
 |------|--------------------|--------|--------|
 | US#1 | resoucre xml | 🟩 | D |
 | US01 | MenuActivity.java, activity_menu.xml | 🟩 | D |
-| US02 | MenuController.java, JeuActivity.java, activity_jeu.xml | 🟩 | D |
-| US03 | SeedActivity.java, activity_seed.xml | 🟥 | A |
+| US02 | MenuController.java, JeuActivity.java, activity_jeu.xml | 🟨 | D |
+| US03 | SeedActivity.java, activity_seed.xml | 🟨 | A |
 | US04 | MenuActivity.java, JeuActivity.java | 🟥 | A |
 | US18 | JeuActivity.java, activity_jeu.xml | 🟥 | Y |
 | US19 | VerrouManager.java | 🟨 | D |
