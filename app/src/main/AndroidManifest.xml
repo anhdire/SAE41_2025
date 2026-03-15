@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Chuzzle"
+        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
         tools:targetApi="31">
         <!-- activité principale qui demare l'application -->
         <activity
@@ -26,6 +26,7 @@
 
         <!-- activité du jeu -->
         <activity android:name=".JeuActivity"/>
+        <activity android:name=".SeedActivity"/>
     </application>
 
 </manifest>

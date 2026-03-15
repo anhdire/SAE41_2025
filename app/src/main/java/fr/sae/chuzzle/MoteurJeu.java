@@ -91,6 +91,12 @@ public class MoteurJeu {
         }
     }
 
+    public void setSeed(long seed){
+        this.seed = seed;
+        this.generateur = new Generateur(seed);
+        this.grille = new Grille(6, seed);
+        this.grille.initialiser();
+    }
     public boolean estFinie(){
         return this.finie;
     }
