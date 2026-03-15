@@ -20,11 +20,11 @@ public class JeuActivity extends Activity {
         long seed = System.currentTimeMillis();
         moteur = new MoteurJeu(seed);
 
-        renderer = new NormalRenderer();
+        renderer = new NormlRenderer();
 
         GridLayout grid = findViewById(R.id.grilleJeu);
 
-        int taille = MoteurJeu.TAILLE_GRILLE;
+        int taille = MoteurJeu.TAILLE;
 
         caseViews = new CaseView[taille][taille];
 

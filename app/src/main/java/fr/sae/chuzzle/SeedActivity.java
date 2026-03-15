@@ -28,9 +28,10 @@ public class SeedActivity extends Activity {
         this.jeuController = new JeuController(null);
         jeuController.getMoteur().setSeed(seed);
 
-        this.barre_action = findViewById(R.id.toolbar);
-        setActionBar(barre_action);
-
+       this.barre_action = findViewById(R.id.toolbar);
+        if(barre_action != null) {
+            setActionBar(barre_action);
+        }
     }
 
     @Override

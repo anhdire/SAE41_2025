@@ -32,7 +32,7 @@
         android:layout_height="match_parent"
         android:rowCount="@dimen/taille_grille"
         android:columnCount="@dimen/taille_grille"
-        android:padding="16dp">
+        android:padding="16dp"/>
 
 
 </LinearLayout>

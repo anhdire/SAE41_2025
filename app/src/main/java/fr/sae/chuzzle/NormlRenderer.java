@@ -1,5 +1,8 @@
 package fr.sae.chuzzle;
 
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+
 public class NormlRenderer implements ElementRenderer {
     
     @Override
@@ -9,6 +12,6 @@ public class NormlRenderer implements ElementRenderer {
             return new ColorDrawable(0x00000000);
         }
 
-        return new ColorDrawable(type.getColor());
+        return new ColorDrawable(type.getCouleur());
     }
 }
