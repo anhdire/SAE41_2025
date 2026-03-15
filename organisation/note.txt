@@ -1,0 +1,1 @@
+voir si c'est mieux de mettre les couleur de type element dans res  et si on peut laiser comme cela 
