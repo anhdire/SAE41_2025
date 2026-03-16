@@ -5,38 +5,40 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.AppCompatEditText$InspectionCompanion;
+public class GraineListener implements TextView.OnEditorActionListener {
 
-public class GraineListener implements TextView.OnEditorActionListener{
+    private final EditText champGraine;
+    private final SeedActivity activity;
 
-    private EditText champ_graine;
-    private SeedActivity activity;
-
-    private int seed;
-
-    public GraineListener(SeedActivity s, EditText e){
-        this.activity = s;
-        this.champ_graine = e;
+    public GraineListener(SeedActivity activity, EditText champGraine) {
+        this.activity = activity;
+        this.champGraine = champGraine;
     }
-
-
 
     @Override
-    public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-        if(i == EditorInfo.IME_ACTION_DONE){
-           String text = champ_graine.getText().toString();
-           try{
-               seed = Integer.parseInt(text);
-           }catch(NumberFormatException e){
-                return false;
-           }
+    public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+        boolean actionDone = actionId == EditorInfo.IME_ACTION_DONE;
+        boolean enterPressed = keyEvent != null
+                && keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                && keyEvent.getKeyCode() == KeyEvent.KEYCODE_ENTER;
+
+        if (!actionDone && !enterPressed) {
+            return false;
         }
+
+        String texte = champGraine.getText().toString().trim();
+        if (texte.isEmpty()) {
+            champGraine.setError("Entrez une graine");
+            return true;
+        }
+
+        try {
+            long seed = Long.parseLong(texte);
+            activity.demarrerPartieDestinee(seed);
+        } catch (NumberFormatException e) {
+            champGraine.setError("Graine invalide");
+        }
+
         return true;
     }
-
-    public int getGraine(){
-        return this.seed;
-    }
-
-
 }

@@ -12,21 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Material3.DayNight.NoActionBar"
         tools:targetApi="31">
-        <!-- activité principale qui demare l'application -->
+
         <activity
             android:name=".MenuActivity"
             android:exported="true">
-
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
 
-        <!-- activité du jeu -->
-        <activity android:name=".JeuActivity"/>
-        <activity android:name=".SeedActivity"/>
+        <activity android:name=".JeuActivity" />
+        <activity android:name=".SeedActivity" />
     </application>
 
 </manifest>

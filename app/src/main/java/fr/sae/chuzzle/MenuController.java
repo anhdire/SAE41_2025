@@ -21,11 +21,6 @@ public class MenuController {
         activity.startActivity(intent);
     }
 
-    public void ouvrirOptions() {
-        Intent intent = new Intent(activity, OptionsActivity.class);
-        activity.startActivity(intent);
-    }
-
     public void quitterJeu() {
         activity.finish();
     }

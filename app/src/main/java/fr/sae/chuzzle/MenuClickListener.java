@@ -5,8 +5,7 @@ public class MenuClickListener implements View.OnClickListener {
 
     public static final int ACTION_PLAY = 0;
     public static final int ACTION_SEED = 1;
-    public static final int ACTION_OPTIONS = 2;
-    public static final int ACTION_QUIT = 3;
+    public static final int ACTION_QUIT = 2;
 
     private MenuController controller;
     private int action;
@@ -22,8 +21,6 @@ public class MenuClickListener implements View.OnClickListener {
             controller.demarrerPartieNormale();
         } else if (action == ACTION_SEED) {
             controller.demarrerPartieDestinee();
-        } else if (action == ACTION_OPTIONS) {
-            controller.ouvrirOptions();
         } else if (action == ACTION_QUIT) {
             controller.quitterJeu();
         }

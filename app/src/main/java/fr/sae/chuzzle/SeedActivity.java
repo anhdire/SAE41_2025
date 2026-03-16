@@ -1,37 +1,35 @@
 package fr.sae.chuzzle;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toolbar;
 
 public class SeedActivity extends Activity {
 
-    private EditText champ_graine;
-    private JeuController jeuController;
-
-    private Toolbar barre_action;
+    private EditText champGraine;
+    private Toolbar barreAction;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.setContentView(R.layout.activity_seed);
-        this.champ_graine = findViewById(R.id.champ_graine);
-        GraineListener l = new GraineListener(this,champ_graine);
-        this.champ_graine.setOnEditorActionListener(l);
-        int seed = l.getGraine();
-        this.jeuController = new JeuController(null);
-        jeuController.getMoteur().setSeed(seed);
+        setContentView(R.layout.activity_seed);
 
-       this.barre_action = findViewById(R.id.toolbar);
-        if(barre_action != null) {
-            setActionBar(barre_action);
+        champGraine = findViewById(R.id.champ_graine);
+        champGraine.setOnEditorActionListener(new GraineListener(this, champGraine));
+
+        barreAction = findViewById(R.id.toolbar);
+        if (barreAction != null) {
+            setActionBar(barreAction);
         }
+    }
+
+    public void demarrerPartieDestinee(long seed) {
+        Intent intent = new Intent(this, JeuActivity.class);
+        intent.putExtra(JeuActivity.EXTRA_SEED, seed);
+        startActivity(intent);
     }
 
     @Override
@@ -42,20 +40,11 @@ public class SeedActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.revenir_menu) {
+        if (item.getItemId() == R.id.revenir_menu) {
             finish();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
 }

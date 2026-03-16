@@ -195,7 +195,6 @@ public class Grille {
 
     public void supprimerSeries(List<Serie> series) {
         for (Serie serie : series) {
-
             for (Position pos : serie.getPositions()) {
                 // recuperation des coordonnées d'une case de la série
                 int ligne = pos.getLigne();
