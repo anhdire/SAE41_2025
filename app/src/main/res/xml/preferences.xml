@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/menu_options"
+        android:key="preference_group">
+<!-- possible modifications en vue !-->
+
+        <CheckBoxPreference
+            android:key="revenir"
+            android:title="@string/back_to_menu"
+            android:summary="Retourner à l'accueil si vous ne voulez pas saisir de graine "
+            android:defaultValue="false"
+
+            />
+
+
+
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
