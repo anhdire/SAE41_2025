@@ -2,7 +2,7 @@ package fr.sae.chuzzle;
 import java.util.List;
 public class MoteurJeu {
 
-    public static final int TAILLE = 6;
+    public static final int TAILLE_GRILLE = 6;
 
     private Grille grille;
     private ScoreManager scoreManager;
@@ -18,7 +18,7 @@ public class MoteurJeu {
         this.seed = seed;
 
         this.generateur = new Generateur(seed);
-        this.grille = new Grille(TAILLE, seed);
+        this.grille = new Grille(TAILLE_GRILLE, seed);
 
         this.scoreManager = new ScoreManager();
 
@@ -109,7 +109,9 @@ public class MoteurJeu {
 
     public Grille getGrille(){
         return this.grille;
-
     }
 
+    public long getSeed() {
+        return this.seed;
+    }
 }

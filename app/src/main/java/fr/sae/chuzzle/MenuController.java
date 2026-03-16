@@ -10,7 +10,9 @@ public class MenuController {
     }
 
     public void demarrerPartieNormale() {
-        Intent intent =new Intent(activity, JeuActivity.class);
+        long seed = System.currentTimeMillis();
+        Intent intent = new Intent(activity, JeuActivity.class);
+        intent.putExtra(JeuActivity.EXTRA_SEED, seed);
         activity.startActivity(intent);
     }
 

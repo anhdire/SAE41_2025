@@ -3,62 +3,77 @@ package fr.sae.chuzzle;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 public class JeuActivity extends Activity {
 
+    public static final String EXTRA_SEED = "fr.sae.chuzzle.SEED";
+
     private MoteurJeu moteur;
     private CaseView[][] caseViews;
-
     private ElementRenderer renderer;
+    private TextView txtScore;
+    private TextView txtCoups;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
 
-        long seed = System.currentTimeMillis();
+        long seed = recupererSeed();
         moteur = new MoteurJeu(seed);
-
         renderer = new NormalRenderer();
 
-        GridLayout grid = findViewById(R.id.grilleJeu);
+        txtScore = findViewById(R.id.txtScore);
+        txtCoups = findViewById(R.id.txtCoups);
 
+        initialiserGrille();
+        mettreAJourScoreEtCoups();
+        afficherGrille();
+    }
+
+    private long recupererSeed() {
+        return getIntent().getLongExtra(
+                EXTRA_SEED,
+                System.currentTimeMillis()
+        );
+    }
+
+    private void initialiserGrille() {
+        GridLayout grid = findViewById(R.id.grilleJeu);
         int taille = MoteurJeu.TAILLE_GRILLE;
+        int tailleCase = getResources().getDimensionPixelSize(R.dimen.taille_case_grille);
 
         caseViews = new CaseView[taille][taille];
 
         for(int i=0;i<taille;i++){
             for(int j=0;j<taille;j++){
+                CaseView caseView = new CaseView(this);
+                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
 
-                CaseView v = new CaseView(this);
+                params.width = tailleCase;
+                params.height = tailleCase;
 
-                GridLayout.LayoutParams params =
-                        new GridLayout.LayoutParams();
+                caseView.setLayoutParams(params);
 
-                params.width = 120;
-                params.height = 120;
-
-                v.setLayoutParams(params);
-
-                caseViews[i][j] = v;
-
-                grid.addView(v);
+                caseViews[i][j] = caseView;
+                grid.addView(caseView);
             }
         }
+    }
 
-        afficherGrille();
+    private void mettreAJourScoreEtCoups() {
+        txtScore.setText("Score : " + moteur.getScore());
+        txtCoups.setText("Coups : " + moteur.getNbCoup());
     }
 
     private void afficherGrille(){
-
         Case[][] cases = moteur.getGrille().getCases();
+        int taille = MoteurJeu.TAILLE_GRILLE;
 
-        for(int i=0;i<6;i++){
-            for(int j=0;j<6;j++){
-
+        for(int i=0;i<taille;i++){
+            for(int j=0;j<taille;j++){
                 TypeElement type = cases[i][j].getType();
-
                 caseViews[i][j].setDrawable(
                         renderer.getDrawable(type)
                 );

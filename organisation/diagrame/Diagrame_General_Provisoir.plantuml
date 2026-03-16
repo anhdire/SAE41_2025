@@ -126,9 +126,8 @@ class MenuController CONTROLLER_COLOR {
 class JeuController CONTROLLER_COLOR {
   - moteur: MoteurJeu
   --
-  + glisserLigne(index: int, decalage: int): void
-  + glisserColonne(index: int, decalage: int): void
-  + verifierFin(): boolean
+  + JeuController(seed: long)
+  + getMoteur(): MoteurJeu
 }
 
 class OptionsController CONTROLLER_COLOR {
@@ -159,7 +158,6 @@ Case --> TypeElement
 JeuController --> MoteurJeu
 MenuController --> MoteurJeu
 
-JeuActivity --> JeuController
 MenuActivity --> MenuController
 OptionsActivity --> OptionsController
 SeedActivity --> MenuController
@@ -169,7 +167,6 @@ ElementRenderer <|-- NormalRenderer
 ElementRenderer <|-- DaltonienRenderer
 
 MenuClickListener --> MenuController
-JeuTouchListener --> JeuController
 OptionsSwitchListener --> OptionsController
 
 @enduml

@@ -2,11 +2,8 @@ package fr.sae.chuzzle;
 
 public class JeuController {
     private MoteurJeu moteur;
-    private JeuActivity activity;
 
-    public JeuController(JeuActivity activity) {
-        this.activity = activity;
-        long seed = System.currentTimeMillis();
+    public JeuController(long seed) {
         moteur = new MoteurJeu(seed);
     }
 
