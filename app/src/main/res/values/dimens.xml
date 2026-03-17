@@ -11,4 +11,5 @@
     <dimen name="text_button">20sp</dimen>
 
     <dimen name="taille_case_grille">48dp</dimen>
+    <dimen name="taille_grille">6</dimen>
 </resources>
