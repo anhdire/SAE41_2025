@@ -2,6 +2,7 @@ package fr.sae.chuzzle;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
@@ -14,16 +15,18 @@ public class JeuActivity extends Activity {
     private ElementRenderer renderer;
     private TextView txtScore;
     private TextView txtCoups;
+    private TextView txtSeed;
+    private long seed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
 
-        long seed = recupererSeed();
+        seed = recupererSeed();
         moteur = new MoteurJeu(seed);
         renderer = new NormalRenderer();
-
+        txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
 
@@ -78,6 +81,12 @@ public class JeuActivity extends Activity {
                         renderer.getDrawable(type)
                 );
             }
+        }
+    }
+    private void verifierFinPartie() {
+        if (moteur.estFinie()) {
+            txtSeed.setVisibility(View.VISIBLE);
+            txtSeed.setText("Seed : " + seed);
         }
     }
 }

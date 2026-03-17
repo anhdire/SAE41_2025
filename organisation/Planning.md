@@ -121,16 +121,16 @@ EPIC concernes :
 - EPIC 6 - Verrous
 - EPIC 7 - Fin de partie
 
-| US   | Fichiers concernes | Statut | Membre |
-|------|--------------------|--------|--------|
-| US22 | Grille.java, MoteurJeu.java | 🟩 | D      |
-| US23 | JeuController.java, JeuActivity.java | 🟥 | A      |
-| US24 | JeuActivity.java, activity_jeu.xml | 🟨 | Y      |
-| US25 | OptionsActivity.java, OptionsController.java, activity_options.xml | 🟨 | D      |
-| US26 | NormalRenderer.java, DaltonienRenderer.java | 🟨 | Y      |
-| US27 | OptionsActivity.java, activity_options.xml | 🟥 | A      |
-| US28 | MoteurJeu.java, SharedPreferences | 🟨 | D      |
-| US29 | JeuActivity.java, activity_jeu.xml | 🟥 | A      |
+| US   | Fichiers concernes | Statut  | Membre |
+|------|--------------------|---------|--------|
+| US22 | Grille.java, MoteurJeu.java | 🟩      | D      |
+| US23 | JeuController.java, JeuActivity.java | 🟥      | A      |
+| US24 | JeuActivity.java, activity_jeu.xml | 🟩      | Y      |
+| US25 | OptionsActivity.java, OptionsController.java, activity_options.xml | 🟨      | D      |
+| US26 | NormalRenderer.java, DaltonienRenderer.java | 🟨      | Y      |
+| US27 | OptionsActivity.java, activity_options.xml | 🟥      | A      |
+| US28 | MoteurJeu.java, SharedPreferences | 🟨      | D      |
+| US29 | JeuActivity.java, activity_jeu.xml | 🟥      | A      |
 
 ### Resume des US du sprint 4
 - **US22** : Detection de fin de partie.
