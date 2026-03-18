@@ -1,1 +1,67 @@
 voir si c'est mieux de mettre les couleur de type element dans res  et si on peut laiser comme cela 
+
+
+
+2026-03-18 12:50:05.622 14706-14706 AndroidRuntime          fr.sae.chuzzle                       D  Shutting down VM
+2026-03-18 12:50:05.628 14706-14706 AndroidRuntime          fr.sae.chuzzle                       E  FATAL EXCEPTION: main
+                                                                                                    Process: fr.sae.chuzzle, PID: 14706
+                                                                                                    java.lang.RuntimeException: Unable to start activity ComponentInfo{fr.sae.chuzzle/fr.sae.chuzzle.JeuActivity}: android.view.InflateException: Binary XML file line #42 in fr.sae.chuzzle:layout/activity_jeu: Binary XML file line #42 in fr.sae.chuzzle:layout/activity_jeu: Error inflating class android.widget.GridLayout
+                                                                                                    	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:4710)
+                                                                                                    	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:4941)
+                                                                                                    	at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:222)
+                                                                                                    	at android.app.servertransaction.TransactionExecutor.executeNonLifecycleItem(TransactionExecutor.java:133)
+                                                                                                    	at android.app.servertransaction.TransactionExecutor.executeTransactionItems(TransactionExecutor.java:103)
+                                                                                                    	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:80)
+                                                                                                    	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:3150)
+                                                                                                    	at android.os.Handler.dispatchMessage(Handler.java:110)
+                                                                                                    	at android.os.Looper.loopOnce(Looper.java:273)
+                                                                                                    	at android.os.Looper.loop(Looper.java:363)
+                                                                                                    	at android.app.ActivityThread.main(ActivityThread.java:10060)
+                                                                                                    	at java.lang.reflect.Method.invoke(Native Method)
+                                                                                                    	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:632)
+                                                                                                    	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:975)
+                                                                                                    Caused by: android.view.InflateException: Binary XML file line #42 in fr.sae.chuzzle:layout/activity_jeu: Binary XML file line #42 in fr.sae.chuzzle:layout/activity_jeu: Error inflating class android.widget.GridLayout
+                                                                                                    Caused by: android.view.InflateException: Binary XML file line #42 in fr.sae.chuzzle:layout/activity_jeu: Error inflating class android.widget.GridLayout
+                                                                                                    Caused by: java.lang.reflect.InvocationTargetException
+                                                                                                    	at java.lang.reflect.Constructor.newInstance0(Native Method)
+                                                                                                    	at java.lang.reflect.Constructor.newInstance(Constructor.java:343)
+                                                                                                    	at android.view.LayoutInflater.createView(LayoutInflater.java:759)
+                                                                                                    	at android.view.LayoutInflater.createView(LayoutInflater.java:681)
+                                                                                                    	at com.android.internal.policy.PhoneLayoutInflater.onCreateView(PhoneLayoutInflater.java:58)
+                                                                                                    	at android.view.LayoutInflater.onCreateView(LayoutInflater.java:835)
+                                                                                                    	at android.view.LayoutInflater.onCreateView(LayoutInflater.java:855)
+                                                                                                    	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:909)
+                                                                                                    	at android.view.LayoutInflater.createViewFromTag(LayoutInflater.java:866)
+                                                                                                    	at android.view.LayoutInflater.rInflate(LayoutInflater.java:1028)
+                                                                                                    	at android.view.LayoutInflater.rInflateChildren(LayoutInflater.java:989)
+                                                                                                    	at android.view.LayoutInflater.inflate(LayoutInflater.java:577)
+                                                                                                    	at android.view.LayoutInflater.inflate(LayoutInflater.java:468)
+                                                                                                    	at android.view.LayoutInflater.inflate(LayoutInflater.java:419)
+                                                                                                    	at com.android.internal.policy.PhoneWindow.setContentView(PhoneWindow.java:669)
+                                                                                                    	at android.app.Activity.setContentView(Activity.java:4026)
+                                                                                                    	at fr.sae.chuzzle.JeuActivity.onCreate(JeuActivity.java:24)
+                                                                                                    	at android.app.Activity.performCreate(Activity.java:9519)
+                                                                                                    	at android.app.Activity.performCreate(Activity.java:9488)
+                                                                                                    	at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1524)
+                                                                                                    	at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:4692)
+                                                                                                    	at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:4941)
+                                                                                                    	at android.app.servertransaction.LaunchActivityItem.execute(LaunchActivityItem.java:222)
+                                                                                                    	at android.app.servertransaction.TransactionExecutor.executeNonLifecycleItem(TransactionExecutor.java:133)
+                                                                                                    	at android.app.servertransaction.TransactionExecutor.executeTransactionItems(TransactionExecutor.java:103)
+                                                                                                    	at android.app.servertransaction.TransactionExecutor.execute(TransactionExecutor.java:80)
+                                                                                                    	at android.app.ActivityThread$H.handleMessage(ActivityThread.java:3150)
+                                                                                                    	at android.os.Handler.dispatchMessage(Handler.java:110)
+                                                                                                    	at android.os.Looper.loopOnce(Looper.java:273)
+                                                                                                    	at android.os.Looper.loop(Looper.java:363)
+2026-03-18 12:50:05.629 14706-14706 AndroidRuntime          fr.sae.chuzzle                       E  	at android.app.ActivityThread.main(ActivityThread.java:10060)
+                                                                                                    	at java.lang.reflect.Method.invoke(Native Method)
+                                                                                                    	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:632)
+                                                                                                    	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:975)
+                                                                                                    Caused by: java.lang.NumberFormatException: For input string: "6.0"
+                                                                                                    	at java.lang.Integer.parseInt(Integer.java:781)
+                                                                                                    	at com.android.internal.util.XmlUtils.convertValueToInt(XmlUtils.java:349)
+                                                                                                    	at android.content.res.TypedArray.getInt(TypedArray.java:442)
+                                                                                                    	at android.widget.GridLayout.<init>(GridLayout.java:312)
+                                                                                                    	at android.widget.GridLayout.<init>(GridLayout.java:301)
+                                                                                                    	at android.widget.GridLayout.<init>(GridLayout.java:297)
+                                                                                                    	... 34 more
