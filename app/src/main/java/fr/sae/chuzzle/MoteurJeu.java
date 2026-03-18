@@ -46,7 +46,6 @@ public class MoteurJeu {
             Log.d(TAG, "Coup ignore car partie finie");
             return etapes;
         }
-
         Case[] sauv;
 
         if (estLigne) {

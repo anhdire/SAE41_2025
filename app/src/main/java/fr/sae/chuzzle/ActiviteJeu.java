@@ -132,7 +132,7 @@ public class ActiviteJeu extends Activity {
         verifierFinPartie();
     }
 
-    void lancerAnimation(List<EtatJeu> etapes) {
+    public void lancerAnimation(List<EtatJeu> etapes) {
         if (etapes.isEmpty()) {
             Log.d(TAG, "Aucune animation a jouer, rafraichissement direct");
             actualiserJeu();
@@ -161,7 +161,7 @@ public class ActiviteJeu extends Activity {
         }
     }
 
-    void finAnimation() {
+    public void finAnimation() {
         animationEnCours = false;
         Log.d(TAG, "Animation terminee");
         actualiserJeu();
@@ -189,7 +189,6 @@ public class ActiviteJeu extends Activity {
                 cases[i][j] = new Case(types[i][j]);
             }
         }
-
         return cases;
     }
 }
