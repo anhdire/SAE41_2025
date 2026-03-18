@@ -19,9 +19,9 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:paddingStart="18dp"
+        android:paddingStart="@dimen/padding_contenu_jeu_h"
         android:paddingTop="22dp"
-        android:paddingEnd="18dp"
+        android:paddingEnd="@dimen/padding_contenu_jeu_h"
         android:paddingBottom="18dp">
 
         <LinearLayout

@@ -2,6 +2,7 @@ package fr.sae.chuzzle;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.GridLayout;
@@ -47,7 +48,7 @@ public class ActiviteJeu extends Activity {
     private void initialiserGrille() {
         GridLayout grid = findViewById(R.id.grilleJeu);
         int taille = MoteurJeu.TAILLE_GRILLE;
-        int tailleCase = getResources().getDimensionPixelSize(R.dimen.taille_case_grille);
+        int tailleCase = calculerTailleCase();
         int margeCase = getResources().getDimensionPixelSize(R.dimen.marge_case_grille);
 
         vuesCases = new VueCase[taille][taille];
@@ -72,6 +73,20 @@ public class ActiviteJeu extends Activity {
                 grid.addView(vueCase);
             }
         }
+    }
+
+    private int calculerTailleCase() {
+        DisplayMetrics metriques = getResources().getDisplayMetrics();
+        int largeurEcran = metriques.widthPixels;
+        int paddingContenu = getResources().getDimensionPixelSize(R.dimen.padding_contenu_jeu_h);
+        int paddingCadre = getResources().getDimensionPixelSize(R.dimen.padding_cadre_grille);
+        int margeCase = getResources().getDimensionPixelSize(R.dimen.marge_case_grille);
+        int tailleBase = getResources().getDimensionPixelSize(R.dimen.taille_case_grille);
+
+        int largeurDisponible = largeurEcran - (paddingContenu * 2) - (paddingCadre * 2);
+        int tailleMax = (largeurDisponible / MoteurJeu.TAILLE_GRILLE) - (margeCase * 2);
+
+        return Math.min(tailleBase, tailleMax);
     }
 
     private void mettreAJourScoreEtCoups() {
