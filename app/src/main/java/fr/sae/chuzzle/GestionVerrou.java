@@ -3,7 +3,7 @@ package fr.sae.chuzzle;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VerrouManager {
+public class GestionVerrou {
 
     private static final int CHANCE_MIN = 15;
     private static final int CHANCE_MAX = 60;
@@ -11,7 +11,7 @@ public class VerrouManager {
 
     private final Generateur generateur;
 
-    public VerrouManager(long seed) {
+    public GestionVerrou(long seed) {
         this.generateur = new Generateur(seed + 1);
     }
 

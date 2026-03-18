@@ -7,8 +7,8 @@ public class MoteurJeu {
     public static final int TAILLE_GRILLE = 6;
 
     private Grille grille;
-    private ScoreManager scoreManager;
-    private VerrouManager verrouManager;
+    private GestionScore scoreManager;
+    private GestionVerrou verrouManager;
     private Generateur generateur;
     private int score;
     private int nbCoup;
@@ -20,8 +20,8 @@ public class MoteurJeu {
 
         this.generateur = new Generateur(seed);
         this.grille = new Grille(TAILLE_GRILLE, seed);
-        this.scoreManager = new ScoreManager();
-        this.verrouManager = new VerrouManager(seed);
+        this.scoreManager = new GestionScore();
+        this.verrouManager = new GestionVerrou(seed);
         this.score = 0;
         this.nbCoup = 0;
         this.finie = false;
@@ -87,7 +87,7 @@ public class MoteurJeu {
         this.seed = seed;
         this.generateur = new Generateur(seed);
         this.grille = new Grille(6, seed);
-        this.verrouManager = new VerrouManager(seed);
+        this.verrouManager = new GestionVerrou(seed);
         this.score = 0;
         this.nbCoup = 0;
         this.finie = false;

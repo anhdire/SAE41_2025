@@ -2,15 +2,14 @@ package fr.sae.chuzzle;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
-public class CaseView extends View {
+public class VueCase extends View {
 
     private Drawable drawable;
 
-    public CaseView(Context context) {
+    public VueCase(Context context) {
         super(context);
     }
 

@@ -2,8 +2,8 @@ package fr.sae.chuzzle;
 
 import android.widget.CompoundButton;
 
-public class HardModeListener implements CompoundButton.OnCheckedChangeListener {
-    public HardModeListener(OptionsController controller){
+public class EcouteurModeDur implements CompoundButton.OnCheckedChangeListener {
+    public EcouteurModeDur(ControleOptions controller){
 
     }
 

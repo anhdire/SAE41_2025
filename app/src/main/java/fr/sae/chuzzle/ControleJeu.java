@@ -1,9 +1,9 @@
 package fr.sae.chuzzle;
 
-public class JeuController {
+public class ControleJeu {
     private MoteurJeu moteur;
 
-    public JeuController(long seed) {
+    public ControleJeu(long seed) {
         moteur = new MoteurJeu(seed);
     }
 

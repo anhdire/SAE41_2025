@@ -1,8 +1,8 @@
 package fr.sae.chuzzle;
 
-public class OptionsController {
+public class ControleOptions {
 
-    public  OptionsController(OptionsActivity activity){
+    public ControleOptions(ActiviteOptions activity){
 
     }
 

@@ -5,13 +5,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class GraineListener implements TextView.OnEditorActionListener {
+public class EcouteurGraine implements TextView.OnEditorActionListener {
 
     private final EditText champGraine;
-    private final SeedActivity activity;
+    private final ActiviteGraine activite;
 
-    public GraineListener(SeedActivity activity, EditText champGraine) {
-        this.activity = activity;
+    public EcouteurGraine(ActiviteGraine activite, EditText champGraine) {
+        this.activite = activite;
         this.champGraine = champGraine;
     }
 
@@ -34,7 +34,7 @@ public class GraineListener implements TextView.OnEditorActionListener {
 
         try {
             long seed = Long.parseLong(texte);
-            activity.demarrerPartieDestinee(seed);
+            activite.demarrerPartieDestinee(seed);
         } catch (NumberFormatException e) {
             champGraine.setError("Graine invalide");
         }

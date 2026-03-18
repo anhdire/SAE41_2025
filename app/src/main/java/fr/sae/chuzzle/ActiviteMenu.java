@@ -4,13 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Button;
 
-public class MenuActivity extends Activity {
+public class ActiviteMenu extends Activity {
 
     private Button btnPlay;
     private Button btnQuit;
     private Button btnPartieDestinee;
 
-    private MenuController controller;
+    private ControleMenu controle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -18,22 +18,22 @@ public class MenuActivity extends Activity {
         setContentView(R.layout.activity_menu);
 
         // je cree le controlleur car en android c'est la vue qui est creer en premier par l'os
-        this.controller = new MenuController(this);
+        this.controle = new ControleMenu(this);
 
         btnPlay = findViewById(R.id.btnPlay);
         btnPartieDestinee = findViewById(R.id.btnPartieDestinee);
         btnQuit = findViewById(R.id.btnQuit);
 
         btnPlay.setOnClickListener(
-               new MenuClickListener(controller, MenuClickListener.ACTION_PLAY)
+               new EcouteurMenu(controle, EcouteurMenu.ACTION_PLAY)
         );
 
         btnPartieDestinee.setOnClickListener(
-            new MenuClickListener(controller, MenuClickListener.ACTION_SEED)
+            new EcouteurMenu(controle, EcouteurMenu.ACTION_SEED)
         );
 
         btnQuit.setOnClickListener(
-            new MenuClickListener(controller, MenuClickListener.ACTION_QUIT)
+            new EcouteurMenu(controle, EcouteurMenu.ACTION_QUIT)
         );
     }
 }

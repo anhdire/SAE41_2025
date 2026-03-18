@@ -7,7 +7,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toolbar;
 
-public class SeedActivity extends Activity {
+public class ActiviteGraine extends Activity {
 
     private EditText champGraine;
     private Toolbar barreAction;
@@ -18,7 +18,7 @@ public class SeedActivity extends Activity {
         setContentView(R.layout.activity_seed);
 
         champGraine = findViewById(R.id.champ_graine);
-        champGraine.setOnEditorActionListener(new GraineListener(this, champGraine));
+        champGraine.setOnEditorActionListener(new EcouteurGraine(this, champGraine));
 
         barreAction = findViewById(R.id.toolbar);
         if (barreAction != null) {
@@ -27,8 +27,8 @@ public class SeedActivity extends Activity {
     }
 
     public void demarrerPartieDestinee(long seed) {
-        Intent intent = new Intent(this, JeuActivity.class);
-        intent.putExtra(JeuActivity.EXTRA_SEED, seed);
+        Intent intent = new Intent(this, ActiviteJeu.class);
+        intent.putExtra(ActiviteJeu.EXTRA_SEED, seed);
         startActivity(intent);
     }
 

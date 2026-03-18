@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.Switch;
 
-public class OptionsActivity extends Activity {
+public class ActiviteOptions extends Activity {
 
     private Switch switchHardMode;
-    private OptionsController controller;
+    private ControleOptions controle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,14 +15,14 @@ public class OptionsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
 
-        controller = new OptionsController(this);
+        controle = new ControleOptions(this);
 
         switchHardMode = findViewById(R.id.switchHardMode);
 
-        switchHardMode.setChecked(controller.isHardMode());
+        switchHardMode.setChecked(controle.isHardMode());
 
         switchHardMode.setOnCheckedChangeListener(
-                new HardModeListener(controller)
+                new EcouteurModeDur(controle)
         );
     }
 }

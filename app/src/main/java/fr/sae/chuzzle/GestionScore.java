@@ -2,7 +2,7 @@ package fr.sae.chuzzle;
 
 import java.util.List;
 
-public class ScoreManager {
+public class GestionScore {
     public int calculerScore(List<Serie> serie , int n) {
 
 
