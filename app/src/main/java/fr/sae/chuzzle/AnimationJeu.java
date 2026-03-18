@@ -6,7 +6,7 @@ import java.util.List;
 
 public class AnimationJeu implements Runnable {
 
-    private static final long DELAI = 180L;
+    private static final long DELAI = 380L;
 
     private final ActiviteJeu activite;
     private final Handler handler;
