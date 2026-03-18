@@ -27,6 +27,7 @@ public class MoteurJeu {
         this.finie = false;
 
         grille.initialiser();
+        mettreAJourFinPartie();
     }
 
     public void jouerCoup(boolean estLigne, int index, int decalage) {
@@ -79,9 +80,7 @@ public class MoteurJeu {
 
         verrouManager.ajouterVerrouSiNecessaire(grille, nbCoup);
 
-        if (!grille.existeCoupPossible()) {
-            finie = true;
-        }
+        mettreAJourFinPartie();
     }
 
     public void setSeed(long seed) {
@@ -89,7 +88,11 @@ public class MoteurJeu {
         this.generateur = new Generateur(seed);
         this.grille = new Grille(6, seed);
         this.verrouManager = new VerrouManager(seed);
+        this.score = 0;
+        this.nbCoup = 0;
+        this.finie = false;
         this.grille.initialiser();
+        mettreAJourFinPartie();
     }
 
     public boolean estFinie() {
@@ -110,5 +113,9 @@ public class MoteurJeu {
 
     public long getSeed() {
         return this.seed;
+    }
+
+    void mettreAJourFinPartie() {
+        this.finie = !grille.existeCoupPossible();
     }
 }
