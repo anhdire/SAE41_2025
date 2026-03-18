@@ -5,6 +5,7 @@ import android.view.View;
 
 public class EcouteurCase implements View.OnTouchListener {
 
+    private final ControleJeu controle;
     private final ActiviteJeu activite;
     private final int ligne;
     private final int colonne;
@@ -13,7 +14,8 @@ public class EcouteurCase implements View.OnTouchListener {
     private float departX;
     private float departY;
 
-    public EcouteurCase(ActiviteJeu activite, int ligne, int colonne, int distanceMin) {
+    public EcouteurCase(ControleJeu controle, ActiviteJeu activite, int ligne, int colonne, int distanceMin) {
+        this.controle = controle;
         this.activite = activite;
         this.ligne = ligne;
         this.colonne = colonne;
@@ -36,7 +38,8 @@ public class EcouteurCase implements View.OnTouchListener {
                     return true;
                 }
 
-                activite.jouerGlissement(ligne, colonne, deltaX, deltaY);
+                controle.jouerGlissement(ligne, colonne, deltaX, deltaY);
+                activite.actualiserJeu();
                 return true;
 
             case MotionEvent.ACTION_CANCEL:

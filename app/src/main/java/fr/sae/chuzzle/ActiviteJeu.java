@@ -34,9 +34,7 @@ public class ActiviteJeu extends Activity {
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
 
         initialiserGrille();
-        mettreAJourScoreEtCoups();
-        afficherGrille();
-        verifierFinPartie();
+        actualiserJeu();
     }
 
     private long recupererSeed() {
@@ -66,9 +64,8 @@ public class ActiviteJeu extends Activity {
                 params.setMargins(margeCase, margeCase, margeCase, margeCase);
 
                 vueCase.setLayoutParams(params);
-                vueCase.setElevation(6f);
                 vueCase.setOnTouchListener(
-                        new EcouteurCase(this, i, j, distanceMin)
+                        new EcouteurCase(controle, this, i, j, distanceMin)
                 );
 
                 vuesCases[i][j] = vueCase;
@@ -96,8 +93,7 @@ public class ActiviteJeu extends Activity {
         }
     }
 
-    void jouerGlissement(int ligne, int colonne, float deltaX, float deltaY) {
-        controle.jouerGlissement(ligne, colonne, deltaX, deltaY);
+    public void actualiserJeu() {
         mettreAJourScoreEtCoups();
         afficherGrille();
         verifierFinPartie();
