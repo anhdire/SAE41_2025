@@ -11,7 +11,7 @@ public class ActiviteJeu extends Activity {
 
     public static final String EXTRA_SEED = "fr.sae.chuzzle.SEED";
 
-    private MoteurJeu moteur;
+    private ControleJeu controle;
     private VueCase[][] vuesCases;
     private AfficheurElement afficheur;
     private TextView txtScore;
@@ -26,7 +26,7 @@ public class ActiviteJeu extends Activity {
         setContentView(R.layout.activity_jeu);
 
         seed = recupererSeed();
-        moteur = new MoteurJeu(seed);
+        controle = new ControleJeu(seed);
         afficheur = new AfficheurNormal();
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
@@ -50,6 +50,7 @@ public class ActiviteJeu extends Activity {
         GridLayout grid = findViewById(R.id.grilleJeu);
         int taille = MoteurJeu.TAILLE_GRILLE;
         int tailleCase = getResources().getDimensionPixelSize(R.dimen.taille_case_grille);
+        int margeCase = getResources().getDimensionPixelSize(R.dimen.marge_case_grille);
 
         vuesCases = new VueCase[taille][taille];
 
@@ -62,8 +63,10 @@ public class ActiviteJeu extends Activity {
                 params.columnSpec = GridLayout.spec(j);
                 params.width = tailleCase;
                 params.height = tailleCase;
+                params.setMargins(margeCase, margeCase, margeCase, margeCase);
 
                 vueCase.setLayoutParams(params);
+                vueCase.setElevation(6f);
                 vueCase.setOnTouchListener(
                         new EcouteurCase(this, i, j, distanceMin)
                 );
@@ -75,12 +78,12 @@ public class ActiviteJeu extends Activity {
     }
 
     private void mettreAJourScoreEtCoups() {
-        txtScore.setText("Score : " + moteur.getScore());
-        txtCoups.setText("Coups : " + moteur.getNbCoup());
+        txtScore.setText("Score : " + controle.getScore());
+        txtCoups.setText("Coups : " + controle.getNbCoup());
     }
 
     private void afficherGrille(){
-        Case[][] cases = moteur.getGrille().getCases();
+        Case[][] cases = controle.getCases();
         int taille = MoteurJeu.TAILLE_GRILLE;
 
         for(int i=0;i<taille;i++){
@@ -94,21 +97,14 @@ public class ActiviteJeu extends Activity {
     }
 
     void jouerGlissement(int ligne, int colonne, float deltaX, float deltaY) {
-        if (Math.abs(deltaX) >= Math.abs(deltaY)) {
-            int decalage = deltaX > 0 ? -1 : 1;
-            moteur.jouerCoup(true, ligne, decalage);
-        } else {
-            int decalage = deltaY > 0 ? 1 : -1;
-            moteur.jouerCoup(false, colonne, decalage);
-        }
-
+        controle.jouerGlissement(ligne, colonne, deltaX, deltaY);
         mettreAJourScoreEtCoups();
         afficherGrille();
         verifierFinPartie();
     }
 
     private void verifierFinPartie() {
-        if (moteur.estFinie()) {
+        if (controle.estFinie()) {
             txtSeed.setVisibility(View.VISIBLE);
             txtSeed.setText("Seed : " + seed);
         } else {

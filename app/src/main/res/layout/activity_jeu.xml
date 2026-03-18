@@ -1,45 +1,87 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/fond_ecran_jeu">
+
+    <ImageView
+        android:id="@+id/imgFondJeu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.10"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="10dp"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/txtScore"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Score : 0"
-            android:layout_marginRight="10dp"/>
+        android:id="@+id/contenuJeu"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingStart="18dp"
+        android:paddingTop="22dp"
+        android:paddingEnd="18dp"
+        android:paddingBottom="18dp">
 
-        <TextView
-            android:id="@+id/txtCoups"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Coups : 0"/>
+            android:layout_marginTop="8dp"
+            android:background="@drawable/fond_bandeau_jeu"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingStart="@dimen/padding_bandeau_jeu_h"
+            android:paddingTop="@dimen/padding_bandeau_jeu_v"
+            android:paddingEnd="@dimen/padding_bandeau_jeu_h"
+            android:paddingBottom="@dimen/padding_bandeau_jeu_v">
 
-        <TextView
-            android:id="@+id/txtSeed"
+            <TextView
+                android:id="@+id/txtScore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="18dp"
+                android:text="Score : 0"
+                android:textColor="@color/ui_game_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtCoups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coups : 0"
+                android:textColor="@color/ui_game_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtSeed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:textColor="@color/ui_game_text_soft"
+                android:textSize="14sp"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone">
-        </TextView>
+            android:layout_marginTop="26dp"
+            android:background="@drawable/fond_grille_jeu"
+            android:orientation="vertical"
+            android:padding="@dimen/padding_cadre_grille">
+
+            <GridLayout
+                android:id="@+id/grilleJeu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:alignmentMode="alignMargins"
+                android:columnCount="6"
+                android:rowCount="6" />
+        </LinearLayout>
 
     </LinearLayout>
 
-
-    <GridLayout
-        android:id="@+id/grilleJeu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:rowCount="6"
-        android:columnCount="6"
-        android:padding="16dp"/>
-
-
-</LinearLayout>
+</RelativeLayout>

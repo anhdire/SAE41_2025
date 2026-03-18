@@ -1,13 +1,13 @@
 package fr.sae.chuzzle;
 
 public enum TypeElement {
-    ROUGE(0xFFD55E00),
-    BLEU_OCEAN(0xFF0072B2),
-    VERT(0xFF009E73),
-    ORANGE(0xFFE69F00),
-    VIOLET(0xFFCC79A7),
-    JAUNE(0xFFF0E442),
-    BLEU_CIEL(0xFF56B4E9),
+    ROUGE(0xFFE76F51),
+    BLEU_OCEAN(0xFF2D6CDF),
+    VERT(0xFF2BB07F),
+    ORANGE(0xFFF4A425),
+    VIOLET(0xFF8D72E1),
+    JAUNE(0xFFF4DD5B),
+    BLEU_CIEL(0xFF62C4EE),
     NAN(0x00000000); // pour les cases vides (transparent)
 
     private final int couleur;

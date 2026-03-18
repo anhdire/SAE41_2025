@@ -4,26 +4,23 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <!-- Couleur des pieces -->
-    <color name="piece_red">#D55E00</color>
-    <color name="piece_blueOcean">#0072B2</color>
-    <color name="piece_green">#009E73</color>
-    <color name="piece_orange">#E69F00</color>
-    <color name="piece_violet">#CC79A7</color>
-    <color name="piece_yellow">#F0E442</color>
-    <color name="piece_blueSky">#56B4E9</color>
-    <color name="piece_empty">#FFFFFF</color>
+    <color name="piece_red">#E76F51</color>
+    <color name="piece_blueOcean">#2D6CDF</color>
+    <color name="piece_green">#2BB07F</color>
+    <color name="piece_orange">#F4A425</color>
+    <color name="piece_violet">#8D72E1</color>
+    <color name="piece_yellow">#F4DD5B</color>
+    <color name="piece_blueSky">#62C4EE</color>
 
-    <!-- Couleur de l'interface utilisateur -->
-    <color name="ui_background">#FFFFFFFF</color>
-    <color name="ui_panel">#E0E0E0</color>
-
-    <color name="ui_text_primary">#212121</color>
-    <color name="ui_text_secondary">#616161</color>
-    <color name="ui_text_button">#FFFFFF</color>
-
-    <color name="ui_button_primary">#2C3E50</color>
-    <color name="ui_button_secondary">#546E7A</color>
-    <color name="ui_button_danger">#8E2A2A</color>
+    <color name="ui_game_bg_top">#0F1D2D</color>
+    <color name="ui_game_bg_bottom">#160F1C</color>
+    <color name="ui_game_panel">#CC182338</color>
+    <color name="ui_game_panel_stroke">#4DFFFFFF</color>
+    <color name="ui_game_grid">#B3141F30</color>
+    <color name="ui_game_grid_stroke">#33FFFFFF</color>
+    <color name="ui_game_slot">#6626354D</color>
+    <color name="ui_game_slot_stroke">#26FFFFFF</color>
+    <color name="ui_game_text">#F7F1FF</color>
+    <color name="ui_game_text_soft">#D0C8DB</color>
 
 </resources>

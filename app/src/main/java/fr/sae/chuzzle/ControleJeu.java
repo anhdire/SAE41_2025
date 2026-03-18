@@ -1,13 +1,35 @@
 package fr.sae.chuzzle;
 
 public class ControleJeu {
-    private MoteurJeu moteur;
+    private final MoteurJeu moteur;
 
     public ControleJeu(long seed) {
         moteur = new MoteurJeu(seed);
     }
 
-    public MoteurJeu getMoteur(){
-        return this.moteur;
+    public void jouerGlissement(int ligne, int colonne, float deltaX, float deltaY) {
+        if (Math.abs(deltaX) >= Math.abs(deltaY)) {
+            int decalage = deltaX > 0 ? -1 : 1;
+            moteur.jouerCoup(true, ligne, decalage);
+        } else {
+            int decalage = deltaY > 0 ? 1 : -1;
+            moteur.jouerCoup(false, colonne, decalage);
+        }
+    }
+
+    public Case[][] getCases() {
+        return moteur.getGrille().getCases();
+    }
+
+    public int getScore() {
+        return moteur.getScore();
+    }
+
+    public int getNbCoup() {
+        return moteur.getNbCoup();
+    }
+
+    public boolean estFinie() {
+        return moteur.estFinie();
     }
 }

@@ -10,6 +10,10 @@
     <dimen name="text_title">36sp</dimen>
     <dimen name="text_button">20sp</dimen>
 
-    <dimen name="taille_case_grille">48dp</dimen>
+    <dimen name="taille_case_grille">52dp</dimen>
     <dimen name="taille_grille">6</dimen>
+    <dimen name="marge_case_grille">4dp</dimen>
+    <dimen name="padding_bandeau_jeu_h">18dp</dimen>
+    <dimen name="padding_bandeau_jeu_v">12dp</dimen>
+    <dimen name="padding_cadre_grille">14dp</dimen>
 </resources>
