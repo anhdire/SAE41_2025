@@ -41,7 +41,6 @@ public class MoteurJeu {
         if (finie) {
             return etapes;
         }
-
         Case[] sauv;
 
         if (estLigne) {
