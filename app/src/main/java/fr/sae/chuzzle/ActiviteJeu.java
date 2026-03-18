@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Bundle;
 import android.os.Looper;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.GridLayout;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import java.util.List;
 
 public class ActiviteJeu extends Activity {
+    private static final String TAG = "ActiviteJeu";
 
     public static final String EXTRA_SEED = "fr.sae.chuzzle.SEED";
 
@@ -41,6 +43,7 @@ public class ActiviteJeu extends Activity {
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
         handler = new Handler(Looper.getMainLooper());
         animationEnCours = false;
+        Log.d(TAG, "onCreate seed=" + seed + " distanceMin=" + distanceMin);
 
         initialiserGrille();
         actualiserJeu();
@@ -58,6 +61,7 @@ public class ActiviteJeu extends Activity {
         int taille = MoteurJeu.TAILLE_GRILLE;
         int tailleCase = calculerTailleCase();
         int margeCase = getResources().getDimensionPixelSize(R.dimen.marge_case_grille);
+        Log.d(TAG, "Initialisation grille taille=" + taille + " tailleCase=" + tailleCase + " margeCase=" + margeCase);
 
         vuesCases = new VueCase[taille][taille];
 
@@ -120,6 +124,9 @@ public class ActiviteJeu extends Activity {
     }
 
     public void actualiserJeu() {
+        Log.d(TAG, "actualiserJeu score=" + controle.getScore()
+                + " coups=" + controle.getNbCoup()
+                + " finie=" + controle.estFinie());
         mettreAJourScoreEtCoups();
         afficherGrille();
         verifierFinPartie();
@@ -127,16 +134,21 @@ public class ActiviteJeu extends Activity {
 
     void lancerAnimation(List<EtatJeu> etapes) {
         if (etapes.isEmpty()) {
+            Log.d(TAG, "Aucune animation a jouer, rafraichissement direct");
             actualiserJeu();
             return;
         }
 
         animationEnCours = true;
+        Log.d(TAG, "Animation lancee avec " + etapes.size() + " etapes");
         handler.removeCallbacksAndMessages(null);
         handler.post(new AnimationJeu(this, handler, etapes));
     }
 
     void afficherEtat(EtatJeu etat) {
+        Log.d(TAG, "afficherEtat score=" + etat.getScore()
+                + " coups=" + etat.getNbCoups()
+                + " finie=" + etat.estFinie());
         txtScore.setText("Score : " + etat.getScore());
         txtCoups.setText("Coups : " + etat.getNbCoups());
         afficherGrille(convertirEnCases(etat.getTypes()));
@@ -151,6 +163,7 @@ public class ActiviteJeu extends Activity {
 
     void finAnimation() {
         animationEnCours = false;
+        Log.d(TAG, "Animation terminee");
         actualiserJeu();
     }
 

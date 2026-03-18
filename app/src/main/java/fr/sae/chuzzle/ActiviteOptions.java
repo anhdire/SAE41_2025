@@ -2,9 +2,11 @@ package fr.sae.chuzzle;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Switch;
 
 public class ActiviteOptions extends Activity {
+    private static final String TAG = "ActiviteOptions";
 
     private Switch switchHardMode;
     private ControleOptions controle;
@@ -14,6 +16,7 @@ public class ActiviteOptions extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_options);
+        Log.d(TAG, "onCreate options");
 
         controle = new ControleOptions(this);
 

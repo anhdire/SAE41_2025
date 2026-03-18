@@ -1,10 +1,12 @@
 package fr.sae.chuzzle;
 
 import android.os.Handler;
+import android.util.Log;
 
 import java.util.List;
 
 public class AnimationJeu implements Runnable {
+    private static final String TAG = "AnimationJeu";
 
     private static final long DELAI = 180L;
 
@@ -22,9 +24,11 @@ public class AnimationJeu implements Runnable {
 
     @Override
     public void run() {
+        Log.d(TAG, "Lecture etape index=" + index + "/" + (etapes.size() - 1));
         activite.afficherEtat(etapes.get(index));
 
         if (index >= etapes.size() - 1) {
+            Log.d(TAG, "Derniere etape atteinte");
             activite.finAnimation();
             return;
         }

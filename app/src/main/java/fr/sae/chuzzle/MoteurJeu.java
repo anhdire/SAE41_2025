@@ -1,9 +1,12 @@
 package fr.sae.chuzzle;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MoteurJeu {
+    private static final String TAG = "MoteurJeu";
 
     public static final int TAILLE_GRILLE = 6;
 
@@ -37,8 +40,10 @@ public class MoteurJeu {
 
     public List<EtatJeu> jouerCoupAnime(boolean estLigne, int index, int decalage) {
         ArrayList<EtatJeu> etapes = new ArrayList<>();
+        Log.d(TAG, "jouerCoupAnime estLigne=" + estLigne + " index=" + index + " decalage=" + decalage);
 
         if (finie) {
+            Log.d(TAG, "Coup ignore car partie finie");
             return etapes;
         }
 
@@ -51,10 +56,12 @@ public class MoteurJeu {
         }
 
         if (sauv == null) {
+            Log.d(TAG, "Coup refuse: ligne/colonne verrouillee ou glissement impossible");
             return etapes;
         }
 
         List<Serie> series = grille.detecterSeries();
+        Log.d(TAG, "Series detectees apres glissement=" + series.size());
 
         if (series.isEmpty()) {
             Case[][] cases = grille.getCases();
@@ -69,6 +76,7 @@ public class MoteurJeu {
                 }
             }
 
+            Log.d(TAG, "Coup annule car aucune serie creee");
             return etapes;
         }
 
@@ -77,6 +85,7 @@ public class MoteurJeu {
         int niveau = 0;
 
         while (!series.isEmpty()) {
+            Log.d(TAG, "Resolution niveau=" + niveau + " nbSeries=" + series.size());
             int points = scoreManager.calculerScore(series, niveau);
             score = score + points;
             grille.supprimerSeries(series);
@@ -93,6 +102,8 @@ public class MoteurJeu {
 
         mettreAJourFinPartie();
         etapes.add(capturerEtat());
+        Log.d(TAG, "Fin du coup score=" + score + " nbCoups=" + nbCoup
+                + " finie=" + finie + " etapes=" + etapes.size());
         return etapes;
     }
 

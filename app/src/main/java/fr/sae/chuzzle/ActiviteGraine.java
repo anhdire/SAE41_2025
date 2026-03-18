@@ -3,11 +3,13 @@ package fr.sae.chuzzle;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toolbar;
 
 public class ActiviteGraine extends Activity {
+    private static final String TAG = "ActiviteGraine";
 
     private EditText champGraine;
     private Toolbar barreAction;
@@ -16,6 +18,7 @@ public class ActiviteGraine extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seed);
+        Log.d(TAG, "onCreate ecran graine");
 
         champGraine = findViewById(R.id.champ_graine);
         champGraine.setOnEditorActionListener(new EcouteurGraine(this, champGraine));
@@ -27,6 +30,7 @@ public class ActiviteGraine extends Activity {
     }
 
     public void demarrerPartieDestinee(long seed) {
+        Log.d(TAG, "Demarrage partie destinee seed=" + seed);
         Intent intent = new Intent(this, ActiviteJeu.class);
         intent.putExtra(ActiviteJeu.EXTRA_SEED, seed);
         startActivity(intent);
@@ -41,6 +45,7 @@ public class ActiviteGraine extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.revenir_menu) {
+            Log.d(TAG, "Retour menu depuis ecran graine");
             finish();
             return true;
         }
