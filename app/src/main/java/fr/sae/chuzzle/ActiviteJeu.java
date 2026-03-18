@@ -1,12 +1,16 @@
 package fr.sae.chuzzle;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.GridLayout;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class ActiviteJeu extends Activity {
 
@@ -20,6 +24,8 @@ public class ActiviteJeu extends Activity {
     private TextView txtSeed;
     private long seed;
     private int distanceMin;
+    private Handler handler;
+    private boolean animationEnCours;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -33,6 +39,8 @@ public class ActiviteJeu extends Activity {
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
+        handler = new Handler(Looper.getMainLooper());
+        animationEnCours = false;
 
         initialiserGrille();
         actualiserJeu();
@@ -95,7 +103,10 @@ public class ActiviteJeu extends Activity {
     }
 
     private void afficherGrille(){
-        Case[][] cases = controle.getCases();
+        afficherGrille(controle.getCases());
+    }
+
+    private void afficherGrille(Case[][] cases){
         int taille = MoteurJeu.TAILLE_GRILLE;
 
         for(int i=0;i<taille;i++){
@@ -114,6 +125,39 @@ public class ActiviteJeu extends Activity {
         verifierFinPartie();
     }
 
+    void lancerAnimation(List<EtatJeu> etapes) {
+        if (etapes.isEmpty()) {
+            actualiserJeu();
+            return;
+        }
+
+        animationEnCours = true;
+        handler.removeCallbacksAndMessages(null);
+        handler.post(new AnimationJeu(this, handler, etapes));
+    }
+
+    void afficherEtat(EtatJeu etat) {
+        txtScore.setText("Score : " + etat.getScore());
+        txtCoups.setText("Coups : " + etat.getNbCoups());
+        afficherGrille(convertirEnCases(etat.getTypes()));
+
+        if (etat.estFinie()) {
+            txtSeed.setVisibility(View.VISIBLE);
+            txtSeed.setText("Seed : " + seed);
+        } else {
+            txtSeed.setVisibility(View.GONE);
+        }
+    }
+
+    void finAnimation() {
+        animationEnCours = false;
+        actualiserJeu();
+    }
+
+    boolean estAnimationEnCours() {
+        return animationEnCours;
+    }
+
     private void verifierFinPartie() {
         if (controle.estFinie()) {
             txtSeed.setVisibility(View.VISIBLE);
@@ -121,5 +165,18 @@ public class ActiviteJeu extends Activity {
         } else {
             txtSeed.setVisibility(View.GONE);
         }
+    }
+
+    private Case[][] convertirEnCases(TypeElement[][] types) {
+        int taille = types.length;
+        Case[][] cases = new Case[taille][taille];
+
+        for (int i = 0; i < taille; i++) {
+            for (int j = 0; j < taille; j++) {
+                cases[i][j] = new Case(types[i][j]);
+            }
+        }
+
+        return cases;
     }
 }

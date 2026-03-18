@@ -3,6 +3,8 @@ package fr.sae.chuzzle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.List;
+
 public class EcouteurCase implements View.OnTouchListener {
 
     private final ControleJeu controle;
@@ -34,12 +36,16 @@ public class EcouteurCase implements View.OnTouchListener {
                 float deltaX = event.getX() - departX;
                 float deltaY = event.getY() - departY;
 
+                if (activite.estAnimationEnCours()) {
+                    return true;
+                }
+
                 if (Math.abs(deltaX) < distanceMin && Math.abs(deltaY) < distanceMin) {
                     return true;
                 }
 
-                controle.jouerGlissement(ligne, colonne, deltaX, deltaY);
-                activite.actualiserJeu();
+                List<EtatJeu> etapes = controle.jouerGlissement(ligne, colonne, deltaX, deltaY);
+                activite.lancerAnimation(etapes);
                 return true;
 
             case MotionEvent.ACTION_CANCEL:

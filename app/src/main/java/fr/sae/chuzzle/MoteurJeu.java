@@ -1,5 +1,6 @@
 package fr.sae.chuzzle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoteurJeu {
@@ -31,8 +32,14 @@ public class MoteurJeu {
     }
 
     public void jouerCoup(boolean estLigne, int index, int decalage) {
+        jouerCoupAnime(estLigne, index, decalage);
+    }
+
+    public List<EtatJeu> jouerCoupAnime(boolean estLigne, int index, int decalage) {
+        ArrayList<EtatJeu> etapes = new ArrayList<>();
+
         if (finie) {
-            return;
+            return etapes;
         }
 
         Case[] sauv;
@@ -44,7 +51,7 @@ public class MoteurJeu {
         }
 
         if (sauv == null) {
-            return;
+            return etapes;
         }
 
         List<Serie> series = grille.detecterSeries();
@@ -62,9 +69,10 @@ public class MoteurJeu {
                 }
             }
 
-            return;
+            return etapes;
         }
 
+        etapes.add(capturerEtat());
         this.nbCoup++;
         int niveau = 0;
 
@@ -72,8 +80,11 @@ public class MoteurJeu {
             int points = scoreManager.calculerScore(series, niveau);
             score = score + points;
             grille.supprimerSeries(series);
+            etapes.add(capturerEtat());
             grille.appliquerGravite();
+            etapes.add(capturerEtat());
             grille.remplir();
+            etapes.add(capturerEtat());
             niveau++;
             series = grille.detecterSeries();
         }
@@ -81,6 +92,8 @@ public class MoteurJeu {
         verrouManager.ajouterVerrouSiNecessaire(grille, nbCoup);
 
         mettreAJourFinPartie();
+        etapes.add(capturerEtat());
+        return etapes;
     }
 
     public void setSeed(long seed) {
@@ -117,5 +130,9 @@ public class MoteurJeu {
 
     void mettreAJourFinPartie() {
         this.finie = !grille.existeCoupPossible();
+    }
+
+    private EtatJeu capturerEtat() {
+        return new EtatJeu(grille.getCases(), score, nbCoup, finie);
     }
 }
