@@ -2,7 +2,6 @@ package fr.sae.chuzzle;
 
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MoteurJeu {
@@ -35,16 +34,11 @@ public class MoteurJeu {
     }
 
     public void jouerCoup(boolean estLigne, int index, int decalage) {
-        jouerCoupAnime(estLigne, index, decalage);
-    }
-
-    public List<EtatJeu> jouerCoupAnime(boolean estLigne, int index, int decalage) {
-        ArrayList<EtatJeu> etapes = new ArrayList<>();
-        Log.d(TAG, "jouerCoupAnime estLigne=" + estLigne + " index=" + index + " decalage=" + decalage);
+        Log.d(TAG, "jouerCoup estLigne=" + estLigne + " index=" + index + " decalage=" + decalage);
 
         if (finie) {
             Log.d(TAG, "Coup ignore car partie finie");
-            return etapes;
+            return;
         }
         Case[] sauv;
 
@@ -56,7 +50,7 @@ public class MoteurJeu {
 
         if (sauv == null) {
             Log.d(TAG, "Coup refuse: ligne/colonne verrouillee ou glissement impossible");
-            return etapes;
+            return;
         }
 
         List<Serie> series = grille.detecterSeries();
@@ -76,10 +70,9 @@ public class MoteurJeu {
             }
 
             Log.d(TAG, "Coup annule car aucune serie creee");
-            return etapes;
+            return;
         }
 
-        etapes.add(capturerEtat());
         this.nbCoup++;
         int niveau = 0;
 
@@ -88,11 +81,8 @@ public class MoteurJeu {
             int points = scoreManager.calculerScore(series, niveau);
             score = score + points;
             grille.supprimerSeries(series);
-            etapes.add(capturerEtat());
             grille.appliquerGravite();
-            etapes.add(capturerEtat());
             grille.remplir();
-            etapes.add(capturerEtat());
             niveau++;
             series = grille.detecterSeries();
         }
@@ -100,10 +90,8 @@ public class MoteurJeu {
         verrouManager.ajouterVerrouSiNecessaire(grille, nbCoup);
 
         mettreAJourFinPartie();
-        etapes.add(capturerEtat());
         Log.d(TAG, "Fin du coup score=" + score + " nbCoups=" + nbCoup
-                + " finie=" + finie + " etapes=" + etapes.size());
-        return etapes;
+                + " finie=" + finie);
     }
 
     public void setSeed(long seed) {
@@ -140,9 +128,5 @@ public class MoteurJeu {
 
     void mettreAJourFinPartie() {
         this.finie = !grille.existeCoupPossible();
-    }
-
-    private EtatJeu capturerEtat() {
-        return new EtatJeu(grille.getCases(), score, nbCoup, finie);
     }
 }

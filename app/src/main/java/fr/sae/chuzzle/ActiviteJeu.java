@@ -1,9 +1,7 @@
 package fr.sae.chuzzle;
 
 import android.app.Activity;
-import android.os.Handler;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -11,15 +9,12 @@ import android.view.ViewConfiguration;
 import android.widget.GridLayout;
 import android.widget.TextView;
 
-import java.util.List;
-
 public class ActiviteJeu extends Activity {
     private static final String TAG = "ActiviteJeu";
 
     public static final String EXTRA_SEED = "fr.sae.chuzzle.SEED";
 
     private ControleJeu controle;
-    private GridLayout grilleJeu;
     private VueCase[][] vuesCases;
     private AfficheurElement afficheur;
     private TextView txtScore;
@@ -27,8 +22,6 @@ public class ActiviteJeu extends Activity {
     private TextView txtSeed;
     private long seed;
     private int distanceMin;
-    private Handler handler;
-    private boolean animationEnCours;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,8 +35,6 @@ public class ActiviteJeu extends Activity {
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
-        handler = new Handler(Looper.getMainLooper());
-        animationEnCours = false;
         Log.d(TAG, "onCreate seed=" + seed + " distanceMin=" + distanceMin);
 
         initialiserGrille();
@@ -58,7 +49,7 @@ public class ActiviteJeu extends Activity {
     }
 
     private void initialiserGrille() {
-        grilleJeu = findViewById(R.id.grilleJeu);
+        GridLayout grilleJeu = findViewById(R.id.grilleJeu);
         int taille = MoteurJeu.TAILLE_GRILLE;
         int tailleCase = calculerTailleCase();
         int margeCase = getResources().getDimensionPixelSize(R.dimen.marge_case_grille);
@@ -116,8 +107,6 @@ public class ActiviteJeu extends Activity {
 
         for(int i=0;i<taille;i++){
             for(int j=0;j<taille;j++){
-                vuesCases[i][j].setTranslationX(0f);
-                vuesCases[i][j].setTranslationY(0f);
                 TypeElement type = cases[i][j].getType();
                 vuesCases[i][j].setDrawable(
                         afficheur.getDrawable(type)
@@ -135,91 +124,6 @@ public class ActiviteJeu extends Activity {
         verifierFinPartie();
     }
 
-    public void lancerAnimation(List<EtatJeu> etapes, boolean estLigne, int index, int decalage) {
-        if (etapes.isEmpty()) {
-            Log.d(TAG, "Aucune serie: animation aller-retour");
-            animationEnCours = true;
-            handler.removeCallbacksAndMessages(null);
-            animerGlissement(estLigne, index, decalage);
-            handler.postDelayed(
-                    new AnimationJeu(this, handler, estLigne, index),
-                    AnimationJeu.DUREE_GLISSEMENT
-            );
-            return;
-        }
-
-        animationEnCours = true;
-        Log.d(TAG, "Animation lancee avec " + etapes.size() + " etapes");
-        handler.removeCallbacksAndMessages(null);
-        animerGlissement(estLigne, index, decalage);
-        handler.postDelayed(
-                new AnimationJeu(this, handler, etapes),
-                AnimationJeu.DUREE_GLISSEMENT
-        );
-    }
-
-    void afficherEtat(EtatJeu etat) {
-        Log.d(TAG, "afficherEtat score=" + etat.getScore()
-                + " coups=" + etat.getNbCoups()
-                + " finie=" + etat.estFinie());
-        txtScore.setText("Score : " + etat.getScore());
-        txtCoups.setText("Coups : " + etat.getNbCoups());
-        afficherGrille(convertirEnCases(etat.getTypes()));
-
-        if (etat.estFinie()) {
-            txtSeed.setVisibility(View.VISIBLE);
-            txtSeed.setText("Seed : " + seed);
-        } else {
-            txtSeed.setVisibility(View.GONE);
-        }
-    }
-
-    public void finAnimation() {
-        animationEnCours = false;
-        Log.d(TAG, "Animation terminee");
-        actualiserJeu();
-    }
-
-    void animerGlissement(boolean estLigne, int index, int decalage) {
-        float translation;
-
-        if (decalage == 0) {
-            return;
-        }
-
-        translation = calculerDistanceGlissement(estLigne, Math.abs(decalage));
-
-        if (estLigne) {
-            if (decalage < 0) {
-                translation = Math.abs(translation);
-            } else {
-                translation = -Math.abs(translation);
-            }
-            animerLigne(index, translation);
-            return;
-        }
-
-        if (decalage > 0) {
-            translation = Math.abs(translation);
-        } else {
-            translation = -Math.abs(translation);
-        }
-        animerColonne(index, translation);
-    }
-
-    void animerRetourGlissement(boolean estLigne, int index) {
-        if (estLigne) {
-            animerLigne(index, 0f);
-            return;
-        }
-
-        animerColonne(index, 0f);
-    }
-
-    boolean estAnimationEnCours() {
-        return animationEnCours;
-    }
-
     private void verifierFinPartie() {
         if (controle.estFinie()) {
             txtSeed.setVisibility(View.VISIBLE);
@@ -227,62 +131,5 @@ public class ActiviteJeu extends Activity {
         } else {
             txtSeed.setVisibility(View.GONE);
         }
-    }
-
-    private Case[][] convertirEnCases(TypeElement[][] types) {
-        int taille = types.length;
-        Case[][] cases = new Case[taille][taille];
-
-        for (int i = 0; i < taille; i++) {
-            for (int j = 0; j < taille; j++) {
-                cases[i][j] = new Case(types[i][j]);
-            }
-        }
-        return cases;
-    }
-
-    private float calculerDistanceGlissement(boolean estLigne, int nbCases) {
-        VueCase vue = vuesCases[0][0];
-        GridLayout.LayoutParams params = (GridLayout.LayoutParams) vue.getLayoutParams();
-        int tailleCase;
-        int marge;
-
-        if (estLigne) {
-            tailleCase = vue.getWidth();
-            marge = params.leftMargin + params.rightMargin;
-        } else {
-            tailleCase = vue.getHeight();
-            marge = params.topMargin + params.bottomMargin;
-        }
-
-        return (tailleCase + marge) * nbCases;
-    }
-
-    private void animerLigne(int ligne, float translationX) {
-        int taille = MoteurJeu.TAILLE_GRILLE;
-
-        for (int colonne = 0; colonne < taille; colonne++) {
-            vuesCases[ligne][colonne].bringToFront();
-            vuesCases[ligne][colonne].animate()
-                    .translationX(translationX)
-                    .setDuration(AnimationJeu.DUREE_GLISSEMENT)
-                    .start();
-        }
-
-        grilleJeu.invalidate();
-    }
-
-    private void animerColonne(int colonne, float translationY) {
-        int taille = MoteurJeu.TAILLE_GRILLE;
-
-        for (int ligne = 0; ligne < taille; ligne++) {
-            vuesCases[ligne][colonne].bringToFront();
-            vuesCases[ligne][colonne].animate()
-                    .translationY(translationY)
-                    .setDuration(AnimationJeu.DUREE_GLISSEMENT)
-                    .start();
-        }
-
-        grilleJeu.invalidate();
     }
 }

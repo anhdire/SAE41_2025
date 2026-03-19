@@ -4,8 +4,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import java.util.List;
-
 public class EcouteurCase implements View.OnTouchListener {
 
     private static final String TAG = "EcouteurCase";
@@ -43,17 +41,12 @@ public class EcouteurCase implements View.OnTouchListener {
                 Log.d(TAG, "ACTION_UP ligne=" + ligne + " colonne=" + colonne
                         + " deltaX=" + deltaX + " deltaY=" + deltaY);
 
-                if (activite.estAnimationEnCours()) {
-                    Log.d(TAG, "Geste ignore car animation en cours");
-                    return true;
-                }
-
                 if (Math.abs(deltaX) < distanceMin && Math.abs(deltaY) < distanceMin) {
                     Log.d(TAG, "Geste trop petit ignore. seuil=" + distanceMin);
                     return true;
                 }
 
-                List<EtatJeu> etapes = controle.jouerGlissement(
+                controle.jouerGlissement(
                         ligne,
                         colonne,
                         deltaX,
@@ -61,13 +54,7 @@ public class EcouteurCase implements View.OnTouchListener {
                         view.getWidth(),
                         view.getHeight()
                 );
-                Log.d(TAG, "Nombre d'etapes recues=" + etapes.size());
-                activite.lancerAnimation(
-                        etapes,
-                        controle.getDernierEstLigne(),
-                        controle.getDernierIndex(),
-                        controle.getDernierDecalage()
-                );
+                activite.actualiserJeu();
                 return true;
 
             case MotionEvent.ACTION_CANCEL:
