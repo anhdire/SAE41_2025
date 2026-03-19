@@ -27,6 +27,8 @@ public class ActiviteGraine extends Activity {
 
     public void demarrerPartieDestinee(long seed) {
         Intent intent = new Intent(this, ActiviteJeu.class);
+
+        MoteurJeu.effacerSauvegarde(this);
         intent.putExtra(ActiviteJeu.EXTRA_SEED, seed);
         startActivity(intent);
     }

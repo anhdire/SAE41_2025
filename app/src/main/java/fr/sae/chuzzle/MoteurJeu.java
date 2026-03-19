@@ -1,5 +1,7 @@
 package fr.sae.chuzzle;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.List;
@@ -7,6 +9,14 @@ import java.util.List;
 public class MoteurJeu {
     private static final String TAG = "MoteurJeu";
     public static final int TAILLE_GRILLE = 6;
+    private static final String NOM_SAUVEGARDE = "sauvegarde_partie";
+    private static final String CLE_ACTIVE = "partie_active";
+    private static final String CLE_GRILLE = "grille";
+    private static final String CLE_SCORE = "score";
+    private static final String CLE_NB_COUPS = "nb_coups";
+    private static final String CLE_FINIE = "finie";
+    private static final String CLE_SEED = "seed";
+    private static final String CLE_MODE_DUR = "mode_dur";
 
     private Grille grille;
     private GestionScore scoreManager;
@@ -146,8 +156,72 @@ public class MoteurJeu {
         return this.seed;
     }
 
+    public boolean isModeDur() {
+        return modeDur;
+    }
+
+    public void sauvegarder(Context contexte) {
+        SharedPreferences preferences = getPreferencesSauvegarde(contexte);
+
+        preferences.edit()
+                .putBoolean(CLE_ACTIVE, true)
+                .putString(CLE_GRILLE, grille.versTexte())
+                .putInt(CLE_SCORE, score)
+                .putInt(CLE_NB_COUPS, nbCoup)
+                .putBoolean(CLE_FINIE, finie)
+                .putLong(CLE_SEED, seed)
+                .putBoolean(CLE_MODE_DUR, modeDur)
+                .apply();
+    }
+
+    public boolean restaurer(Context contexte) {
+        SharedPreferences preferences = getPreferencesSauvegarde(contexte);
+        String texteGrille = preferences.getString(CLE_GRILLE, "");
+
+        if (!preferences.getBoolean(CLE_ACTIVE, false) || texteGrille == null || texteGrille.isEmpty()) {
+            return false;
+        }
+
+        try {
+            seed = preferences.getLong(CLE_SEED, seed);
+            modeDur = preferences.getBoolean(CLE_MODE_DUR, modeDur);
+            generateur = new Generateur(seed);
+            grille = new Grille(TAILLE_GRILLE, seed);
+            scoreManager = new GestionScore();
+            verrouManager = new GestionVerrou(seed, modeDur);
+            score = preferences.getInt(CLE_SCORE, 0);
+            nbCoup = preferences.getInt(CLE_NB_COUPS, 0);
+            finie = preferences.getBoolean(CLE_FINIE, false);
+            grille.chargerDepuisTexte(texteGrille);
+            return true;
+        } catch (IllegalArgumentException e) {
+            effacerSauvegarde(contexte);
+            return false;
+        }
+    }
+
+    public static boolean aUneSauvegarde(Context contexte) {
+        SharedPreferences preferences = getPreferencesSauvegarde(contexte);
+        String texteGrille = preferences.getString(CLE_GRILLE, "");
+
+        return preferences.getBoolean(CLE_ACTIVE, false)
+                && texteGrille != null
+                && !texteGrille.isEmpty();
+    }
+
+    public static void effacerSauvegarde(Context contexte) {
+        getPreferencesSauvegarde(contexte)
+                .edit()
+                .clear()
+                .apply();
+    }
+
     void mettreAJourFinPartie() {
         this.finie = !grille.existeCoupPossible();
+    }
+
+    private static SharedPreferences getPreferencesSauvegarde(Context contexte) {
+        return contexte.getSharedPreferences(NOM_SAUVEGARDE, Context.MODE_PRIVATE);
     }
 
     private boolean positionValide(int ligne, int colonne) {

@@ -1,5 +1,6 @@
 package fr.sae.chuzzle;
 
+import android.content.Context;
 import android.util.Log;
 
 public class ControleJeu {
@@ -88,5 +89,21 @@ public class ControleJeu {
 
     public boolean estFinie() {
         return moteur.estFinie();
+    }
+
+    public void sauvegarder(Context contexte) {
+        moteur.sauvegarder(contexte);
+    }
+
+    public boolean restaurer(Context contexte) {
+        return moteur.restaurer(contexte);
+    }
+
+    public long getSeed() {
+        return moteur.getSeed();
+    }
+
+    public boolean isModeDur() {
+        return moteur.isModeDur();
     }
 }

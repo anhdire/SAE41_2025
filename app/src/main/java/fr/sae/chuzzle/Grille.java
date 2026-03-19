@@ -221,6 +221,53 @@ public class Grille {
         return this.cases;
     }
 
+    public String versTexte() {
+        StringBuilder texte = new StringBuilder();
+
+        for (int ligne = 0; ligne < cases.length; ligne++) {
+            if (ligne > 0) {
+                texte.append(";");
+            }
+
+            for (int colonne = 0; colonne < cases[ligne].length; colonne++) {
+                if (colonne > 0) {
+                    texte.append(",");
+                }
+
+                texte.append(cases[ligne][colonne].getType().name())
+                        .append(":")
+                        .append(cases[ligne][colonne].isVerrouille() ? "1" : "0");
+            }
+        }
+
+        return texte.toString();
+    }
+
+    public void chargerDepuisTexte(String texte) {
+        String[] lignes;
+
+        if (texte == null || texte.trim().isEmpty()) {
+            throw new IllegalArgumentException("Grille vide");
+        }
+
+        lignes = texte.split(";");
+        if (lignes.length != cases.length) {
+            throw new IllegalArgumentException("Nombre de lignes invalide");
+        }
+
+        for (int ligne = 0; ligne < lignes.length; ligne++) {
+            String[] colonnes = lignes[ligne].split(",");
+
+            if (colonnes.length != cases[ligne].length) {
+                throw new IllegalArgumentException("Nombre de colonnes invalide");
+            }
+
+            for (int colonne = 0; colonne < colonnes.length; colonne++) {
+                chargerCaseDepuisTexte(colonnes[colonne], ligne, colonne);
+            }
+        }
+    }
+
     private boolean existeSerieApresGlissementLigne(int index) {
         for (int decalage = 1; decalage < cases.length; decalage++) {
             Case[][] copie = copierCases(cases);
@@ -311,5 +358,24 @@ public class Grille {
 
     private int normaliserDecalage(int decalage, int taille) {
         return ((decalage % taille) + taille) % taille;
+    }
+
+    private void chargerCaseDepuisTexte(String texteCase, int ligne, int colonne) {
+        String[] morceaux = texteCase.split(":");
+        TypeElement type;
+
+        if (morceaux.length != 2) {
+            throw new IllegalArgumentException("Case invalide");
+        }
+
+        type = TypeElement.valueOf(morceaux[0]);
+        cases[ligne][colonne].setType(type);
+
+        if ("1".equals(morceaux[1])) {
+            cases[ligne][colonne].verrouiller();
+            return;
+        }
+
+        cases[ligne][colonne].deverrouiller();
     }
 }

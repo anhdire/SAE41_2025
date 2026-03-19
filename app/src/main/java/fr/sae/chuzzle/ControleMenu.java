@@ -12,6 +12,8 @@ public class ControleMenu {
     public void demarrerPartieNormale() {
         long seed = System.currentTimeMillis();
         Intent intent = new Intent(activite, ActiviteJeu.class);
+
+        MoteurJeu.effacerSauvegarde(activite);
         intent.putExtra(ActiviteJeu.EXTRA_SEED, seed);
         activite.startActivity(intent);
     }

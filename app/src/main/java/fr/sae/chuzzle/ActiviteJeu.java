@@ -31,6 +31,12 @@ public class ActiviteJeu extends Activity {
         seed = recupererSeed();
         modeDur = new ControleOptions(this).isHardMode();
         controle = new ControleJeu(seed, modeDur);
+
+        if (MoteurJeu.aUneSauvegarde(this) && controle.restaurer(this)) {
+            seed = controle.getSeed();
+            modeDur = controle.isModeDur();
+        }
+
         afficheur = new AfficheurNormal();
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
@@ -41,6 +47,12 @@ public class ActiviteJeu extends Activity {
 
         initialiserGrille();
         actualiserJeu();
+    }
+
+    @Override
+    protected void onPause() {
+        controle.sauvegarder(this);
+        super.onPause();
     }
 
     private long recupererSeed() {
