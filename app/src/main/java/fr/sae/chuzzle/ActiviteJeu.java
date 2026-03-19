@@ -111,6 +111,7 @@ public class ActiviteJeu extends Activity {
                 vuesCases[i][j].setDrawable(
                         afficheur.getDrawable(type)
                 );
+                vuesCases[i][j].setVerrouillee(cases[i][j].isVerrouille());
             }
         }
     }

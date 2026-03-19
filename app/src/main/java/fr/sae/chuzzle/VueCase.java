@@ -15,22 +15,28 @@ import android.view.View;
 public class VueCase extends View {
 
     private Drawable drawable;
+    private final Drawable imageCadenas;
     private final Paint fondCase;
     private final Paint contourCase;
     private final Paint ombreCase;
     private final Paint tuile;
     private final Paint contourTuile;
     private final Paint refletTuile;
+    private final Paint voileVerrou;
     private final RectF zone = new RectF();
+    private boolean verrouillee;
 
     public VueCase(Context context) {
         super(context);
+        imageCadenas = context.getDrawable(R.drawable.padlock);
         fondCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         contourCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         ombreCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         tuile = new Paint(Paint.ANTI_ALIAS_FLAG);
         contourTuile = new Paint(Paint.ANTI_ALIAS_FLAG);
         refletTuile = new Paint(Paint.ANTI_ALIAS_FLAG);
+        voileVerrou = new Paint(Paint.ANTI_ALIAS_FLAG);
+        verrouillee = false;
 
         fondCase.setColor(Color.parseColor("#6626354D"));
         contourCase.setStyle(Paint.Style.STROKE);
@@ -44,10 +50,17 @@ public class VueCase extends View {
 
         refletTuile.setStyle(Paint.Style.STROKE);
         refletTuile.setStrokeWidth(dp(1.1f));
+
+        voileVerrou.setColor(Color.parseColor("#66000000"));
     }
 
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
+        invalidate();
+    }
+
+    public void setVerrouillee(boolean verrouillee) {
+        this.verrouillee = verrouillee;
         invalidate();
     }
 
@@ -105,6 +118,10 @@ public class VueCase extends View {
         );
         canvas.drawRoundRect(zoneReflet, dp(10), dp(10), refletTuile);
         tuile.setShader(null);
+
+        if (verrouillee) {
+            dessinerVerrou(canvas, zoneTuile, rayonTuile);
+        }
     }
 
     private int recupererCouleur() {
@@ -143,5 +160,23 @@ public class VueCase extends View {
 
     private int melanger(int depart, int arrivee, float ratio) {
         return (int) (depart + ((arrivee - depart) * ratio));
+    }
+
+    private void dessinerVerrou(Canvas canvas, RectF zoneTuile, float rayonTuile) {
+        int tailleImage;
+        int gauche;
+        int haut;
+
+        canvas.drawRoundRect(zoneTuile, rayonTuile, rayonTuile, voileVerrou);
+
+        if (imageCadenas == null) {
+            return;
+        }
+
+        tailleImage = (int) Math.min(zoneTuile.width(), zoneTuile.height()) / 2;
+        gauche = (int) (zoneTuile.centerX() - (tailleImage / 2f));
+        haut = (int) (zoneTuile.centerY() - (tailleImage / 2f));
+        imageCadenas.setBounds(gauche, haut, gauche + tailleImage, haut + tailleImage);
+        imageCadenas.draw(canvas);
     }
 }
