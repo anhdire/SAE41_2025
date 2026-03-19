@@ -6,6 +6,10 @@
     <string name="menu_partie_destinee">Partie destinee</string>
     <string name="menu_seed">Graine de generation</string>
     <string name="menu_hardmode">Mode difficile</string>
+    <string name="parametres">Parametres</string>
+    <string name="mode_dur_active">Le mode difficile est active.</string>
+    <string name="mode_dur_inactif">Le mode difficile est desactive.</string>
+    <string name="options_titre">Options</string>
     <string name="jeu_score">Score : %1$d</string>
     <string name="jeu_coups">Coups : %1$d</string>
     <string name="jeu_seed">Seed : %1$d</string>

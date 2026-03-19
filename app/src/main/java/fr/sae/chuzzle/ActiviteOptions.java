@@ -1,27 +1,57 @@
 package fr.sae.chuzzle;
 
-import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Switch;
+import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
+import android.preference.SwitchPreference;
+import android.view.MenuItem;
 
-public class ActiviteOptions extends Activity {
-    private Switch switchHardMode;
+public class ActiviteOptions extends PreferenceActivity {
+    private SharedPreferences preferences;
+    private ObservateurPreferences observateur;
     private ControleOptions controle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
-
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        addPreferencesFromResource(R.xml.preferences);
         controle = new ControleOptions(this);
+        preferences = getPreferenceScreen().getSharedPreferences();
+        observateur = new ObservateurPreferences(this);
+        preferences.registerOnSharedPreferenceChangeListener(observateur);
 
-        switchHardMode = findViewById(R.id.switchHardMode);
+        if (getActionBar() != null) {
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setTitle(R.string.parametres);
+        }
 
-        switchHardMode.setChecked(controle.isHardMode());
+        actualiserResumeModeDur();
+    }
 
-        switchHardMode.setOnCheckedChangeListener(
-                new EcouteurModeDur(controle)
-        );
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void actualiserResumeModeDur() {
+        SwitchPreference preference;
+
+        preference = (SwitchPreference) findPreference(ControleOptions.CLE_MODE_DUR);
+        if (preference == null) {
+            return;
+        }
+
+        if (controle.isHardMode()) {
+            preference.setSummary(getString(R.string.mode_dur_active));
+        } else {
+            preference.setSummary(getString(R.string.mode_dur_inactif));
+        }
     }
 }

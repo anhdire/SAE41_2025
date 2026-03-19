@@ -21,6 +21,11 @@ public class ControleMenu {
         activite.startActivity(intent);
     }
 
+    public void ouvrirParametres() {
+        Intent intent = new Intent(activite, ActiviteOptions.class);
+        activite.startActivity(intent);
+    }
+
     public void quitterJeu() {
         activite.finish();
     }

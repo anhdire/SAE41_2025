@@ -10,7 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Material3.DayNight.NoActionBar"
+        android:theme="@style/Base.Theme.Chuzzle"
         tools:targetApi="31">
 
         <activity
@@ -24,6 +24,7 @@
 
         <activity android:name=".ActiviteJeu" />
         <activity android:name=".ActiviteGraine" />
+        <activity android:name=".ActiviteOptions" />
     </application>
 
 </manifest>

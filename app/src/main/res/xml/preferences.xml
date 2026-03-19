@@ -2,8 +2,13 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="preference_group">
+        android:key="preference_group"
+        android:title="@string/parametres">
 
+        <SwitchPreference
+            android:key="mode_dur"
+            android:title="@string/menu_hardmode"
+            android:defaultValue="false" />
     </PreferenceCategory>
 
 </PreferenceScreen>
