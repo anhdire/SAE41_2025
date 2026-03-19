@@ -17,7 +17,6 @@ public class ActiviteJeu extends Activity {
     private TextView txtScore;
     private TextView txtCoups;
     private TextView txtSeed;
-    private TextView txtMessageFin;
     private View overlayFin;
     private TextView txtOverlayFinSeed;
     private long seed;
@@ -36,7 +35,6 @@ public class ActiviteJeu extends Activity {
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
-        txtMessageFin = findViewById(R.id.txtMessageFin);
         overlayFin = findViewById(R.id.overlayFin);
         txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
@@ -128,12 +126,9 @@ public class ActiviteJeu extends Activity {
 
     private void verifierFinPartie() {
         if (controle.estFinie()) {
-            txtMessageFin.setVisibility(View.VISIBLE);
-            txtMessageFin.setText(getString(R.string.jeu_fin_partie, seed));
             overlayFin.setVisibility(View.VISIBLE);
             txtOverlayFinSeed.setText(getString(R.string.jeu_fin_partie, seed));
         } else {
-            txtMessageFin.setVisibility(View.GONE);
             overlayFin.setVisibility(View.GONE);
         }
     }
