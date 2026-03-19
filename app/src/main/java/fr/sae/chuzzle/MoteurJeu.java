@@ -15,15 +15,17 @@ public class MoteurJeu {
     private int score;
     private int nbCoup;
     private boolean finie;
+    private boolean modeDur;
     long seed;
 
-    public MoteurJeu(long seed) {
+    public MoteurJeu(long seed, boolean modeDur) {
         this.seed = seed;
+        this.modeDur = modeDur;
 
         this.generateur = new Generateur(seed);
         this.grille = new Grille(TAILLE_GRILLE, seed);
         this.scoreManager = new GestionScore();
-        this.verrouManager = new GestionVerrou(seed);
+        this.verrouManager = new GestionVerrou(seed, modeDur);
         this.score = 0;
         this.nbCoup = 0;
         this.finie = false;
@@ -116,7 +118,7 @@ public class MoteurJeu {
         this.seed = seed;
         this.generateur = new Generateur(seed);
         this.grille = new Grille(6, seed);
-        this.verrouManager = new GestionVerrou(seed);
+        this.verrouManager = new GestionVerrou(seed, modeDur);
         this.score = 0;
         this.nbCoup = 0;
         this.finie = false;

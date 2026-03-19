@@ -5,24 +5,43 @@ import java.util.List;
 
 public class GestionVerrou {
 
-    private static final int CHANCE_MIN = 15;
-    private static final int CHANCE_MAX = 60;
-    private static final int AUGMENTATION_PAR_COUP = 3;
+    private static final int CHANCE_MIN_NORMALE = 10;
+    private static final int CHANCE_MAX_NORMALE = 60;
+    private static final int AUGMENTATION_NORMALE = 2;
+    private static final int CHANCE_MIN_DURE = 20;
+    private static final int CHANCE_MAX_DURE = 80;
+    private static final int AUGMENTATION_DURE = 4;
 
     private final Generateur generateur;
+    private final boolean modeDur;
 
-    public GestionVerrou(long seed) {
+    public GestionVerrou(long seed, boolean modeDur) {
         this.generateur = new Generateur(seed + 1);
+        this.modeDur = modeDur;
     }
 
     public void ajouterVerrouSiNecessaire(Grille grille, int nbCoups) {
+        int chanceMin;
+        int chanceMax;
+        int augmentation;
+
         if (grille == null || nbCoups <= 0) {
             return;
         }
 
-        /* Pour chaque coup joué, on augmente la chance d'ajouter un verrou de Augmentation_Par_Coup% (jusqu'à un max de CHANCE_MAX%) */
-        int chance = CHANCE_MIN + ((nbCoups - 1) * AUGMENTATION_PAR_COUP);
-        chance = Math.max(CHANCE_MIN, Math.min(CHANCE_MAX, chance));
+        if (modeDur) {
+            chanceMin = CHANCE_MIN_DURE;
+            chanceMax = CHANCE_MAX_DURE;
+            augmentation = AUGMENTATION_DURE;
+        } else {
+            chanceMin = CHANCE_MIN_NORMALE;
+            chanceMax = CHANCE_MAX_NORMALE;
+            augmentation = AUGMENTATION_NORMALE;
+        }
+
+        /* Pour chaque coup joué, on augmente la chance d'ajouter un verrou. */
+        int chance = chanceMin + ((nbCoups - 1) * augmentation);
+        chance = Math.max(chanceMin, Math.min(chanceMax, chance));
         
         if (generateur.entierAleatoire(100) >= chance) {
             return;

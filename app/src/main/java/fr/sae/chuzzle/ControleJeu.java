@@ -6,8 +6,8 @@ public class ControleJeu {
     private static final String TAG = "ControleJeu";
     private final MoteurJeu moteur;
 
-    public ControleJeu(long seed) {
-        moteur = new MoteurJeu(seed);
+    public ControleJeu(long seed, boolean modeDur) {
+        moteur = new MoteurJeu(seed, modeDur);
     }
 
     public void jouerGlissement(int ligne, int colonne, float deltaX, float deltaY,

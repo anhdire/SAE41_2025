@@ -19,6 +19,7 @@ public class ActiviteJeu extends Activity {
     private TextView txtSeed;
     private TextView txtMessageFin;
     private long seed;
+    private boolean modeDur;
     private int distanceMin;
 
     @Override
@@ -27,7 +28,8 @@ public class ActiviteJeu extends Activity {
         setContentView(R.layout.activity_jeu);
 
         seed = recupererSeed();
-        controle = new ControleJeu(seed);
+        modeDur = new ControleOptions(this).isHardMode();
+        controle = new ControleJeu(seed, modeDur);
         afficheur = new AfficheurNormal();
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
