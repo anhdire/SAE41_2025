@@ -53,9 +53,21 @@ public class EcouteurCase implements View.OnTouchListener {
                     return true;
                 }
 
-                List<EtatJeu> etapes = controle.jouerGlissement(ligne, colonne, deltaX, deltaY);
+                List<EtatJeu> etapes = controle.jouerGlissement(
+                        ligne,
+                        colonne,
+                        deltaX,
+                        deltaY,
+                        view.getWidth(),
+                        view.getHeight()
+                );
                 Log.d(TAG, "Nombre d'etapes recues=" + etapes.size());
-                activite.lancerAnimation(etapes);
+                activite.lancerAnimation(
+                        etapes,
+                        controle.getDernierEstLigne(),
+                        controle.getDernierIndex(),
+                        controle.getDernierDecalage()
+                );
                 return true;
 
             case MotionEvent.ACTION_CANCEL:
