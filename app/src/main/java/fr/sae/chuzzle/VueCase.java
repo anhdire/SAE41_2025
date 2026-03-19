@@ -166,20 +166,25 @@ public class VueCase extends View {
     }
 
     private void dessinerVerrou(Canvas canvas, RectF zoneTuile, float rayonTuile) {
-        int tailleImage;
-        int gauche;
-        int haut;
-
         canvas.drawRoundRect(zoneTuile, rayonTuile, rayonTuile, voileVerrou);
 
         if (imageCadenas == null) {
             return;
         }
 
-        tailleImage = (int) (Math.min(zoneTuile.width(), zoneTuile.height()) / 2f);
-        gauche = (int) (zoneTuile.centerX() - (tailleImage / 2f));
-        haut = (int) (zoneTuile.centerY() - (tailleImage / 2f));
-        imageCadenas.setBounds(gauche, haut, gauche + tailleImage, haut + tailleImage);
+        float scale = 1.4f;
+        float taille = Math.min(zoneTuile.width(), zoneTuile.height()) * scale;
+
+        int gauche = (int) (zoneTuile.centerX() - taille / 2);
+        int haut = (int) (zoneTuile.centerY() - taille / 2);
+
+        imageCadenas.setBounds(
+                gauche,
+                haut,
+                (int) (gauche + taille),
+                (int) (haut + taille)
+        );
+
         imageCadenas.draw(canvas);
     }
 
@@ -188,6 +193,7 @@ public class VueCase extends View {
             return;
         }
 
-        imageCadenasPartagee = context.getDrawable(R.drawable.padlock);
+        imageCadenasPartagee = context.getDrawable(R.drawable.lock);
     }
 }
+
