@@ -1,12 +1,8 @@
 package fr.sae.chuzzle;
 
-import android.util.Log;
-
 import java.util.List;
 
 public class MoteurJeu {
-    private static final String TAG = "MoteurJeu";
-
     public static final int TAILLE_GRILLE = 6;
 
     private Grille grille;
@@ -34,10 +30,7 @@ public class MoteurJeu {
     }
 
     public void jouerCoup(boolean estLigne, int index, int decalage) {
-        Log.d(TAG, "jouerCoup estLigne=" + estLigne + " index=" + index + " decalage=" + decalage);
-
         if (finie) {
-            Log.d(TAG, "Coup ignore car partie finie");
             return;
         }
         Case[] sauv;
@@ -49,12 +42,10 @@ public class MoteurJeu {
         }
 
         if (sauv == null) {
-            Log.d(TAG, "Coup refuse: ligne/colonne verrouillee ou glissement impossible");
             return;
         }
 
         List<Serie> series = grille.detecterSeries();
-        Log.d(TAG, "Series detectees apres glissement=" + series.size());
 
         if (series.isEmpty()) {
             Case[][] cases = grille.getCases();
@@ -69,7 +60,6 @@ public class MoteurJeu {
                 }
             }
 
-            Log.d(TAG, "Coup annule car aucune serie creee");
             return;
         }
 
@@ -77,7 +67,6 @@ public class MoteurJeu {
         int niveau = 0;
 
         while (!series.isEmpty()) {
-            Log.d(TAG, "Resolution niveau=" + niveau + " nbSeries=" + series.size());
             int points = scoreManager.calculerScore(series, niveau);
             score = score + points;
             grille.supprimerSeries(series);
@@ -90,8 +79,6 @@ public class MoteurJeu {
         verrouManager.ajouterVerrouSiNecessaire(grille, nbCoup);
 
         mettreAJourFinPartie();
-        Log.d(TAG, "Fin du coup score=" + score + " nbCoups=" + nbCoup
-                + " finie=" + finie);
     }
 
     public void setSeed(long seed) {

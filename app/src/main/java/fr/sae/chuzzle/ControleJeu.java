@@ -1,9 +1,6 @@
 package fr.sae.chuzzle;
 
-import android.util.Log;
-
 public class ControleJeu {
-    private static final String TAG = "ControleJeu";
     private final MoteurJeu moteur;
 
     public ControleJeu(long seed) {
@@ -15,20 +12,12 @@ public class ControleJeu {
         if (Math.abs(deltaX) >= Math.abs(deltaY)) {
             int nbCases = calculerNbCases(Math.abs(deltaX), largeurCase);
             int decalage = deltaX > 0 ? -nbCases : nbCases;
-            String direction = deltaX > 0 ? "droite" : "gauche";
-            Log.d(TAG, "Glissement horizontal detecte ligne=" + ligne
-                    + " direction=" + direction + " nbCases=" + nbCases
-                    + " decalage=" + decalage);
             moteur.jouerCoup(true, ligne, decalage);
             return;
         }
 
         int nbCases = calculerNbCases(Math.abs(deltaY), hauteurCase);
         int decalage = deltaY > 0 ? nbCases : -nbCases;
-        String direction = deltaY > 0 ? "bas" : "haut";
-        Log.d(TAG, "Glissement vertical detecte colonne=" + colonne
-                + " direction=" + direction + " nbCases=" + nbCases
-                + " decalage=" + decalage);
         moteur.jouerCoup(false, colonne, decalage);
     }
 

@@ -2,12 +2,9 @@ package fr.sae.chuzzle;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 
 public class ActiviteMenu extends Activity {
-    private static final String TAG = "ActiviteMenu";
-
     private Button btnPlay;
     private Button btnQuit;
     private Button btnPartieDestinee;
@@ -18,7 +15,6 @@ public class ActiviteMenu extends Activity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        Log.d(TAG, "onCreate menu");
 
         // je cree le controlleur car en android c'est la vue qui est creer en premier par l'os
         this.controle = new ControleMenu(this);
