@@ -5,6 +5,7 @@
     <string name="menu_quit">Quitter</string>
     <string name="menu_partie_destinee">Partie destinee</string>
     <string name="menu_seed">Graine de generation</string>
+    <string name="titre_graine">Saisie de la graine</string>
     <string name="menu_hardmode">Mode difficile</string>
     <string name="parametres">Parametres</string>
     <string name="mode_dur_active">Le mode difficile est active.</string>

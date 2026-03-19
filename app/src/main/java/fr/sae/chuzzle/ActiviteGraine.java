@@ -1,27 +1,28 @@
 package fr.sae.chuzzle;
 
 import android.app.Activity;
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toolbar;
 
 public class ActiviteGraine extends Activity {
     private EditText champGraine;
-    private Toolbar barreAction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ActionBar barreAction;
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seed);
 
         champGraine = findViewById(R.id.champ_graine);
         champGraine.setOnEditorActionListener(new EcouteurGraine(this, champGraine));
 
-        barreAction = findViewById(R.id.toolbar);
+        barreAction = getActionBar();
         if (barreAction != null) {
-            setActionBar(barreAction);
+            barreAction.setTitle(R.string.titre_graine);
         }
     }
 
