@@ -17,6 +17,7 @@ public class ActiviteJeu extends Activity {
     private TextView txtScore;
     private TextView txtCoups;
     private TextView txtSeed;
+    private TextView txtMessageFin;
     private long seed;
     private int distanceMin;
 
@@ -31,6 +32,7 @@ public class ActiviteJeu extends Activity {
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
+        txtMessageFin = findViewById(R.id.txtMessageFin);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
 
         initialiserGrille();
@@ -89,8 +91,9 @@ public class ActiviteJeu extends Activity {
     }
 
     private void mettreAJourScoreEtCoups() {
-        txtScore.setText("Score : " + controle.getScore());
-        txtCoups.setText("Coups : " + controle.getNbCoup());
+        txtScore.setText(getString(R.string.jeu_score, controle.getScore()));
+        txtCoups.setText(getString(R.string.jeu_coups, controle.getNbCoup()));
+        txtSeed.setText(getString(R.string.jeu_seed, seed));
     }
 
     private void afficherGrille(){
@@ -119,10 +122,10 @@ public class ActiviteJeu extends Activity {
 
     private void verifierFinPartie() {
         if (controle.estFinie()) {
-            txtSeed.setVisibility(View.VISIBLE);
-            txtSeed.setText("Seed : " + seed);
+            txtMessageFin.setVisibility(View.VISIBLE);
+            txtMessageFin.setText(getString(R.string.jeu_fin_partie, seed));
         } else {
-            txtSeed.setVisibility(View.GONE);
+            txtMessageFin.setVisibility(View.GONE);
         }
     }
 }

@@ -6,4 +6,8 @@
     <string name="menu_partie_destinee">Partie destinee</string>
     <string name="menu_seed">Graine de generation</string>
     <string name="menu_hardmode">Mode difficile</string>
+    <string name="jeu_score">Score : %1$d</string>
+    <string name="jeu_coups">Coups : %1$d</string>
+    <string name="jeu_seed">Seed : %1$d</string>
+    <string name="jeu_fin_partie">Fin de partie - Seed : %1$d</string>
 </resources>
