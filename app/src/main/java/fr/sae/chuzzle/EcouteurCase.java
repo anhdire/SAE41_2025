@@ -1,9 +1,11 @@
 package fr.sae.chuzzle;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 public class EcouteurCase implements View.OnTouchListener {
+    private static final String TAG = "EcouteurCase";
 
     private final ControleJeu controle;
     private final ActiviteJeu activite;
@@ -28,13 +30,19 @@ public class EcouteurCase implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
                 departX = event.getX();
                 departY = event.getY();
+                Log.d(TAG, "ACTION_DOWN grille=(" + ligne + "," + colonne + ")"
+                        + " touch=(" + departX + "," + departY + ")");
                 return true;
 
             case MotionEvent.ACTION_UP:
                 float deltaX = event.getX() - departX;
                 float deltaY = event.getY() - departY;
+                Log.d(TAG, "ACTION_UP grille=(" + ligne + "," + colonne + ")"
+                        + " arriveeTouch=(" + event.getX() + "," + event.getY() + ")"
+                        + " deltaX=" + deltaX + " deltaY=" + deltaY);
 
                 if (Math.abs(deltaX) < distanceMin && Math.abs(deltaY) < distanceMin) {
+                    Log.d(TAG, "Geste ignore car trop petit. seuil=" + distanceMin);
                     return true;
                 }
 
