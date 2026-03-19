@@ -14,32 +14,48 @@ public class AnimationJeu implements Runnable {
     private final ActiviteJeu activite;
     private final Handler handler;
     private final List<EtatJeu> etapes;
+    private final boolean retourSimple;
     private final boolean estLigne;
     private final int indexGlissement;
-    private final int decalage;
     private int index;
-    private boolean glissementAffiche;
+    private boolean retourFait;
 
-    public AnimationJeu(ActiviteJeu activite, Handler handler, List<EtatJeu> etapes,
-                        boolean estLigne, int indexGlissement, int decalage) {
+    public AnimationJeu(ActiviteJeu activite, Handler handler, List<EtatJeu> etapes) {
         this.activite = activite;
         this.handler = handler;
         this.etapes = etapes;
+        this.retourSimple = false;
+        this.estLigne = false;
+        this.indexGlissement = -1;
+        this.index = 0;
+        this.retourFait = false;
+    }
+
+    public AnimationJeu(ActiviteJeu activite, Handler handler, boolean estLigne, int indexGlissement) {
+        this.activite = activite;
+        this.handler = handler;
+        this.etapes = null;
+        this.retourSimple = true;
         this.estLigne = estLigne;
         this.indexGlissement = indexGlissement;
-        this.decalage = decalage;
         this.index = 0;
-        this.glissementAffiche = false;
+        this.retourFait = false;
     }
 
     @Override
     public void run() {
-        if (!glissementAffiche && !etapes.isEmpty()) {
-            glissementAffiche = true;
-            Log.d(TAG, "Animation glissement index=" + indexGlissement
-                    + " decalage=" + decalage + " estLigne=" + estLigne);
-            activite.animerGlissement(estLigne, indexGlissement, decalage);
-            handler.postDelayed(this, DUREE_GLISSEMENT);
+        if (retourSimple) {
+            if (!retourFait) {
+                retourFait = true;
+                Log.d(TAG, "Retour animation simple estLigne=" + estLigne
+                        + " index=" + indexGlissement);
+                activite.animerRetourGlissement(estLigne, indexGlissement);
+                handler.postDelayed(this, DUREE_GLISSEMENT);
+                return;
+            }
+
+            Log.d(TAG, "Fin animation simple");
+            activite.finAnimation();
             return;
         }
 

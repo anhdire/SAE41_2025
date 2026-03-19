@@ -19,6 +19,7 @@ public class ActiviteJeu extends Activity {
     public static final String EXTRA_SEED = "fr.sae.chuzzle.SEED";
 
     private ControleJeu controle;
+    private GridLayout grilleJeu;
     private VueCase[][] vuesCases;
     private AfficheurElement afficheur;
     private TextView txtScore;
@@ -57,7 +58,7 @@ public class ActiviteJeu extends Activity {
     }
 
     private void initialiserGrille() {
-        GridLayout grid = findViewById(R.id.grilleJeu);
+        grilleJeu = findViewById(R.id.grilleJeu);
         int taille = MoteurJeu.TAILLE_GRILLE;
         int tailleCase = calculerTailleCase();
         int margeCase = getResources().getDimensionPixelSize(R.dimen.marge_case_grille);
@@ -82,7 +83,7 @@ public class ActiviteJeu extends Activity {
                 );
 
                 vuesCases[i][j] = vueCase;
-                grid.addView(vueCase);
+                grilleJeu.addView(vueCase);
             }
         }
     }
@@ -136,15 +137,25 @@ public class ActiviteJeu extends Activity {
 
     public void lancerAnimation(List<EtatJeu> etapes, boolean estLigne, int index, int decalage) {
         if (etapes.isEmpty()) {
-            Log.d(TAG, "Aucune animation a jouer, rafraichissement direct");
-            actualiserJeu();
+            Log.d(TAG, "Aucune serie: animation aller-retour");
+            animationEnCours = true;
+            handler.removeCallbacksAndMessages(null);
+            animerGlissement(estLigne, index, decalage);
+            handler.postDelayed(
+                    new AnimationJeu(this, handler, estLigne, index),
+                    AnimationJeu.DUREE_GLISSEMENT
+            );
             return;
         }
 
         animationEnCours = true;
         Log.d(TAG, "Animation lancee avec " + etapes.size() + " etapes");
         handler.removeCallbacksAndMessages(null);
-        handler.post(new AnimationJeu(this, handler, etapes, estLigne, index, decalage));
+        animerGlissement(estLigne, index, decalage);
+        handler.postDelayed(
+                new AnimationJeu(this, handler, etapes),
+                AnimationJeu.DUREE_GLISSEMENT
+        );
     }
 
     void afficherEtat(EtatJeu etat) {
@@ -196,6 +207,15 @@ public class ActiviteJeu extends Activity {
         animerColonne(index, translation);
     }
 
+    void animerRetourGlissement(boolean estLigne, int index) {
+        if (estLigne) {
+            animerLigne(index, 0f);
+            return;
+        }
+
+        animerColonne(index, 0f);
+    }
+
     boolean estAnimationEnCours() {
         return animationEnCours;
     }
@@ -242,21 +262,27 @@ public class ActiviteJeu extends Activity {
         int taille = MoteurJeu.TAILLE_GRILLE;
 
         for (int colonne = 0; colonne < taille; colonne++) {
+            vuesCases[ligne][colonne].bringToFront();
             vuesCases[ligne][colonne].animate()
                     .translationX(translationX)
                     .setDuration(AnimationJeu.DUREE_GLISSEMENT)
                     .start();
         }
+
+        grilleJeu.invalidate();
     }
 
     private void animerColonne(int colonne, float translationY) {
         int taille = MoteurJeu.TAILLE_GRILLE;
 
         for (int ligne = 0; ligne < taille; ligne++) {
+            vuesCases[ligne][colonne].bringToFront();
             vuesCases[ligne][colonne].animate()
                     .translationY(translationY)
                     .setDuration(AnimationJeu.DUREE_GLISSEMENT)
                     .start();
         }
+
+        grilleJeu.invalidate();
     }
 }
