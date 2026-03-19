@@ -14,6 +14,8 @@ import android.view.View;
 
 public class VueCase extends View {
 
+    private static Drawable imageCadenasPartagee;
+
     private Drawable drawable;
     private final Drawable imageCadenas;
     private final Paint fondCase;
@@ -28,7 +30,8 @@ public class VueCase extends View {
 
     public VueCase(Context context) {
         super(context);
-        imageCadenas = context.getDrawable(R.drawable.padlock);
+        chargerImageCadenas(context);
+        imageCadenas = imageCadenasPartagee;
         fondCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         contourCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         ombreCase = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -173,10 +176,18 @@ public class VueCase extends View {
             return;
         }
 
-        tailleImage = (int) Math.min(zoneTuile.width(), zoneTuile.height()) / 2;
+        tailleImage = (int) (Math.min(zoneTuile.width(), zoneTuile.height()) / 2f);
         gauche = (int) (zoneTuile.centerX() - (tailleImage / 2f));
         haut = (int) (zoneTuile.centerY() - (tailleImage / 2f));
         imageCadenas.setBounds(gauche, haut, gauche + tailleImage, haut + tailleImage);
         imageCadenas.draw(canvas);
+    }
+
+    private static void chargerImageCadenas(Context context) {
+        if (imageCadenasPartagee != null) {
+            return;
+        }
+
+        imageCadenasPartagee = context.getDrawable(R.drawable.padlock);
     }
 }
