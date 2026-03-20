@@ -5,5 +5,10 @@
         parent="Theme.Material3.DayNight">
         <item name="android:windowNoTitle">false</item>
         <item name="android:windowActionBar">true</item>
+        <item name="android:colorBackground">@color/ui_background</item>
+        <item name="android:statusBarColor">@color/ui_hud_background</item>
+        <item name="android:navigationBarColor">@color/ui_background</item>
+        <item name="colorPrimary">@color/ui_hud_background</item>
+        <item name="colorOnPrimary">@color/ui_text</item>
     </style>
 </resources>

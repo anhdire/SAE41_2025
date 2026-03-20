@@ -5,39 +5,60 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="@color/ui_background">
+    android:background="@drawable/fond_ecran_retro"
+    android:padding="24dp">
 
-    <ImageView
-        android:id="@+id/logo"
-        android:layout_width="308dp"
-        android:layout_height="209dp"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/logo" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/fond_panneau_retro"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <Button
-        android:id="@+id/btnPlay"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
-        android:text="@string/menu_play"
-        android:backgroundTint="@color/ui_button_primary"
-        android:textColor="@color/ui_text_button"
-        android:layout_marginBottom="20dp"/>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="308dp"
+            android:layout_height="209dp"
+            android:layout_marginBottom="28dp"
+            android:src="@drawable/logo" />
 
-    <Button
-        android:id="@+id/btnPartieDestinee"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
-        android:text="@string/menu_partie_destinee"
-        android:backgroundTint="@color/ui_button_danger"
-        android:textColor="@color/ui_text_button"
-        android:layout_marginBottom="20dp"/>
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fond_bouton_jouer"
+            android:text="@string/menu_play"
+            android:textAllCaps="false"
+            android:textColor="@color/ui_text_button"
+            android:textSize="@dimen/text_button"
+            android:textStyle="bold" />
 
-    <Button
-        android:id="@+id/btnQuit"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
-        android:text="@string/menu_quit"
-        android:backgroundTint="@color/ui_button_danger"
-        android:textColor="@color/ui_text_button" />
+        <Button
+            android:id="@+id/btnPartieDestinee"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/fond_bouton_option"
+            android:text="@string/menu_partie_destinee"
+            android:textAllCaps="false"
+            android:textColor="@color/ui_text_button"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnQuit"
+            android:layout_width="@dimen/button_width"
+            android:layout_height="@dimen/button_height"
+            android:background="@drawable/fond_bouton_quitter"
+            android:text="@string/menu_quit"
+            android:textAllCaps="false"
+            android:textColor="@color/ui_text_button"
+            android:textSize="@dimen/text_button"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </LinearLayout>
