@@ -91,6 +91,10 @@ public class ControleJeu {
         return moteur.estFinie();
     }
 
+    public String getTexteCoupsPossibles() {
+        return moteur.getGrille().getTexteCoupsPossibles();
+    }
+
     public void sauvegarder(Context contexte) {
         moteur.sauvegarder(contexte);
     }

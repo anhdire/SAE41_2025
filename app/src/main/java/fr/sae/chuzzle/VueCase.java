@@ -71,10 +71,15 @@ public class VueCase extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        int couleur = recupererCouleur();
         float rayonCase = dp(16);
         float rayonTuile = dp(14);
         float marge = dp(3);
         float profondeur = dp(3);
+
+        if (Color.alpha(couleur) == 0) {
+            return;
+        }
 
         zone.set(marge, marge, getWidth() - marge, getHeight() - marge);
         canvas.drawRoundRect(
@@ -85,11 +90,6 @@ public class VueCase extends View {
         );
         canvas.drawRoundRect(zone, rayonCase, rayonCase, fondCase);
         canvas.drawRoundRect(zone, rayonCase, rayonCase, contourCase);
-
-        int couleur = recupererCouleur();
-        if (Color.alpha(couleur) == 0) {
-            return;
-        }
 
         RectF zoneTuile = new RectF(
                 zone.left + dp(2),

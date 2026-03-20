@@ -217,6 +217,27 @@ public class Grille {
         return false;
     }
 
+    public String getTexteCoupsPossibles() {
+        StringBuilder texte = new StringBuilder();
+        int taille = cases.length;
+
+        for (int index = 0; index < taille; index++) {
+            if (ligneEstGlissable(cases, index)) {
+                ajouterCoupsLigne(texte, index);
+            }
+
+            if (colonneEstGlissable(cases, index)) {
+                ajouterCoupsColonne(texte, index);
+            }
+        }
+
+        if (texte.length() == 0) {
+            return "Aide dev : aucun coup possible";
+        }
+
+        return "Aide dev :\n" + texte;
+    }
+
     public Case[][] getCases() {
         return this.cases;
     }
@@ -358,6 +379,50 @@ public class Grille {
 
     private int normaliserDecalage(int decalage, int taille) {
         return ((decalage % taille) + taille) % taille;
+    }
+
+    private void ajouterCoupsLigne(StringBuilder texte, int index) {
+        for (int decalage = 1; decalage < cases.length; decalage++) {
+            Case[][] copie = copierCases(cases);
+            appliquerGlissementLigne(copie, index, decalage);
+
+            if (!detecterSeries(copie).isEmpty()) {
+                ajouterLigneTexte(texte, index, decalage);
+            }
+        }
+    }
+
+    private void ajouterCoupsColonne(StringBuilder texte, int index) {
+        for (int decalage = 1; decalage < cases.length; decalage++) {
+            Case[][] copie = copierCases(cases);
+            appliquerGlissementColonne(copie, index, decalage);
+
+            if (!detecterSeries(copie).isEmpty()) {
+                ajouterColonneTexte(texte, index, decalage);
+            }
+        }
+    }
+
+    private void ajouterLigneTexte(StringBuilder texte, int index, int decalage) {
+        if (texte.length() > 0) {
+            texte.append("\n");
+        }
+
+        texte.append("Ligne ")
+                .append(index)
+                .append(" vers gauche de ")
+                .append(decalage);
+    }
+
+    private void ajouterColonneTexte(StringBuilder texte, int index, int decalage) {
+        if (texte.length() > 0) {
+            texte.append("\n");
+        }
+
+        texte.append("Colonne ")
+                .append(index)
+                .append(" vers bas de ")
+                .append(decalage);
     }
 
     private void chargerCaseDepuisTexte(String texteCase, int ligne, int colonne) {
