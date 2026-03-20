@@ -17,8 +17,14 @@ public class ControleJeu {
 
         if (Math.abs(deltaX) >= Math.abs(deltaY)) {
             int nbCases = calculerNbCases(Math.abs(deltaX), largeurCase);
-            int decalage = deltaX > 0 ? -nbCases : nbCases;
+            int decalage;
             int colonneArrivee;
+
+            if (deltaX > 0) {
+                decalage = -nbCases;
+            } else {
+                decalage = nbCases;
+            }
 
             decalageNormalise = normaliserDecalage(decalage);
             colonneArrivee = normaliserIndex(colonne - decalageNormalise);
@@ -33,8 +39,14 @@ public class ControleJeu {
         }
 
         int nbCases = calculerNbCases(Math.abs(deltaY), hauteurCase);
-        int decalage = deltaY > 0 ? nbCases : -nbCases;
+        int decalage;
         int ligneArrivee;
+
+        if (deltaY > 0) {
+            decalage = nbCases;
+        } else {
+            decalage = -nbCases;
+        }
 
         decalageNormalise = normaliserDecalage(decalage);
         ligneArrivee = normaliserIndex(ligne + decalageNormalise);

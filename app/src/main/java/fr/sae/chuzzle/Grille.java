@@ -251,13 +251,21 @@ public class Grille {
             }
 
             for (int colonne = 0; colonne < cases[ligne].length; colonne++) {
+                String verrou;
+
                 if (colonne > 0) {
                     texte.append(",");
                 }
 
+                if (cases[ligne][colonne].isVerrouille()) {
+                    verrou = "1";
+                } else {
+                    verrou = "0";
+                }
+
                 texte.append(cases[ligne][colonne].getType().name())
                         .append(":")
-                        .append(cases[ligne][colonne].isVerrouille() ? "1" : "0");
+                        .append(verrou);
             }
         }
 
