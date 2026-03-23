@@ -124,13 +124,13 @@ EPIC concernes :
 | US   | Fichiers concernes | Statut  | Membre |
 |------|--------------------|---------|--------|
 | US22 | Grille.java, MoteurJeu.java | 🟩      | D      |
-| US23 | JeuController.java, JeuActivity.java | 🟩      | A      |
+| US23 | JeuController.java, JeuActivity.java | 🟩      | D      |
 | US24 | JeuActivity.java, activity_jeu.xml | 🟩      | Y      |
 | US25 | OptionsActivity.java, OptionsController.java, activity_options.xml | 🟩      | D      |
 | US26 | NormalRenderer.java, DaltonienRenderer.java | 🟨      | Y      |
-| US27 | OptionsActivity.java, activity_options.xml | 🟥      | A      |
-| US28 | MoteurJeu.java, SharedPreferences | 🟨      | D      |
-| US29 | JeuActivity.java, activity_jeu.xml | 🟥      | A      |
+| US27 | OptionsActivity.java, activity_options.xml | 🟥      | D      |
+| US28 | MoteurJeu.java, SharedPreferences | 🟩      | D      |
+| US29 | JeuActivity.java, activity_jeu.xml | 🟩      | D      |
 
 ### Resume des US du sprint 4
 - **US22** : Detection de fin de partie.
@@ -141,21 +141,3 @@ EPIC concernes :
 - **US27** : Ajout du bouton mode daltonien.
 - **US28** : Sauvegarde automatique de la partie.
 - **US29** : Restauration complete de l'etat du jeu.
-
----
-
-# Sprint 5 - 22 mars 2025 -> 29 mars 2025
-
-## Objectif du sprint
-A la fin du sprint, le hard mode, le mode daltonien, la sauvegarde Android et la restauration de partie doivent etre fonctionnels. L'application doit etre stable et prete pour la livraison.
-
-EPIC concernes :
-- EPIC 8 - Options et accessibilite
-- EPIC 9 - Gestion du cycle de vie Android
-
-| US   | Fichiers concernes | Statut | Membre |
-|------|--------------------|--------|--------|
-
-### Resume des US du sprint 5
-
----

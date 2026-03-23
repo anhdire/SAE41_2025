@@ -41,12 +41,12 @@ public class VueCase extends View {
         voileVerrou = new Paint(Paint.ANTI_ALIAS_FLAG);
         verrouillee = false;
 
-        fondCase.setColor(Color.parseColor("#AA2D2F4A"));
+        fondCase.setColor(Color.parseColor("#FFF3EADB"));
         contourCase.setStyle(Paint.Style.STROKE);
         contourCase.setStrokeWidth(dp(1.2f));
-        contourCase.setColor(Color.parseColor("#FF3F4168"));
+        contourCase.setColor(Color.parseColor("#FFCDBFA8"));
 
-        ombreCase.setColor(Color.parseColor("#66000000"));
+        ombreCase.setColor(Color.parseColor("#22000000"));
 
         contourTuile.setStyle(Paint.Style.STROKE);
         contourTuile.setStrokeWidth(dp(1.4f));
@@ -54,7 +54,7 @@ public class VueCase extends View {
         refletTuile.setStyle(Paint.Style.STROKE);
         refletTuile.setStrokeWidth(dp(1.1f));
 
-        voileVerrou.setColor(Color.parseColor("#996C757D"));
+        voileVerrou.setColor(Color.parseColor("#AAE2E5E9"));
     }
 
     public void setDrawable(Drawable drawable) {
