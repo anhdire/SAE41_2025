@@ -103,8 +103,8 @@ public class ControleJeu {
         return moteur.estFinie();
     }
 
-    public String getTexteCoupsPossibles() {
-        return moteur.getGrille().getTexteCoupsPossibles();
+    public String getAide() {
+        return moteur.getGrille().getAide();
     }
 
     public void sauvegarder(Context contexte) {

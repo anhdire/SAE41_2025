@@ -13,7 +13,7 @@ public class Grille {
         this.cases = new Case[taille][taille];
         for (int i = 0; i < taille; i++) {
             for (int j = 0; j < taille; j++) {
-                cases[i][j] = new Case(TypeElement.NAN);
+                cases[i][j] = new Case(null);
             }
         }
         this.generateur = new Generateur(seed);
@@ -104,7 +104,7 @@ public class Grille {
                 TypeElement courant = plateau[i][j].getType();
                 TypeElement precedent = plateau[i][j - 1].getType();
 
-                if (courant != TypeElement.NAN && courant == precedent) {
+                if (courant != null && courant == precedent) {
                     compteur++;
                 } else {
                     if (compteur >= 3) {
@@ -133,7 +133,7 @@ public class Grille {
                 TypeElement courant = plateau[i][j].getType();
                 TypeElement precedent = plateau[i - 1][j].getType();
 
-                if (courant != TypeElement.NAN && courant == precedent) {
+                if (courant != null && courant == precedent) {
                     compteur++;
                 } else {
                     if (compteur >= 3) {
@@ -164,7 +164,7 @@ public class Grille {
             for (Position pos : serie.getPositions()) {
                 int ligne = pos.getLigne();
                 int colonne = pos.getColonne();
-                cases[ligne][colonne].setType(TypeElement.NAN);
+                cases[ligne][colonne].setType(null);
                 cases[ligne][colonne].deverrouiller();
             }
         }
@@ -175,14 +175,14 @@ public class Grille {
         for (int col = 0; col < taille; col++) {
             int ligneVide = taille - 1;
             for (int ligne = taille - 1; ligne >= 0; ligne--) {
-                if (cases[ligne][col].getType() != TypeElement.NAN) {
+                if (cases[ligne][col].getType() != null) {
                     cases[ligneVide][col].setType(cases[ligne][col].getType());
                     ligneVide--;
                 }
             }
 
             for (int ligne = ligneVide; ligne >= 0; ligne--) {
-                cases[ligne][col].setType(TypeElement.NAN);
+                cases[ligne][col].setType(null);
             }
         }
     }
@@ -190,7 +190,7 @@ public class Grille {
     public void remplir() {
         for (int col = 0; col < cases.length; col++) {
             for (int ligne = 0; ligne < cases.length; ligne++) {
-                if (cases[ligne][col].getType() == TypeElement.NAN) {
+                if (cases[ligne][col].getType() == null) {
                     cases[ligne][col].setType(generateur.typeAleatoire());
                 }
             }
@@ -217,25 +217,29 @@ public class Grille {
         return false;
     }
 
-    public String getTexteCoupsPossibles() {
-        StringBuilder texte = new StringBuilder();
-        int taille = cases.length;
+    public String getAide() {
+        int index;
 
-        for (int index = 0; index < taille; index++) {
+        for (index = 0; index < cases.length; index++) {
+            String aideLigne;
+            String aideColonne;
+
             if (ligneEstGlissable(cases, index)) {
-                ajouterCoupsLigne(texte, index);
+                aideLigne = getAideLigne(index);
+                if (aideLigne != null) {
+                    return aideLigne;
+                }
             }
 
             if (colonneEstGlissable(cases, index)) {
-                ajouterCoupsColonne(texte, index);
+                aideColonne = getAideColonne(index);
+                if (aideColonne != null) {
+                    return aideColonne;
+                }
             }
         }
 
-        if (texte.length() == 0) {
-            return "Aide dev : aucun coup possible";
-        }
-
-        return "Aide dev :\n" + texte;
+        return "Aucun coup";
     }
 
     public Case[][] getCases() {
@@ -263,8 +267,13 @@ public class Grille {
                     verrou = "0";
                 }
 
-                texte.append(cases[ligne][colonne].getType().name())
-                        .append(":")
+                if (cases[ligne][colonne].getType() == null) {
+                    texte.append("VIDE");
+                } else {
+                    texte.append(cases[ligne][colonne].getType().name());
+                }
+
+                texte.append(":")
                         .append(verrou);
             }
         }
@@ -319,6 +328,42 @@ public class Grille {
         }
 
         return false;
+    }
+
+    private String getAideLigne(int index) {
+        int decalage;
+
+        for (decalage = 1; decalage < cases.length; decalage++) {
+            Case[][] copie = copierCases(cases);
+            appliquerGlissementLigne(copie, index, decalage);
+
+            if (!detecterSeries(copie).isEmpty()) {
+                return formaterCoordonnee(index, decalage) + " vers " + formaterCoordonnee(index, 0);
+            }
+        }
+
+        return null;
+    }
+
+    private String getAideColonne(int index) {
+        int decalage;
+
+        for (decalage = 1; decalage < cases.length; decalage++) {
+            Case[][] copie = copierCases(cases);
+            appliquerGlissementColonne(copie, index, decalage);
+
+            if (!detecterSeries(copie).isEmpty()) {
+                return formaterCoordonnee(0, index) + " vers " + formaterCoordonnee(decalage, index);
+            }
+        }
+
+        return null;
+    }
+
+    private String formaterCoordonnee(int ligne, int colonne) {
+        String[] lettres = {"A", "B", "C", "D", "E", "F"};
+
+        return lettres[colonne] + (ligne + 1);
     }
 
     private Case[][] copierCases(Case[][] source) {
@@ -389,49 +434,6 @@ public class Grille {
         return ((decalage % taille) + taille) % taille;
     }
 
-    private void ajouterCoupsLigne(StringBuilder texte, int index) {
-        for (int decalage = 1; decalage < cases.length; decalage++) {
-            Case[][] copie = copierCases(cases);
-            appliquerGlissementLigne(copie, index, decalage);
-
-            if (!detecterSeries(copie).isEmpty()) {
-                ajouterLigneTexte(texte, index, decalage);
-            }
-        }
-    }
-
-    private void ajouterCoupsColonne(StringBuilder texte, int index) {
-        for (int decalage = 1; decalage < cases.length; decalage++) {
-            Case[][] copie = copierCases(cases);
-            appliquerGlissementColonne(copie, index, decalage);
-
-            if (!detecterSeries(copie).isEmpty()) {
-                ajouterColonneTexte(texte, index, decalage);
-            }
-        }
-    }
-
-    private void ajouterLigneTexte(StringBuilder texte, int index, int decalage) {
-        if (texte.length() > 0) {
-            texte.append("\n");
-        }
-
-        texte.append("Ligne ")
-                .append(index)
-                .append(" vers gauche de ")
-                .append(decalage);
-    }
-
-    private void ajouterColonneTexte(StringBuilder texte, int index, int decalage) {
-        if (texte.length() > 0) {
-            texte.append("\n");
-        }
-
-        texte.append("Colonne ")
-                .append(index)
-                .append(" vers bas de ")
-                .append(decalage);
-    }
 
     private void chargerCaseDepuisTexte(String texteCase, int ligne, int colonne) {
         String[] morceaux = texteCase.split(":");
@@ -441,7 +443,12 @@ public class Grille {
             throw new IllegalArgumentException("Case invalide");
         }
 
-        type = TypeElement.valueOf(morceaux[0]);
+        if ("VIDE".equals(morceaux[0])) {
+            type = null;
+        } else {
+            type = TypeElement.valueOf(morceaux[0]);
+        }
+
         cases[ligne][colonne].setType(type);
 
         if ("1".equals(morceaux[1])) {

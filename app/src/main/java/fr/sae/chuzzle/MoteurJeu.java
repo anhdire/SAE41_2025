@@ -240,11 +240,18 @@ public class MoteurJeu {
     }
 
     private String decrireCase(Case caseCourante) {
+        TypeElement type;
+
         if (caseCourante == null) {
             return "null";
         }
 
-        return caseCourante.getType().name() + " verrou=" + caseCourante.isVerrouille();
+        type = caseCourante.getType();
+        if (type == null) {
+            return "VIDE verrou=" + caseCourante.isVerrouille();
+        }
+
+        return type.name() + " verrou=" + caseCourante.isVerrouille();
     }
 
     private String decrireVoisinage(int ligneCentre, int colonneCentre) {
@@ -262,7 +269,7 @@ public class MoteurJeu {
                         .append(",")
                         .append(colonne)
                         .append(")=")
-                        .append(cases[ligne][colonne].getType().name())
+                        .append(decrireType(cases[ligne][colonne].getType()))
                         .append(" verrou=")
                         .append(cases[ligne][colonne].isVerrouille())
                         .append("\n");
@@ -288,7 +295,7 @@ public class MoteurJeu {
                         .append(",")
                         .append(position.getColonne())
                         .append(")=")
-                        .append(cases[position.getLigne()][position.getColonne()].getType().name())
+                        .append(decrireType(cases[position.getLigne()][position.getColonne()].getType()))
                         .append(" ");
             }
 
@@ -297,5 +304,13 @@ public class MoteurJeu {
         }
 
         return texte.toString();
+    }
+
+    private String decrireType(TypeElement type) {
+        if (type == null) {
+            return "VIDE";
+        }
+
+        return type.name();
     }
 }

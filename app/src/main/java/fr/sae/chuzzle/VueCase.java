@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.ColorDrawable;
@@ -16,6 +17,7 @@ public class VueCase extends View {
 
     private static Drawable imageCadenasPartagee;
 
+    private TypeElement type;
     private Drawable drawable;
     private final Drawable imageCadenas;
     private final Paint fondCase;
@@ -26,12 +28,14 @@ public class VueCase extends View {
     private final Paint refletTuile;
     private final Paint voileVerrou;
     private final RectF zone = new RectF();
+    private final Path forme = new Path();
     private boolean verrouillee;
 
     public VueCase(Context context) {
         super(context);
         chargerImageCadenas(context);
         imageCadenas = imageCadenasPartagee;
+        type = null;
         fondCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         contourCase = new Paint(Paint.ANTI_ALIAS_FLAG);
         ombreCase = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -51,14 +55,18 @@ public class VueCase extends View {
         contourTuile.setStyle(Paint.Style.STROKE);
         contourTuile.setStrokeWidth(dp(1.4f));
 
-        refletTuile.setStyle(Paint.Style.STROKE);
-        refletTuile.setStrokeWidth(dp(1.1f));
+        refletTuile.setStyle(Paint.Style.FILL);
 
         voileVerrou.setColor(Color.parseColor("#AAE2E5E9"));
     }
 
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
+        invalidate();
+    }
+
+    public void setType(TypeElement type) {
+        this.type = type;
         invalidate();
     }
 
@@ -73,11 +81,10 @@ public class VueCase extends View {
 
         int couleur = recupererCouleur();
         float rayonCase = dp(16);
-        float rayonTuile = dp(14);
         float marge = dp(3);
         float profondeur = dp(3);
 
-        if (Color.alpha(couleur) == 0) {
+        if (type == null || Color.alpha(couleur) == 0) {
             return;
         }
 
@@ -92,10 +99,10 @@ public class VueCase extends View {
         canvas.drawRoundRect(zone, rayonCase, rayonCase, contourCase);
 
         RectF zoneTuile = new RectF(
-                zone.left + dp(2),
-                zone.top + dp(1),
-                zone.right - dp(2),
-                zone.bottom - dp(4)
+                zone.left + dp(5),
+                zone.top + dp(4),
+                zone.right - dp(5),
+                zone.bottom - dp(7)
         );
 
         tuile.setShader(new LinearGradient(
@@ -110,20 +117,11 @@ public class VueCase extends View {
         contourTuile.setColor(assombrir(couleur, 0.28f));
         refletTuile.setColor(eclaircir(couleur, 0.38f));
 
-        canvas.drawRoundRect(zoneTuile, rayonTuile, rayonTuile, tuile);
-        canvas.drawRoundRect(zoneTuile, rayonTuile, rayonTuile, contourTuile);
-
-        RectF zoneReflet = new RectF(
-                zoneTuile.left + dp(4),
-                zoneTuile.top + dp(3),
-                zoneTuile.right - dp(4),
-                zoneTuile.top + dp(13)
-        );
-        canvas.drawRoundRect(zoneReflet, dp(10), dp(10), refletTuile);
+        dessinerForme(canvas, zoneTuile);
         tuile.setShader(null);
 
         if (verrouillee) {
-            dessinerVerrou(canvas, zoneTuile, rayonTuile);
+            dessinerVerrou(canvas, zoneTuile);
         }
     }
 
@@ -165,18 +163,200 @@ public class VueCase extends View {
         return (int) (depart + ((arrivee - depart) * ratio));
     }
 
-    private void dessinerVerrou(Canvas canvas, RectF zoneTuile, float rayonTuile) {
-        canvas.drawRoundRect(zoneTuile, rayonTuile, rayonTuile, voileVerrou);
+    private void dessinerForme(Canvas canvas, RectF zoneTuile) {
+        if (type == TypeElement.ROUGE) {
+            dessinerRond(canvas, zoneTuile);
+            return;
+        }
+
+        if (type == TypeElement.BLEU_OCEAN) {
+            dessinerCarre(canvas, zoneTuile);
+            return;
+        }
+
+        if (type == TypeElement.VERT) {
+            dessinerTriangle(canvas, zoneTuile);
+            return;
+        }
+
+        if (type == TypeElement.ORANGE) {
+            dessinerLosange(canvas, zoneTuile);
+            return;
+        }
+
+        if (type == TypeElement.VIOLET) {
+            dessinerEtoile(canvas, zoneTuile);
+            return;
+        }
+
+        if (type == TypeElement.JAUNE) {
+            dessinerPentagone(canvas, zoneTuile);
+            return;
+        }
+
+        if (type == TypeElement.BLEU_CIEL) {
+            dessinerCroix(canvas, zoneTuile);
+        }
+    }
+
+    private void dessinerRond(Canvas canvas, RectF zoneTuile) {
+        float centreX = zoneTuile.centerX();
+        float centreY = zoneTuile.centerY();
+        float rayon = Math.min(zoneTuile.width(), zoneTuile.height()) / 2f;
+
+        canvas.drawCircle(centreX, centreY, rayon, tuile);
+        canvas.drawCircle(centreX, centreY, rayon, contourTuile);
+        canvas.drawCircle(centreX - dp(7), centreY - dp(7), dp(5), refletTuile);
+    }
+
+    private void dessinerCarre(Canvas canvas, RectF zoneTuile) {
+        float rayon = dp(8);
+        RectF zoneReflet;
+
+        canvas.drawRoundRect(zoneTuile, rayon, rayon, tuile);
+        canvas.drawRoundRect(zoneTuile, rayon, rayon, contourTuile);
+
+        zoneReflet = new RectF(
+                zoneTuile.left + dp(6),
+                zoneTuile.top + dp(5),
+                zoneTuile.right - dp(16),
+                zoneTuile.top + dp(14)
+        );
+        canvas.drawRoundRect(zoneReflet, dp(6), dp(6), refletTuile);
+    }
+
+    private void dessinerTriangle(Canvas canvas, RectF zoneTuile) {
+        forme.reset();
+        forme.moveTo(zoneTuile.centerX(), zoneTuile.top);
+        forme.lineTo(zoneTuile.right, zoneTuile.bottom);
+        forme.lineTo(zoneTuile.left, zoneTuile.bottom);
+        forme.close();
+
+        canvas.drawPath(forme, tuile);
+        canvas.drawPath(forme, contourTuile);
+        canvas.drawCircle(zoneTuile.centerX(), zoneTuile.top + dp(12), dp(4), refletTuile);
+    }
+
+    private void dessinerLosange(Canvas canvas, RectF zoneTuile) {
+        forme.reset();
+        forme.moveTo(zoneTuile.centerX(), zoneTuile.top);
+        forme.lineTo(zoneTuile.right, zoneTuile.centerY());
+        forme.lineTo(zoneTuile.centerX(), zoneTuile.bottom);
+        forme.lineTo(zoneTuile.left, zoneTuile.centerY());
+        forme.close();
+
+        canvas.drawPath(forme, tuile);
+        canvas.drawPath(forme, contourTuile);
+        canvas.drawCircle(zoneTuile.centerX(), zoneTuile.centerY() - dp(8), dp(4), refletTuile);
+    }
+
+    private void dessinerEtoile(Canvas canvas, RectF zoneTuile) {
+        creerEtoile(zoneTuile);
+        canvas.drawPath(forme, tuile);
+        canvas.drawPath(forme, contourTuile);
+        canvas.drawCircle(zoneTuile.centerX(), zoneTuile.top + dp(10), dp(4), refletTuile);
+    }
+
+    private void dessinerPentagone(Canvas canvas, RectF zoneTuile) {
+        creerPolygone(zoneTuile, 5, -90f);
+        canvas.drawPath(forme, tuile);
+        canvas.drawPath(forme, contourTuile);
+        canvas.drawCircle(zoneTuile.centerX(), zoneTuile.top + dp(10), dp(4), refletTuile);
+    }
+
+    private void dessinerCroix(Canvas canvas, RectF zoneTuile) {
+        float epaisseur = zoneTuile.width() / 3.4f;
+        float demi = epaisseur / 2f;
+        float centreX = zoneTuile.centerX();
+        float centreY = zoneTuile.centerY();
+
+        forme.reset();
+        forme.moveTo(centreX - demi, zoneTuile.top);
+        forme.lineTo(centreX + demi, zoneTuile.top);
+        forme.lineTo(centreX + demi, centreY - demi);
+        forme.lineTo(zoneTuile.right, centreY - demi);
+        forme.lineTo(zoneTuile.right, centreY + demi);
+        forme.lineTo(centreX + demi, centreY + demi);
+        forme.lineTo(centreX + demi, zoneTuile.bottom);
+        forme.lineTo(centreX - demi, zoneTuile.bottom);
+        forme.lineTo(centreX - demi, centreY + demi);
+        forme.lineTo(zoneTuile.left, centreY + demi);
+        forme.lineTo(zoneTuile.left, centreY - demi);
+        forme.lineTo(centreX - demi, centreY - demi);
+        forme.close();
+
+        canvas.drawPath(forme, tuile);
+        canvas.drawPath(forme, contourTuile);
+        canvas.drawCircle(centreX - dp(8), zoneTuile.top + dp(10), dp(4), refletTuile);
+    }
+
+    private void creerPolygone(RectF zoneTuile, int cotes, float angleDepart) {
+        int index;
+        float centreX = zoneTuile.centerX();
+        float centreY = zoneTuile.centerY();
+        float rayon = Math.min(zoneTuile.width(), zoneTuile.height()) / 2f;
+
+        forme.reset();
+
+        for (index = 0; index < cotes; index++) {
+            float angle = (float) Math.toRadians(angleDepart + ((360f / cotes) * index));
+            float x = centreX + ((float) Math.cos(angle) * rayon);
+            float y = centreY + ((float) Math.sin(angle) * rayon);
+
+            if (index == 0) {
+                forme.moveTo(x, y);
+            } else {
+                forme.lineTo(x, y);
+            }
+        }
+
+        forme.close();
+    }
+
+    private void creerEtoile(RectF zoneTuile) {
+        int index;
+        float centreX = zoneTuile.centerX();
+        float centreY = zoneTuile.centerY();
+        float rayonExterieur = Math.min(zoneTuile.width(), zoneTuile.height()) / 2f;
+        float rayonInterieur = rayonExterieur * 0.45f;
+
+        forme.reset();
+
+        for (index = 0; index < 10; index++) {
+            float angle = (float) Math.toRadians((-90f) + (36f * index));
+            float rayon;
+            float x;
+            float y;
+
+            if (index % 2 == 0) {
+                rayon = rayonExterieur;
+            } else {
+                rayon = rayonInterieur;
+            }
+
+            x = centreX + ((float) Math.cos(angle) * rayon);
+            y = centreY + ((float) Math.sin(angle) * rayon);
+
+            if (index == 0) {
+                forme.moveTo(x, y);
+            } else {
+                forme.lineTo(x, y);
+            }
+        }
+
+        forme.close();
+    }
+
+    private void dessinerVerrou(Canvas canvas, RectF zoneTuile) {
+        canvas.drawRoundRect(zoneTuile, dp(12), dp(12), voileVerrou);
 
         if (imageCadenas == null) {
             return;
         }
 
-        float scale = 1.4f;
-        float taille = Math.min(zoneTuile.width(), zoneTuile.height()) * scale;
-
-        int gauche = (int) (zoneTuile.centerX() - taille / 2);
-        int haut = (int) (zoneTuile.centerY() - taille / 2);
+        float taille = Math.min(zoneTuile.width(), zoneTuile.height()) * 0.42f;
+        int gauche = (int) (zoneTuile.right - taille - dp(4));
+        int haut = (int) (zoneTuile.top + dp(4));
 
         imageCadenas.setBounds(
                 gauche,

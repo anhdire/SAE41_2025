@@ -30,7 +30,6 @@ public class EcouteurCase implements View.OnTouchListener {
             case MotionEvent.ACTION_DOWN:
                 departX = event.getX();
                 departY = event.getY();
-                activite.relancerAideAnalys();
                 Log.d(TAG, "ACTION_DOWN grille=(" + ligne + "," + colonne + ")"
                         + " touch=(" + departX + "," + departY + ")");
                 return true;
@@ -56,7 +55,6 @@ public class EcouteurCase implements View.OnTouchListener {
                         view.getHeight()
                 );
                 activite.actualiserJeu();
-                activite.relancerAideAnalys();
                 return true;
 
             case MotionEvent.ACTION_CANCEL:

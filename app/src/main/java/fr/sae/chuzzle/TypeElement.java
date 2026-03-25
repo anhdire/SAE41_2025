@@ -7,8 +7,7 @@ public enum TypeElement {
     ORANGE(0xFFFB8500),
     VIOLET(0xFF8338EC),
     JAUNE(0xFFFFBE0B),
-    BLEU_CIEL(0xFF4CC9F0),
-    NAN(0x00000000); // pour les cases vides (transparent)
+    BLEU_CIEL(0xFF4CC9F0);
 
     private final int couleur;
 

@@ -52,7 +52,7 @@ public class GestionVerrou {
 
         for (Case[] ligne : cases) {
             for (Case caseCourante : ligne) {
-                if (caseCourante.getType() != TypeElement.NAN && !caseCourante.isVerrouille()) {
+                if (caseCourante.getType() != null && !caseCourante.isVerrouille()) {
                     candidates.add(caseCourante);
                 }
             }

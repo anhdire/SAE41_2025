@@ -15,5 +15,6 @@
     <string name="jeu_coups">Coups : %1$d</string>
     <string name="jeu_seed">Seed : %1$d</string>
     <string name="jeu_fin_partie">Fin de partie - Seed : %1$d</string>
+    <string name="jeu_aide">Aide</string>
     <string name="overlay_fin_titre">Partie finie</string>
 </resources>

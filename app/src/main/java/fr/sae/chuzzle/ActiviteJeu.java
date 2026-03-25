@@ -3,7 +3,6 @@ package fr.sae.chuzzle;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.GridLayout;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 public class ActiviteJeu extends Activity {
     public static final String EXTRA_SEED = "fr.sae.chuzzle.SEED";
-    private static final String TAG = "ActiviteJeu";
 
     private ControleJeu controle;
     private VueCase[][] vuesCases;
@@ -21,11 +19,9 @@ public class ActiviteJeu extends Activity {
     private TextView txtSeed;
     private View overlayFin;
     private TextView txtOverlayFinSeed;
-    private View vueRacine;
     private long seed;
     private boolean modeDur;
     private int distanceMin;
-    private RappelAideAnalys rappelAideAnalys;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,29 +38,19 @@ public class ActiviteJeu extends Activity {
         }
 
         afficheur = new AfficheurNormal();
-        vueRacine = findViewById(android.R.id.content);
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
         overlayFin = findViewById(R.id.overlayFin);
         txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
-        rappelAideAnalys = new RappelAideAnalys(this);
 
         initialiserGrille();
         actualiserJeu();
-        relancerAideAnalys();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        relancerAideAnalys();
     }
 
     @Override
     protected void onPause() {
-        annulerAideAnalys();
         controle.sauvegarder(this);
         super.onPause();
     }
@@ -136,10 +122,18 @@ public class ActiviteJeu extends Activity {
         for(int i=0;i<taille;i++){
             for(int j=0;j<taille;j++){
                 TypeElement type = cases[i][j].getType();
+
+                vuesCases[i][j].setType(type);
                 vuesCases[i][j].setDrawable(
                         afficheur.getDrawable(type)
                 );
                 vuesCases[i][j].setVerrouillee(cases[i][j].isVerrouille());
+
+                if (type == null) {
+                    vuesCases[i][j].setVisibility(View.INVISIBLE);
+                } else {
+                    vuesCases[i][j].setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -148,19 +142,6 @@ public class ActiviteJeu extends Activity {
         mettreAJourScoreEtCoups();
         afficherGrille();
         verifierFinPartie();
-    }
-
-    public void relancerAideAnalys() {
-        annulerAideAnalys();
-        vueRacine.postDelayed(rappelAideAnalys, 5000);
-    }
-
-    public void aideAnalys() {
-        Log.d(TAG, controle.getTexteCoupsPossibles());
-    }
-
-    private void annulerAideAnalys() {
-        vueRacine.removeCallbacks(rappelAideAnalys);
     }
 
     private void verifierFinPartie() {
