@@ -80,43 +80,16 @@ public class VueCase extends View {
         super.onDraw(canvas);
 
         int couleur = recupererCouleur();
-        float rayonCase = dp(16);
-        float marge = dp(3);
-        float profondeur = dp(3);
+        RectF zoneTuile;
 
         if (type == null || Color.alpha(couleur) == 0) {
             return;
         }
 
-        zone.set(marge, marge, getWidth() - marge, getHeight() - marge);
-        canvas.drawRoundRect(
-                new RectF(zone.left, zone.top + profondeur, zone.right, zone.bottom + profondeur),
-                rayonCase,
-                rayonCase,
-                ombreCase
-        );
-        canvas.drawRoundRect(zone, rayonCase, rayonCase, fondCase);
-        canvas.drawRoundRect(zone, rayonCase, rayonCase, contourCase);
-
-        RectF zoneTuile = new RectF(
-                zone.left + dp(5),
-                zone.top + dp(4),
-                zone.right - dp(5),
-                zone.bottom - dp(7)
-        );
-
-        tuile.setShader(new LinearGradient(
-                0,
-                zoneTuile.top,
-                0,
-                zoneTuile.bottom,
-                eclaircir(couleur, 0.18f),
-                assombrir(couleur, 0.16f),
-                Shader.TileMode.CLAMP
-        ));
-        contourTuile.setColor(assombrir(couleur, 0.28f));
-        refletTuile.setColor(eclaircir(couleur, 0.38f));
-
+        preparerZoneCase();
+        dessinerFondCase(canvas);
+        zoneTuile = creerZoneTuile();
+        preparerPeinturesTuile(couleur, zoneTuile);
         dessinerForme(canvas, zoneTuile);
         tuile.setShader(null);
 
@@ -135,6 +108,50 @@ public class VueCase extends View {
         }
 
         return Color.TRANSPARENT;
+    }
+
+    private void preparerZoneCase() {
+        float marge = dp(3);
+
+        zone.set(marge, marge, getWidth() - marge, getHeight() - marge);
+    }
+
+    private void dessinerFondCase(Canvas canvas) {
+        float rayonCase = dp(16);
+        float profondeur = dp(3);
+        RectF zoneOmbre = new RectF(
+                zone.left,
+                zone.top + profondeur,
+                zone.right,
+                zone.bottom + profondeur
+        );
+
+        canvas.drawRoundRect(zoneOmbre, rayonCase, rayonCase, ombreCase);
+        canvas.drawRoundRect(zone, rayonCase, rayonCase, fondCase);
+        canvas.drawRoundRect(zone, rayonCase, rayonCase, contourCase);
+    }
+
+    private RectF creerZoneTuile() {
+        return new RectF(
+                zone.left + dp(5),
+                zone.top + dp(4),
+                zone.right - dp(5),
+                zone.bottom - dp(7)
+        );
+    }
+
+    private void preparerPeinturesTuile(int couleur, RectF zoneTuile) {
+        tuile.setShader(new LinearGradient(
+                0,
+                zoneTuile.top,
+                0,
+                zoneTuile.bottom,
+                eclaircir(couleur, 0.18f),
+                assombrir(couleur, 0.16f),
+                Shader.TileMode.CLAMP
+        ));
+        contourTuile.setColor(assombrir(couleur, 0.28f));
+        refletTuile.setColor(eclaircir(couleur, 0.38f));
     }
 
     private float dp(float valeur) {
@@ -164,6 +181,7 @@ public class VueCase extends View {
     }
 
     private void dessinerForme(Canvas canvas, RectF zoneTuile) {
+        // La forme complete la couleur pour rendre les pieces plus lisibles.
         if (type == TypeElement.ROUGE) {
             dessinerRond(canvas, zoneTuile);
             return;

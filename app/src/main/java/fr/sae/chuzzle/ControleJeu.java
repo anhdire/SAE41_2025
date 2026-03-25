@@ -1,10 +1,8 @@
 package fr.sae.chuzzle;
 
 import android.content.Context;
-import android.util.Log;
 
 public class ControleJeu {
-    private static final String TAG = "ControleJeu";
     private final MoteurJeu moteur;
 
     public ControleJeu(long seed, boolean modeDur) {
@@ -13,50 +11,12 @@ public class ControleJeu {
 
     public void jouerGlissement(int ligne, int colonne, float deltaX, float deltaY,
                                 int largeurCase, int hauteurCase) {
-        int decalageNormalise;
-
         if (Math.abs(deltaX) >= Math.abs(deltaY)) {
-            int nbCases = calculerNbCases(Math.abs(deltaX), largeurCase);
-            int decalage;
-            int colonneArrivee;
-
-            if (deltaX > 0) {
-                decalage = -nbCases;
-            } else {
-                decalage = nbCases;
-            }
-
-            decalageNormalise = normaliserDecalage(decalage);
-            colonneArrivee = normaliserIndex(colonne - decalageNormalise);
-            Log.d(TAG, "GLISSEMENT_LIGNE"
-                    + " depart=(" + ligne + "," + colonne + ")"
-                    + " arrivee=(" + ligne + "," + colonneArrivee + ")"
-                    + " deltaX=" + deltaX
-                    + " nbCases=" + nbCases
-                    + " decalage=" + decalage);
-            moteur.jouerCoupAvecTrace(true, ligne, decalage, ligne, colonne, ligne, colonneArrivee);
+            jouerGlissementLigne(ligne, deltaX, largeurCase);
             return;
         }
 
-        int nbCases = calculerNbCases(Math.abs(deltaY), hauteurCase);
-        int decalage;
-        int ligneArrivee;
-
-        if (deltaY > 0) {
-            decalage = nbCases;
-        } else {
-            decalage = -nbCases;
-        }
-
-        decalageNormalise = normaliserDecalage(decalage);
-        ligneArrivee = normaliserIndex(ligne + decalageNormalise);
-        Log.d(TAG, "GLISSEMENT_COLONNE"
-                + " depart=(" + ligne + "," + colonne + ")"
-                + " arrivee=(" + ligneArrivee + "," + colonne + ")"
-                + " deltaY=" + deltaY
-                + " nbCases=" + nbCases
-                + " decalage=" + decalage);
-        moteur.jouerCoupAvecTrace(false, colonne, decalage, ligne, colonne, ligneArrivee, colonne);
+        jouerGlissementColonne(colonne, deltaY, hauteurCase);
     }
 
     private int calculerNbCases(float distance, int tailleCase) {
@@ -79,12 +39,30 @@ public class ControleJeu {
         return nbCases;
     }
 
-    private int normaliserDecalage(int decalage) {
-        return ((decalage % MoteurJeu.TAILLE_GRILLE) + MoteurJeu.TAILLE_GRILLE) % MoteurJeu.TAILLE_GRILLE;
+    private void jouerGlissementLigne(int ligne, float deltaX, int largeurCase) {
+        int nbCases = calculerNbCases(Math.abs(deltaX), largeurCase);
+        int decalage;
+
+        if (deltaX > 0) {
+            decalage = -nbCases;
+        } else {
+            decalage = nbCases;
+        }
+
+        moteur.jouerCoup(true, ligne, decalage);
     }
 
-    private int normaliserIndex(int index) {
-        return ((index % MoteurJeu.TAILLE_GRILLE) + MoteurJeu.TAILLE_GRILLE) % MoteurJeu.TAILLE_GRILLE;
+    private void jouerGlissementColonne(int colonne, float deltaY, int hauteurCase) {
+        int nbCases = calculerNbCases(Math.abs(deltaY), hauteurCase);
+        int decalage;
+
+        if (deltaY > 0) {
+            decalage = nbCases;
+        } else {
+            decalage = -nbCases;
+        }
+
+        moteur.jouerCoup(false, colonne, decalage);
     }
 
     public Case[][] getCases() {

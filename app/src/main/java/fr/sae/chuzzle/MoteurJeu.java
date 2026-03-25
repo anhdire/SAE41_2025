@@ -2,12 +2,10 @@ package fr.sae.chuzzle;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.util.List;
 
 public class MoteurJeu {
-    private static final String TAG = "MoteurJeu";
     public static final int TAILLE_GRILLE = 6;
     private static final String NOM_SAUVEGARDE = "sauvegarde_partie";
     private static final String CLE_ACTIVE = "partie_active";
@@ -45,82 +43,28 @@ public class MoteurJeu {
     }
 
     public void jouerCoup(boolean estLigne, int index, int decalage) {
-        jouerCoupAvecTrace(estLigne, index, decalage, -1, -1, -1, -1);
-    }
-
-    public void jouerCoupAvecTrace(boolean estLigne, int index, int decalage,
-                                   int ligneDepart, int colonneDepart,
-                                   int ligneArrivee, int colonneArrivee) {
-        Case casePrise;
+        Case[] sauvegarde;
+        List<Serie> series;
 
         if (finie) {
-            Log.d(TAG, "COUP_REFUSE partie deja finie");
             return;
         }
 
-        casePrise = getCaseSiValide(ligneDepart, colonneDepart);
-        if (casePrise != null) {
-            Log.d(TAG, "CASE_PRISE depart=(" + ligneDepart + "," + colonneDepart + ")"
-                    + " type=" + decrireCase(casePrise));
-        }
-
-        Case[] sauv;
-
-        if (estLigne) {
-            sauv = grille.glisserLigne(index, decalage);
-        } else {
-            sauv = grille.glisserColonne(index, decalage);
-        }
-
-        if (sauv == null) {
-            Log.d(TAG, "COUP_REFUSE glissement impossible ou verrou sur la ligne/colonne");
+        sauvegarde = glisserCases(estLigne, index, decalage);
+        if (sauvegarde == null) {
             return;
         }
 
-        List<Serie> series = grille.detecterSeries();
-
-        if (positionValide(ligneArrivee, colonneArrivee)) {
-            Log.d(TAG, "CASE_APRES_GLISSEMENT arrivee=(" + ligneArrivee + "," + colonneArrivee + ")"
-                    + " type=" + decrireCase(grille.getCases()[ligneArrivee][colonneArrivee]));
-            Log.d(TAG, "VOISINAGE_ARRIVEE\n" + decrireVoisinage(ligneArrivee, colonneArrivee));
-        }
-
+        // Un coup ne compte que s'il cree au moins une serie.
+        series = grille.detecterSeries();
         if (series.isEmpty()) {
-            Log.d(TAG, "SERIE_CREEE=false");
-            Case[][] cases = grille.getCases();
-
-            if (estLigne) {
-                for (int j = 0; j < sauv.length; j++) {
-                    cases[index][j] = sauv[j];
-                }
-            } else {
-                for (int i = 0; i < sauv.length; i++) {
-                    cases[i][index] = sauv[i];
-                }
-            }
-
-            Log.d(TAG, "COUP_ANNULE retour a l'etat precedent");
+            restaurerCases(estLigne, index, sauvegarde);
             return;
         }
-
-        Log.d(TAG, "SERIE_CREEE=true nbSeries=" + series.size());
-        Log.d(TAG, "DETAIL_SERIES\n" + decrireSeries(series));
 
         this.nbCoup++;
-        int niveau = 0;
-
-        while (!series.isEmpty()) {
-            int points = scoreManager.calculerScore(series, niveau);
-            score = score + points;
-            grille.supprimerSeries(series);
-            grille.appliquerGravite();
-            grille.remplir();
-            niveau++;
-            series = grille.detecterSeries();
-        }
-
+        resoudreSeries(series);
         verrouManager.ajouterVerrouSiNecessaire(grille, nbCoup);
-
         mettreAJourFinPartie();
     }
 
@@ -220,97 +164,45 @@ public class MoteurJeu {
         this.finie = !grille.existeCoupPossible();
     }
 
+    private Case[] glisserCases(boolean estLigne, int index, int decalage) {
+        if (estLigne) {
+            return grille.glisserLigne(index, decalage);
+        }
+
+        return grille.glisserColonne(index, decalage);
+    }
+
+    private void restaurerCases(boolean estLigne, int index, Case[] sauvegarde) {
+        Case[][] cases = grille.getCases();
+        int position;
+
+        if (estLigne) {
+            for (position = 0; position < sauvegarde.length; position++) {
+                cases[index][position] = sauvegarde[position];
+            }
+            return;
+        }
+
+        for (position = 0; position < sauvegarde.length; position++) {
+            cases[position][index] = sauvegarde[position];
+        }
+    }
+
+    private void resoudreSeries(List<Serie> series) {
+        int niveauCascade = 0;
+
+        while (!series.isEmpty()) {
+            int points = scoreManager.calculerScore(series, niveauCascade);
+            score = score + points;
+            grille.supprimerSeries(series);
+            grille.appliquerGravite();
+            grille.remplir();
+            niveauCascade++;
+            series = grille.detecterSeries();
+        }
+    }
+
     private static SharedPreferences getPreferencesSauvegarde(Context contexte) {
         return contexte.getSharedPreferences(NOM_SAUVEGARDE, Context.MODE_PRIVATE);
-    }
-
-    private boolean positionValide(int ligne, int colonne) {
-        return ligne >= 0
-                && colonne >= 0
-                && ligne < TAILLE_GRILLE
-                && colonne < TAILLE_GRILLE;
-    }
-
-    private Case getCaseSiValide(int ligne, int colonne) {
-        if (!positionValide(ligne, colonne)) {
-            return null;
-        }
-
-        return grille.getCases()[ligne][colonne];
-    }
-
-    private String decrireCase(Case caseCourante) {
-        TypeElement type;
-
-        if (caseCourante == null) {
-            return "null";
-        }
-
-        type = caseCourante.getType();
-        if (type == null) {
-            return "VIDE verrou=" + caseCourante.isVerrouille();
-        }
-
-        return type.name() + " verrou=" + caseCourante.isVerrouille();
-    }
-
-    private String decrireVoisinage(int ligneCentre, int colonneCentre) {
-        StringBuilder texte = new StringBuilder();
-        Case[][] cases = grille.getCases();
-
-        for (int ligne = ligneCentre - 1; ligne <= ligneCentre + 1; ligne++) {
-            for (int colonne = colonneCentre - 1; colonne <= colonneCentre + 1; colonne++) {
-                if (!positionValide(ligne, colonne)) {
-                    continue;
-                }
-
-                texte.append("(")
-                        .append(ligne)
-                        .append(",")
-                        .append(colonne)
-                        .append(")=")
-                        .append(decrireType(cases[ligne][colonne].getType()))
-                        .append(" verrou=")
-                        .append(cases[ligne][colonne].isVerrouille())
-                        .append("\n");
-            }
-        }
-
-        return texte.toString();
-    }
-
-    private String decrireSeries(List<Serie> series) {
-        StringBuilder texte = new StringBuilder();
-        Case[][] cases = grille.getCases();
-        int indexSerie = 1;
-
-        for (Serie serie : series) {
-            texte.append("serie ")
-                    .append(indexSerie)
-                    .append(" : ");
-
-            for (Position position : serie.getPositions()) {
-                texte.append("(")
-                        .append(position.getLigne())
-                        .append(",")
-                        .append(position.getColonne())
-                        .append(")=")
-                        .append(decrireType(cases[position.getLigne()][position.getColonne()].getType()))
-                        .append(" ");
-            }
-
-            texte.append("\n");
-            indexSerie++;
-        }
-
-        return texte.toString();
-    }
-
-    private String decrireType(TypeElement type) {
-        if (type == null) {
-            return "VIDE";
-        }
-
-        return type.name();
     }
 }

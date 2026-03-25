@@ -28,23 +28,8 @@ public class ActiviteJeu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jeu);
 
-        seed = recupererSeed();
-        modeDur = new ControleOptions(this).isHardMode();
-        controle = new ControleJeu(seed, modeDur);
-
-        if (MoteurJeu.aUneSauvegarde(this) && controle.restaurer(this)) {
-            seed = controle.getSeed();
-            modeDur = controle.isModeDur();
-        }
-
-        afficheur = new AfficheurNormal();
-        txtSeed = findViewById(R.id.txtSeed);
-        txtScore = findViewById(R.id.txtScore);
-        txtCoups = findViewById(R.id.txtCoups);
-        overlayFin = findViewById(R.id.overlayFin);
-        txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
-        distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
-
+        initialiserPartie();
+        initialiserChamps();
         initialiserGrille();
         actualiserJeu();
     }
@@ -62,6 +47,27 @@ public class ActiviteJeu extends Activity {
         );
     }
 
+    private void initialiserPartie() {
+        seed = recupererSeed();
+        modeDur = new ControleOptions(this).isHardMode();
+        controle = new ControleJeu(seed, modeDur);
+
+        if (MoteurJeu.aUneSauvegarde(this) && controle.restaurer(this)) {
+            seed = controle.getSeed();
+            modeDur = controle.isModeDur();
+        }
+    }
+
+    private void initialiserChamps() {
+        afficheur = new AfficheurNormal();
+        txtSeed = findViewById(R.id.txtSeed);
+        txtScore = findViewById(R.id.txtScore);
+        txtCoups = findViewById(R.id.txtCoups);
+        overlayFin = findViewById(R.id.overlayFin);
+        txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
+        distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
+    }
+
     private void initialiserGrille() {
         GridLayout grilleJeu = findViewById(R.id.grilleJeu);
         int taille = MoteurJeu.TAILLE_GRILLE;
@@ -72,24 +78,27 @@ public class ActiviteJeu extends Activity {
 
         for(int i=0;i<taille;i++){
             for(int j=0;j<taille;j++){
-                VueCase vueCase = new VueCase(this);
-                GridLayout.LayoutParams params = new GridLayout.LayoutParams();
-
-                params.rowSpec = GridLayout.spec(i);
-                params.columnSpec = GridLayout.spec(j);
-                params.width = tailleCase;
-                params.height = tailleCase;
-                params.setMargins(margeCase, margeCase, margeCase, margeCase);
-
-                vueCase.setLayoutParams(params);
-                vueCase.setOnTouchListener(
-                        new EcouteurCase(controle, this, i, j, distanceMin)
-                );
-
+                VueCase vueCase = creerVueCase(i, j, tailleCase, margeCase);
                 vuesCases[i][j] = vueCase;
                 grilleJeu.addView(vueCase);
             }
         }
+    }
+
+    private VueCase creerVueCase(int ligne, int colonne, int tailleCase, int margeCase) {
+        VueCase vueCase = new VueCase(this);
+        GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+
+        params.rowSpec = GridLayout.spec(ligne);
+        params.columnSpec = GridLayout.spec(colonne);
+        params.width = tailleCase;
+        params.height = tailleCase;
+        params.setMargins(margeCase, margeCase, margeCase, margeCase);
+        vueCase.setLayoutParams(params);
+        vueCase.setOnTouchListener(
+                new EcouteurCase(controle, this, ligne, colonne, distanceMin)
+        );
+        return vueCase;
     }
 
     private int calculerTailleCase() {
@@ -121,20 +130,22 @@ public class ActiviteJeu extends Activity {
 
         for(int i=0;i<taille;i++){
             for(int j=0;j<taille;j++){
-                TypeElement type = cases[i][j].getType();
-
-                vuesCases[i][j].setType(type);
-                vuesCases[i][j].setDrawable(
-                        afficheur.getDrawable(type)
-                );
-                vuesCases[i][j].setVerrouillee(cases[i][j].isVerrouille());
-
-                if (type == null) {
-                    vuesCases[i][j].setVisibility(View.INVISIBLE);
-                } else {
-                    vuesCases[i][j].setVisibility(View.VISIBLE);
-                }
+                afficherCase(i, j, cases[i][j]);
             }
+        }
+    }
+
+    private void afficherCase(int ligne, int colonne, Case caseCourante) {
+        TypeElement type = caseCourante.getType();
+
+        vuesCases[ligne][colonne].setType(type);
+        vuesCases[ligne][colonne].setDrawable(afficheur.getDrawable(type));
+        vuesCases[ligne][colonne].setVerrouillee(caseCourante.isVerrouille());
+
+        if (type == null) {
+            vuesCases[ligne][colonne].setVisibility(View.INVISIBLE);
+        } else {
+            vuesCases[ligne][colonne].setVisibility(View.VISIBLE);
         }
     }
 
