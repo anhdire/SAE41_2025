@@ -1,5 +1,6 @@
 package fr.sae.chuzzle;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
@@ -33,7 +34,7 @@ public class ActiviteOptions extends PreferenceActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            ouvrirMenu();
             return true;
         }
 
@@ -53,5 +54,19 @@ public class ActiviteOptions extends PreferenceActivity {
         } else {
             preference.setSummary(getString(R.string.mode_dur_inactif));
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        ouvrirMenu();
+    }
+
+    private void ouvrirMenu() {
+        Intent intent = new Intent(this, ActiviteMenu.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 }

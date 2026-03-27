@@ -53,4 +53,9 @@ public class ActiviteMenu extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
 }

@@ -1,6 +1,7 @@
 package fr.sae.chuzzle;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -179,5 +180,19 @@ public class ActiviteJeu extends Activity {
         } else {
             overlayFin.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        ouvrirMenu();
+    }
+
+    private void ouvrirMenu() {
+        Intent intent = new Intent(this, ActiviteMenu.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 }

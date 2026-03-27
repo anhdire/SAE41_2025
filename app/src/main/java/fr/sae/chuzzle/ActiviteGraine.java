@@ -43,10 +43,24 @@ public class ActiviteGraine extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.revenir_menu) {
-            finish();
+            ouvrirMenu();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        ouvrirMenu();
+    }
+
+    private void ouvrirMenu() {
+        Intent intent = new Intent(this, ActiviteMenu.class);
+
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intent);
+        finish();
     }
 }
