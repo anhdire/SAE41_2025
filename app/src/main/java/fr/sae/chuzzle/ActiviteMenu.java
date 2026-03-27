@@ -51,6 +51,11 @@ public class ActiviteMenu extends Activity {
             return true;
         }
 
+        if (item.getItemId() == R.id.menu_quitter) {
+            controle.quitterJeu();
+            return true;
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

@@ -6,4 +6,9 @@
         android:title="@string/parametres"
         android:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_quitter"
+        android:title="@string/menu_quit"
+        android:showAsAction="never" />
+
 </menu>
