@@ -80,10 +80,6 @@ public class ControleJeu {
         return moteur.estFinie();
     }
 
-    public String getAide() {
-        return moteur.getGrille().getAide();
-    }
-
     public void sauvegarder(Context contexte) {
         moteur.sauvegarder(contexte);
     }

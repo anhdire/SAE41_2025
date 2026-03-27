@@ -209,31 +209,6 @@ public class Grille {
         candidates.get(index).rendreMystere();
     }
 
-    public String getAide() {
-        int index;
-
-        for (index = 0; index < cases.length; index++) {
-            String aideLigne;
-            String aideColonne;
-
-            if (ligneEstGlissable(cases, index)) {
-                aideLigne = getAideLigne(index);
-                if (aideLigne != null) {
-                    return aideLigne;
-                }
-            }
-
-            if (colonneEstGlissable(cases, index)) {
-                aideColonne = getAideColonne(index);
-                if (aideColonne != null) {
-                    return aideColonne;
-                }
-            }
-        }
-
-        return "Aucun coup";
-    }
-
     public Case[][] getCases() {
         return this.cases;
     }
@@ -329,44 +304,6 @@ public class Grille {
         }
 
         return false;
-    }
-
-    private String getAideLigne(int index) {
-        int decalage;
-
-        for (decalage = 1; decalage < cases.length; decalage++) {
-            Case[][] copie = copierCases(cases);
-            appliquerGlissementLigne(copie, index, decalage);
-
-            if (!detecterSeries(copie).isEmpty()) {
-                return formaterCoordonnee(index, 0)
-                        + " vers "
-                        + formaterCoordonnee(index, decalage);
-            }
-        }
-
-        return null;
-    }
-
-    private String getAideColonne(int index) {
-        int decalage;
-
-        for (decalage = 1; decalage < cases.length; decalage++) {
-            Case[][] copie = copierCases(cases);
-            appliquerGlissementColonne(copie, index, decalage);
-
-            if (!detecterSeries(copie).isEmpty()) {
-                return formaterCoordonnee(0, index) + " vers " + formaterCoordonnee(decalage, index);
-            }
-        }
-
-        return null;
-    }
-
-    private String formaterCoordonnee(int ligne, int colonne) {
-        String[] lettres = {"A", "B", "C", "D", "E", "F"};
-
-        return lettres[colonne] + (ligne + 1);
     }
 
     private Case[][] copierCases(Case[][] source) {

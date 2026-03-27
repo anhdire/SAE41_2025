@@ -1,13 +1,14 @@
 package fr.sae.chuzzle;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.GridLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ActiviteJeu extends Activity {
@@ -19,8 +20,6 @@ public class ActiviteJeu extends Activity {
     private TextView txtScore;
     private TextView txtCoups;
     private TextView txtSeed;
-    private LinearLayout blocAide;
-    private TextView txtBlocAide;
     private View overlayFin;
     private TextView txtOverlayFinTitre;
     private TextView txtOverlayFinSeed;
@@ -34,6 +33,7 @@ public class ActiviteJeu extends Activity {
         setContentView(R.layout.activity_jeu);
 
         initialiserPartie();
+        configurerBarreAction();
         initialiserChamps();
         initialiserGrille();
         actualiserJeu();
@@ -73,12 +73,21 @@ public class ActiviteJeu extends Activity {
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
-        blocAide = findViewById(R.id.blocAide);
-        txtBlocAide = findViewById(R.id.txtBlocAide);
         overlayFin = findViewById(R.id.overlayFin);
         txtOverlayFinTitre = findViewById(R.id.txtOverlayFinTitre);
         txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
+    }
+
+    private void configurerBarreAction() {
+        ActionBar barreAction = getActionBar();
+
+        if (barreAction == null) {
+            return;
+        }
+
+        barreAction.setDisplayHomeAsUpEnabled(true);
+        barreAction.setTitle(R.string.titre_jeu);
     }
 
     private void initialiserGrille() {
@@ -178,19 +187,7 @@ public class ActiviteJeu extends Activity {
     public void actualiserJeu() {
         mettreAJourScoreEtCoups();
         afficherGrille();
-        afficherAide();
         verifierFinPartie();
-    }
-
-    private void afficherAide() {
-        if (modeDur) {
-            blocAide.setBackgroundResource(R.drawable.fond_bloc_aide_dur);
-            txtBlocAide.setText("");
-            return;
-        }
-
-        blocAide.setBackgroundResource(R.drawable.fond_bandeau_jeu);
-        txtBlocAide.setText(getString(R.string.jeu_aide) + " : " + controle.getAide());
     }
 
     private void verifierFinPartie() {
@@ -201,6 +198,16 @@ public class ActiviteJeu extends Activity {
         } else {
             overlayFin.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            ouvrirMenu();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

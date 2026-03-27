@@ -401,9 +401,9 @@ public class VueCase extends View {
             return;
         }
 
-        float taille = Math.min(zoneTuile.width(), zoneTuile.height()) * 0.58f;
-        int gauche = (int) (zoneTuile.right - taille - dp(2));
-        int haut = (int) (zoneTuile.top + dp(2));
+        float taille = Math.min(zoneTuile.width(), zoneTuile.height()) * 0.72f;
+        int gauche = (int) (zoneTuile.centerX() - (taille / 2f));
+        int haut = (int) (zoneTuile.centerY() - (taille / 2f));
 
         imageCadenas.setBounds(
                 gauche,
