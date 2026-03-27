@@ -149,6 +149,18 @@ public class Grille {
         return detecterSeries().isEmpty();
     }
 
+    public boolean estVide() {
+        for (Case[] ligne : cases) {
+            for (Case caseCourante : ligne) {
+                if (caseCourante.getType() != null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public boolean existeCoupPossible() {
         int taille = cases.length;
 

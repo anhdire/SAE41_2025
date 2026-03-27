@@ -56,6 +56,11 @@ public class ActiviteJeu extends Activity {
             seed = controle.getSeed();
             modeDur = controle.isModeDur();
         }
+
+        if (grilleEstVide(controle.getCases())) {
+            MoteurJeu.effacerSauvegarde(this);
+            controle = new ControleJeu(seed, modeDur);
+        }
     }
 
     private void initialiserChamps() {
@@ -147,6 +152,18 @@ public class ActiviteJeu extends Activity {
         } else {
             vuesCases[ligne][colonne].setVisibility(View.VISIBLE);
         }
+    }
+
+    private boolean grilleEstVide(Case[][] cases) {
+        for (Case[] ligne : cases) {
+            for (Case caseCourante : ligne) {
+                if (caseCourante.getType() != null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public void actualiserJeu() {

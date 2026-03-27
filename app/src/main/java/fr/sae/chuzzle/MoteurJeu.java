@@ -137,6 +137,11 @@ public class MoteurJeu {
             nbCoup = preferences.getInt(CLE_NB_COUPS, 0);
             finie = preferences.getBoolean(CLE_FINIE, false);
             grille.chargerDepuisTexte(texteGrille);
+
+            if (grille.estVide()) {
+                throw new IllegalArgumentException("Grille sauvegardee vide");
+            }
+
             return true;
         } catch (IllegalArgumentException e) {
             effacerSauvegarde(contexte);
