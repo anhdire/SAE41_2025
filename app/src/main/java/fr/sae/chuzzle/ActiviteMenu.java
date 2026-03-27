@@ -18,7 +18,7 @@ public class ActiviteMenu extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        // je cree le controlleur car en android c'est la vue qui est creer en premier par l'os
+        // je cree le controlleur car en android c'est la vue qui est creer en premier
         this.controle = new ControleMenu(this);
 
         btnPlay = findViewById(R.id.btnPlay);
