@@ -7,6 +7,7 @@ import java.util.List;
 
 public class MoteurJeu {
     public static final int TAILLE_GRILLE = 6;
+    private static final int CHANCE_CASE_MYSTERE = 25;
     private static final String NOM_SAUVEGARDE = "sauvegarde_partie";
     private static final String CLE_ACTIVE = "partie_active";
     private static final String CLE_GRILLE = "grille";
@@ -145,7 +146,6 @@ public class MoteurJeu {
                 throw new IllegalArgumentException("Grille sauvegardee vide");
             }
 
-            ajouterCaseMystereSiBesoin();
             return true;
         } catch (IllegalArgumentException e) {
             effacerSauvegarde(contexte);
@@ -217,6 +217,10 @@ public class MoteurJeu {
         }
 
         if (grille.aUneCaseMystere()) {
+            return;
+        }
+
+        if (generateur.entierAleatoire(100) >= CHANCE_CASE_MYSTERE) {
             return;
         }
 
