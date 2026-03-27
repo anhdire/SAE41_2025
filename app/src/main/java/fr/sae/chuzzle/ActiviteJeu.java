@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class ActiviteJeu extends Activity {
@@ -18,6 +19,8 @@ public class ActiviteJeu extends Activity {
     private TextView txtScore;
     private TextView txtCoups;
     private TextView txtSeed;
+    private LinearLayout blocAide;
+    private TextView txtBlocAide;
     private View overlayFin;
     private TextView txtOverlayFinSeed;
     private long seed;
@@ -69,6 +72,8 @@ public class ActiviteJeu extends Activity {
         txtSeed = findViewById(R.id.txtSeed);
         txtScore = findViewById(R.id.txtScore);
         txtCoups = findViewById(R.id.txtCoups);
+        blocAide = findViewById(R.id.blocAide);
+        txtBlocAide = findViewById(R.id.txtBlocAide);
         overlayFin = findViewById(R.id.overlayFin);
         txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
@@ -170,7 +175,19 @@ public class ActiviteJeu extends Activity {
     public void actualiserJeu() {
         mettreAJourScoreEtCoups();
         afficherGrille();
+        afficherAide();
         verifierFinPartie();
+    }
+
+    private void afficherAide() {
+        if (modeDur) {
+            blocAide.setBackgroundResource(R.drawable.fond_bloc_aide_dur);
+            txtBlocAide.setText("");
+            return;
+        }
+
+        blocAide.setBackgroundResource(R.drawable.fond_bandeau_jeu);
+        txtBlocAide.setText(getString(R.string.jeu_aide) + " : " + controle.getAide());
     }
 
     private void verifierFinPartie() {
