@@ -8,9 +8,11 @@ public class GestionVerrou {
     private static final int CHANCE_MIN_NORMALE = 10;
     private static final int CHANCE_MAX_NORMALE = 60;
     private static final int AUGMENTATION_NORMALE = 2;
+    private static final int MAX_VERROUS_NORMALE = 3;
     private static final int CHANCE_MIN_DURE = 20;
     private static final int CHANCE_MAX_DURE = 80;
     private static final int AUGMENTATION_DURE = 4;
+    private static final int MAX_VERROUS_DURE = 4;
 
     private final Generateur generateur;
     private final boolean modeDur;
@@ -24,6 +26,7 @@ public class GestionVerrou {
         int chanceMin;
         int chanceMax;
         int augmentation;
+        int maxVerrous;
 
         if (grille == null || nbCoups <= 0) {
             return;
@@ -33,16 +36,22 @@ public class GestionVerrou {
             chanceMin = CHANCE_MIN_DURE;
             chanceMax = CHANCE_MAX_DURE;
             augmentation = AUGMENTATION_DURE;
+            maxVerrous = MAX_VERROUS_DURE;
         } else {
             chanceMin = CHANCE_MIN_NORMALE;
             chanceMax = CHANCE_MAX_NORMALE;
             augmentation = AUGMENTATION_NORMALE;
+            maxVerrous = MAX_VERROUS_NORMALE;
         }
 
-        /* Pour chaque coup joué, on augmente la chance d'ajouter un verrou. */
+        if (compterVerrous(grille) >= maxVerrous) {
+            return;
+        }
+
+        /* Pour chaque coup joue, on augmente la chance d'ajouter un verrou. */
         int chance = chanceMin + ((nbCoups - 1) * augmentation);
         chance = Math.max(chanceMin, Math.min(chanceMax, chance));
-        
+
         if (generateur.entierAleatoire(100) >= chance) {
             return;
         }
@@ -66,4 +75,17 @@ public class GestionVerrou {
         candidates.get(index).verrouiller();
     }
 
+    private int compterVerrous(Grille grille) {
+        int nbVerrous = 0;
+
+        for (Case[] ligne : grille.getCases()) {
+            for (Case caseCourante : ligne) {
+                if (caseCourante.isVerrouille()) {
+                    nbVerrous++;
+                }
+            }
+        }
+
+        return nbVerrous;
+    }
 }
