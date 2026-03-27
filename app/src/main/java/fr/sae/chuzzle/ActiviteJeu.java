@@ -86,6 +86,7 @@ public class ActiviteJeu extends Activity {
             return;
         }
 
+        barreAction.setDisplayHomeAsUpEnabled(true);
         barreAction.setTitle(R.string.titre_jeu);
     }
 
@@ -189,12 +190,6 @@ public class ActiviteJeu extends Activity {
         verifierFinPartie();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_graine, menu);
-        return true;
-    }
-
     private void verifierFinPartie() {
         if (controle.estFinie()) {
             overlayFin.setVisibility(View.VISIBLE);
@@ -207,7 +202,7 @@ public class ActiviteJeu extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.revenir_menu) {
+        if (item.getItemId() == android.R.id.home) {
             ouvrirMenu();
             return true;
         }

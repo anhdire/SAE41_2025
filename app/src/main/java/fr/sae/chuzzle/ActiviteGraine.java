@@ -22,6 +22,7 @@ public class ActiviteGraine extends Activity {
 
         barreAction = getActionBar();
         if (barreAction != null) {
+            barreAction.setDisplayHomeAsUpEnabled(true);
             barreAction.setTitle(R.string.titre_graine);
         }
     }
@@ -35,14 +36,8 @@ public class ActiviteGraine extends Activity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_graine, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.revenir_menu) {
+        if (item.getItemId() == android.R.id.home) {
             ouvrirMenu();
             return true;
         }
