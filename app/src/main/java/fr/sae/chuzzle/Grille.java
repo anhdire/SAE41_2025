@@ -114,6 +114,7 @@ public class Grille {
                 int colonne = pos.getColonne();
                 cases[ligne][colonne].setType(null);
                 cases[ligne][colonne].deverrouiller();
+                cases[ligne][colonne].enleverMystere();
             }
         }
     }
@@ -177,6 +178,37 @@ public class Grille {
         return false;
     }
 
+    public boolean aUneCaseMystere() {
+        for (Case[] ligne : cases) {
+            for (Case caseCourante : ligne) {
+                if (caseCourante.isMystere()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public void ajouterCaseMystere(Generateur generateur) {
+        List<Case> candidates = new ArrayList<>();
+
+        for (Case[] ligne : cases) {
+            for (Case caseCourante : ligne) {
+                if (casePeutDevenirMystere(caseCourante)) {
+                    candidates.add(caseCourante);
+                }
+            }
+        }
+
+        if (candidates.isEmpty()) {
+            return;
+        }
+
+        int index = generateur.entierAleatoire(candidates.size());
+        candidates.get(index).rendreMystere();
+    }
+
     public String getAide() {
         int index;
 
@@ -216,6 +248,7 @@ public class Grille {
 
             for (int colonne = 0; colonne < cases[ligne].length; colonne++) {
                 String verrou;
+                String mystere;
 
                 if (colonne > 0) {
                     texte.append(",");
@@ -227,6 +260,12 @@ public class Grille {
                     verrou = "0";
                 }
 
+                if (cases[ligne][colonne].isMystere()) {
+                    mystere = "1";
+                } else {
+                    mystere = "0";
+                }
+
                 if (cases[ligne][colonne].getType() == null) {
                     texte.append("VIDE");
                 } else {
@@ -234,7 +273,9 @@ public class Grille {
                 }
 
                 texte.append(":")
-                        .append(verrou);
+                        .append(verrou)
+                        .append(":")
+                        .append(mystere);
             }
         }
 
@@ -400,7 +441,7 @@ public class Grille {
         String[] morceaux = texteCase.split(":");
         TypeElement type;
 
-        if (morceaux.length != 2) {
+        if (morceaux.length != 2 && morceaux.length != 3) {
             throw new IllegalArgumentException("Case invalide");
         }
 
@@ -417,6 +458,24 @@ public class Grille {
         } else {
             cases[ligne][colonne].deverrouiller();
         }
+
+        if (morceaux.length == 3 && "1".equals(morceaux[2])) {
+            cases[ligne][colonne].rendreMystere();
+        } else {
+            cases[ligne][colonne].enleverMystere();
+        }
+    }
+
+    private boolean casePeutDevenirMystere(Case caseCourante) {
+        if (caseCourante.getType() == null) {
+            return false;
+        }
+
+        if (caseCourante.isVerrouille()) {
+            return false;
+        }
+
+        return !caseCourante.isMystere();
     }
 
     private void detecterSeriesLignes(Case[][] plateau, List<Serie> liste) {

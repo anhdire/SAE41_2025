@@ -13,10 +13,9 @@ public class ControleJeu {
                                 int largeurCase, int hauteurCase) {
         if (Math.abs(deltaX) >= Math.abs(deltaY)) {
             jouerGlissementLigne(ligne, deltaX, largeurCase);
-            return;
+        } else {
+            jouerGlissementColonne(colonne, deltaY, hauteurCase);
         }
-
-        jouerGlissementColonne(colonne, deltaY, hauteurCase);
     }
 
     private int calculerNbCases(float distance, int tailleCase) {

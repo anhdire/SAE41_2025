@@ -27,9 +27,13 @@ public class VueCase extends View {
     private final Paint contourTuile;
     private final Paint refletTuile;
     private final Paint voileVerrou;
+    private final Paint fondMystere;
+    private final Paint contourMystere;
+    private final Paint texteMystere;
     private final RectF zone = new RectF();
     private final Path forme = new Path();
     private boolean verrouillee;
+    private boolean mystere;
 
     public VueCase(Context context) {
         super(context);
@@ -43,7 +47,11 @@ public class VueCase extends View {
         contourTuile = new Paint(Paint.ANTI_ALIAS_FLAG);
         refletTuile = new Paint(Paint.ANTI_ALIAS_FLAG);
         voileVerrou = new Paint(Paint.ANTI_ALIAS_FLAG);
+        fondMystere = new Paint(Paint.ANTI_ALIAS_FLAG);
+        contourMystere = new Paint(Paint.ANTI_ALIAS_FLAG);
+        texteMystere = new Paint(Paint.ANTI_ALIAS_FLAG);
         verrouillee = false;
+        mystere = false;
 
         fondCase.setColor(Color.parseColor("#FFF3EADB"));
         contourCase.setStyle(Paint.Style.STROKE);
@@ -58,6 +66,17 @@ public class VueCase extends View {
         refletTuile.setStyle(Paint.Style.FILL);
 
         voileVerrou.setColor(Color.parseColor("#AAE2E5E9"));
+
+        fondMystere.setColor(Color.parseColor("#FF6C757D"));
+
+        contourMystere.setStyle(Paint.Style.STROKE);
+        contourMystere.setStrokeWidth(dp(1.4f));
+        contourMystere.setColor(Color.parseColor("#FF3A3F44"));
+
+        texteMystere.setColor(Color.WHITE);
+        texteMystere.setFakeBoldText(true);
+        texteMystere.setTextAlign(Paint.Align.CENTER);
+        texteMystere.setTextSize(dp(20));
     }
 
     public void setDrawable(Drawable drawable) {
@@ -75,6 +94,11 @@ public class VueCase extends View {
         invalidate();
     }
 
+    public void setMystere(boolean mystere) {
+        this.mystere = mystere;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -89,9 +113,14 @@ public class VueCase extends View {
         preparerZoneCase();
         dessinerFondCase(canvas);
         zoneTuile = creerZoneTuile();
-        preparerPeinturesTuile(couleur, zoneTuile);
-        dessinerForme(canvas, zoneTuile);
-        tuile.setShader(null);
+
+        if (mystere) {
+            dessinerMystere(canvas, zoneTuile);
+        } else {
+            preparerPeinturesTuile(couleur, zoneTuile);
+            dessinerForme(canvas, zoneTuile);
+            tuile.setShader(null);
+        }
 
         if (verrouillee) {
             dessinerVerrou(canvas, zoneTuile);
@@ -384,6 +413,15 @@ public class VueCase extends View {
         );
 
         imageCadenas.draw(canvas);
+    }
+
+    private void dessinerMystere(Canvas canvas, RectF zoneTuile) {
+        float rayon = dp(12);
+        float positionTexteY = zoneTuile.centerY() + dp(7);
+
+        canvas.drawRoundRect(zoneTuile, rayon, rayon, fondMystere);
+        canvas.drawRoundRect(zoneTuile, rayon, rayon, contourMystere);
+        canvas.drawText("?", zoneTuile.centerX(), positionTexteY, texteMystere);
     }
 
     private static void chargerImageCadenas(Context context) {

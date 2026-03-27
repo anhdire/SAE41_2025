@@ -39,6 +39,7 @@ public class MoteurJeu {
         this.finie = false;
 
         grille.initialiser();
+        ajouterCaseMystereSiBesoin();
         mettreAJourFinPartie();
     }
 
@@ -65,6 +66,7 @@ public class MoteurJeu {
         this.nbCoup++;
         resoudreSeries(series);
         verrouManager.ajouterVerrouSiNecessaire(grille, nbCoup);
+        ajouterCaseMystereSiBesoin();
         mettreAJourFinPartie();
     }
 
@@ -77,6 +79,7 @@ public class MoteurJeu {
         this.nbCoup = 0;
         this.finie = false;
         this.grille.initialiser();
+        ajouterCaseMystereSiBesoin();
         mettreAJourFinPartie();
     }
 
@@ -142,6 +145,7 @@ public class MoteurJeu {
                 throw new IllegalArgumentException("Grille sauvegardee vide");
             }
 
+            ajouterCaseMystereSiBesoin();
             return true;
         } catch (IllegalArgumentException e) {
             effacerSauvegarde(contexte);
@@ -205,6 +209,18 @@ public class MoteurJeu {
             niveauCascade++;
             series = grille.detecterSeries();
         }
+    }
+
+    private void ajouterCaseMystereSiBesoin() {
+        if (!modeDur) {
+            return;
+        }
+
+        if (grille.aUneCaseMystere()) {
+            return;
+        }
+
+        grille.ajouterCaseMystere(generateur);
     }
 
     private static SharedPreferences getPreferencesSauvegarde(Context contexte) {

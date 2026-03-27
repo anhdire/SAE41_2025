@@ -22,6 +22,7 @@ public class ActiviteJeu extends Activity {
     private LinearLayout blocAide;
     private TextView txtBlocAide;
     private View overlayFin;
+    private TextView txtOverlayFinTitre;
     private TextView txtOverlayFinSeed;
     private long seed;
     private boolean modeDur;
@@ -75,6 +76,7 @@ public class ActiviteJeu extends Activity {
         blocAide = findViewById(R.id.blocAide);
         txtBlocAide = findViewById(R.id.txtBlocAide);
         overlayFin = findViewById(R.id.overlayFin);
+        txtOverlayFinTitre = findViewById(R.id.txtOverlayFinTitre);
         txtOverlayFinSeed = findViewById(R.id.txtOverlayFinSeed);
         distanceMin = ViewConfiguration.get(this).getScaledTouchSlop();
     }
@@ -152,6 +154,7 @@ public class ActiviteJeu extends Activity {
         vuesCases[ligne][colonne].setType(type);
         vuesCases[ligne][colonne].setDrawable(afficheur.getDrawable(type));
         vuesCases[ligne][colonne].setVerrouillee(caseCourante.isVerrouille());
+        vuesCases[ligne][colonne].setMystere(caseCourante.isMystere());
 
         if (type == null) {
             vuesCases[ligne][colonne].setVisibility(View.INVISIBLE);
@@ -193,6 +196,7 @@ public class ActiviteJeu extends Activity {
     private void verifierFinPartie() {
         if (controle.estFinie()) {
             overlayFin.setVisibility(View.VISIBLE);
+            txtOverlayFinTitre.setText(R.string.overlay_fin_titre);
             txtOverlayFinSeed.setText(getString(R.string.jeu_fin_partie, seed));
         } else {
             overlayFin.setVisibility(View.GONE);
