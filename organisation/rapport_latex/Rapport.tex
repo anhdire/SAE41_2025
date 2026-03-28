@@ -1,0 +1,224 @@
+\documentclass[a4paper,12pt]{article}
+
+% Packages utiles
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{titlesec}
+
+\geometry{margin=2.5cm}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \thispagestyle{empty}
+
+    \noindent
+    \begin{minipage}[t]{0.35\textwidth}
+        \vspace{0pt}
+        \includegraphics[width=0.9\textwidth]{img/iut_logo.png}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[t]{0.55\textwidth}
+        \vspace{0pt}
+        \begin{flushright}
+            \textbf{Universite Paris Est Creteil} \\
+            \textbf{IUT Senart Fontainebleau}
+        \end{flushright}
+    \end{minipage}
+
+    \vspace{2cm}
+
+    \begin{center}
+        {\LARGE \textbf{SAE 4.1  Chuzzle}}\\[0.8cm]
+        {\Large Rapport d’avancement}\\[0.8cm]
+
+        \includegraphics[width=0.3\textwidth]{img/logo.png}\\[1cm]
+
+        {\large
+        Algassimou Pellel DIALLO \\[0.7cm]
+        Ayoub ANHDIRE \\[0.7cm]
+        Youness BOULALAMME
+        }
+    \end{center}
+
+    \vfill
+
+    \begin{center}
+        \date{\today}
+    \end{center}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+%--------------------------------------------------
+\section{Introduction}
+
+Dans le cadre de la SAE 4.1, nous avons développé une application Android inspirée du jeu \textbf{Chuzzle}.
+
+Le jeu se base sur une grille de taille 6x6 contenant différents éléments colorés. Le joueur peut effectuer des glissements de lignes ou de colonnes afin de créer des séries d’au moins trois éléments identiques.
+
+Lorsqu’une série est formée :
+\begin{itemize}
+    \item elle est supprimée,
+    \item les éléments au-dessus tombent (gravité),
+    \item de nouveaux éléments apparaissent.
+\end{itemize}
+
+L’objectif est d’obtenir le meilleur score possible avant qu’aucun coup ne soit possible.
+
+Le projet est structuré selon une architecture \textbf{MVC (Modèle - Vue - Contrôleur)}.
+
+%--------------------------------------------------
+\section{Fonctionnalités}
+
+\subsection{Fonctionnalités implémentées}
+
+\begin{itemize}
+    \item Génération d’une grille sans série initiale
+    \item Détection des séries
+    \item Suppression des séries
+    \item Application de la gravité
+    \item Remplissage des cases vides
+    \item Calcul du score
+    \item Menu principal
+    \item Lancement d’une partie
+    \item Affichage de la grille
+    \item Détection de fin de partie
+\end{itemize}
+
+\subsection{Captures d’écran}
+
+\begin{figure}[h]
+    \centering
+%  \includegraphics[width=0.5\textwidth]{menu.png}
+    \caption{Menu principal}
+\end{figure}
+
+% Ajoute tes images ici
+
+%--------------------------------------------------
+\section{Structure du programme}
+
+\subsection{Modèle}
+
+\begin{itemize}
+    \item Grille
+    \item Case
+    \item TypeElement
+    \item Serie
+    \item Position
+    \item MoteurJeu
+    \item ScoreManager
+\end{itemize}
+
+\subsection{Vue}
+
+\begin{itemize}
+    \item MenuActivity
+    \item JeuActivity
+    \item OptionsActivity
+    \item CaseView
+\end{itemize}
+
+\subsection{Contrôleur}
+
+\begin{itemize}
+    \item MenuController
+    \item JeuController
+\end{itemize}
+
+\subsection{Rendu graphique}
+
+\begin{itemize}
+    \item ElementRenderer
+    \item NormalRenderer
+    \item DaltonienRenderer
+\end{itemize}
+
+\subsection{Diagramme UML}
+
+\begin{figure}[h]
+    \centering
+ %   \includegraphics[width=0.8\textwidth]{uml.png}
+    \caption{Diagramme de classes}
+\end{figure}
+
+%--------------------------------------------------
+\section{Algorithme de fin de partie}
+
+La partie se termine lorsqu’aucun coup n’est possible.
+
+\subsection{Principe}
+
+L’algorithme consiste à tester tous les déplacements possibles sur la grille.
+
+\subsection{Étapes}
+
+\begin{enumerate}
+    \item Parcourir toutes les lignes
+    \item Tester les décalages possibles
+    \item Vérifier si une série est créée
+    \item Répéter pour les colonnes
+    \item Si aucun coup ne crée de série :
+\end{enumerate}
+
+\begin{center}
+\textbf{La partie est terminée}
+\end{center}
+
+\subsection{Implémentation}
+
+Cette vérification est réalisée dans la méthode :
+
+\begin{verbatim}
+Grille.existeCoupPossible()
+\end{verbatim}
+
+Puis utilisée dans :
+
+\begin{verbatim}
+MoteurJeu.jouerCoup()
+\end{verbatim}
+
+%--------------------------------------------------
+\section{Conclusion}
+
+\subsection{Auteur 1}
+
+Ce projet m’a permis de comprendre :
+\begin{itemize}
+    \item l’architecture MVC
+    \item la logique d’un moteur de jeu
+    \item le développement Android
+\end{itemize}
+
+Difficultés rencontrées :
+\begin{itemize}
+    \item gestion des interactions
+    \item affichage graphique
+\end{itemize}
+
+Améliorations possibles :
+\begin{itemize}
+    \item animations
+    \item optimisation graphique
+\end{itemize}
+
+\subsection{Auteur 2}
+
+À compléter.
+
+\subsection{Auteur 3}
+
+À compléter.
+
+%--------------------------------------------------
+
+\end{document}
