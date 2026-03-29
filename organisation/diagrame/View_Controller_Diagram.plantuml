@@ -1,97 +1,112 @@
-@startuml Model_Diagram
+@startuml View_Controller_Diagram
 skinparam classAttributeIconSize 0
 
 !define MODEL_COLOR #D0E6FF
+!define VIEW_COLOR #D5F5D5
+!define CONTROLLER_COLOR #FFE0B3
 
-package "Model" {
+package "Vues" {
 
-class MoteurJeu MODEL_COLOR {
-  - grille: Grille
-  - scoreManager: ScoreManager
-  - verrouManager: VerrouManager
-  - generateur: Generateur
-  - score: int
-  - nbCoups: int
-  - finie: boolean
-  - seed: long
-  --
-  + jouerCoup(estLigne: boolean, index: int, decalage: int): void
-  + estFinie(): boolean
-  + getScore(): int
-  + getNbCoups(): int
-  + getGrille(): Grille
+class ActiviteMenu VIEW_COLOR {
+  + onCreate(savedInstanceState: Bundle): void
+  + onCreateOptionsMenu(menu: Menu): boolean
+  + onOptionsItemSelected(item: MenuItem): boolean
 }
 
-class Grille MODEL_COLOR {
-  - cases: Case[][]
-  - generateur: Generateur
-  --
-  + initialiser(): void
-  + glisserLigne(index: int, decalage: int): void
-  + glisserColonne(index: int, decalage: int): void
-  + detecterSeries(): List<Serie>
-  + supprimerSeries(series: List<Serie>): void
-  + appliquerGravite(): void
-  + remplir(): void
-  + estStable(): boolean
-  + existeCoupPossible(): boolean
+class ActiviteGraine VIEW_COLOR {
+  + onCreate(savedInstanceState: Bundle): void
+  + demarrerPartieDestinee(seed: long): void
 }
 
-class Case MODEL_COLOR {
-  - type: TypeElement
-  - verrouille: boolean
-  --
-  + getType(): TypeElement
+class ActiviteJeu VIEW_COLOR {
+  + onCreate(savedInstanceState: Bundle): void
+  + onPause(): void
+  + actualiserJeu(): void
+}
+
+class ActiviteOptions VIEW_COLOR {
+  + onCreate(savedInstanceState: Bundle): void
+  + actualiserResumeModeDur(): void
+}
+
+class VueCase VIEW_COLOR {
   + setType(type: TypeElement): void
-  + estVerrouille(): boolean
-  + verrouiller(): void
-  + deverrouiller(): void
+  + setDrawable(drawable: Drawable): void
+  + setVerrouillee(verrouillee: boolean): void
+  + setMystere(mystere: boolean): void
 }
 
-class Serie MODEL_COLOR {
-  - positions: List<Position>
+interface AfficheurElement VIEW_COLOR {
+  + getDrawable(type: TypeElement): Drawable
+}
+
+class AfficheurNormal VIEW_COLOR
+
+}
+
+package "Controleurs et ecouteurs" {
+
+class ControleMenu CONTROLLER_COLOR {
+  + demarrerPartieNormale(): void
+  + demarrerPartieDestinee(): void
+  + ouvrirParametres(): void
+  + quitterJeu(): void
+}
+
+class ControleJeu CONTROLLER_COLOR {
+  - moteur: MoteurJeu
   --
-  + longueur(): int
-  + getPositions(): List<Position>
+  + ControleJeu(seed: long, modeDur: boolean)
+  + jouerGlissement(...): void
+  + getCases(): Case[][]
+  + getScore(): int
+  + getNbCoup(): int
+  + estFinie(): boolean
+  + sauvegarder(contexte: Context): void
+  + restaurer(contexte: Context): boolean
 }
 
-class Position MODEL_COLOR {
-  - ligne: int
-  - colonne: int
-  --
-  + getLigne(): int
-  + getColonne(): int
+class ControleOptions CONTROLLER_COLOR {
+  + isHardMode(): boolean
+  + setHardMode(actif: boolean): void
 }
 
-class ScoreManager MODEL_COLOR {
-  + calculerScore(series: List<Serie>): int
-}
-
-class VerrouManager MODEL_COLOR {
-  - generateur: Generateur
-  --
-  + ajouterVerrouSiNecessaire(grille: Grille, nbCoups: int): void
-}
-
-class Generateur MODEL_COLOR {
-  - random: Random
-  --
-  + Generateur(seed: long)
-  + typeAleatoire(): TypeElement
-}
-
-enum TypeElement MODEL_COLOR
+class EcouteurMenu CONTROLLER_COLOR
+class EcouteurGraine CONTROLLER_COLOR
+class EcouteurCase CONTROLLER_COLOR
+class EcouteurModeDur CONTROLLER_COLOR
+class ObservateurPreferences CONTROLLER_COLOR
 
 }
 
-MoteurJeu --> Grille
-MoteurJeu --> ScoreManager
-MoteurJeu --> VerrouManager
-MoteurJeu --> Generateur
+package "Modele" {
+class MoteurJeu MODEL_COLOR
+class Case MODEL_COLOR
+class TypeElement MODEL_COLOR
+}
 
-Grille --> Case
-Grille --> Serie
-Serie --> Position
-Case --> TypeElement
+ActiviteMenu --> ControleMenu
+ActiviteMenu --> EcouteurMenu
+
+ActiviteGraine --> EcouteurGraine
+EcouteurGraine --> ActiviteGraine
+
+ActiviteJeu --> ControleJeu
+ActiviteJeu --> VueCase
+ActiviteJeu --> AfficheurElement
+AfficheurElement <|-- AfficheurNormal
+EcouteurCase --> ControleJeu
+EcouteurCase --> ActiviteJeu
+VueCase --> TypeElement
+
+ActiviteOptions --> ControleOptions
+ActiviteOptions --> ObservateurPreferences
+EcouteurModeDur --> ControleOptions
+ObservateurPreferences --> ActiviteOptions
+
+ControleJeu --> MoteurJeu
+ControleMenu --> ActiviteMenu
+ControleOptions --> ActiviteOptions
+ActiviteJeu --> Case
 
 @enduml

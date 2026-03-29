@@ -1,1 +1,0 @@
-PArle de la facon dont j'ai implementer les preferance et la sauvegarde Type:verouille

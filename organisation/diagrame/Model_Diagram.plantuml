@@ -1,82 +1,100 @@
-@startuml Diagrame_Generale_Provisoir
+@startuml Model_Diagram
 skinparam classAttributeIconSize 0
 
 !define MODEL_COLOR #D0E6FF
-!define VIEW_COLOR #D5F5D5
-!define CONTROLLER_COLOR #FFE0B3
-!define LISTENER_COLOR #DDDDDD
 
-' ==============================
-' MODEL
-' ==============================
-
-package "Model" {
+package "Modele" {
 
 class MoteurJeu MODEL_COLOR {
   - grille: Grille
-  - scoreManager: ScoreManager
-  - verrouManager: VerrouManager
+  - scoreManager: GestionScore
+  - verrouManager: GestionVerrou
   - generateur: Generateur
   - score: int
-  - nbCoups: int
+  - nbCoup: int
   - finie: boolean
+  - modeDur: boolean
   - seed: long
   --
+  + MoteurJeu(seed: long, modeDur: boolean)
   + jouerCoup(estLigne: boolean, index: int, decalage: int): void
+  + setSeed(seed: long): void
   + estFinie(): boolean
   + getScore(): int
-  + getNbCoups(): int
+  + getNbCoup(): int
   + getGrille(): Grille
+  + getSeed(): long
+  + isModeDur(): boolean
+  + sauvegarder(contexte: Context): void
+  + restaurer(contexte: Context): boolean
+  + effacerSauvegarde(contexte: Context): void
 }
 
 class Grille MODEL_COLOR {
   - cases: Case[][]
   - generateur: Generateur
   --
+  + Grille(taille: int, seed: long)
   + initialiser(): void
-  + glisserLigne(index: int, decalage: int): void
-  + glisserColonne(index: int, decalage: int): void
+  + glisserLigne(index: int, decalage: int): Case[]
+  + glisserColonne(index: int, decalage: int): Case[]
   + detecterSeries(): List<Serie>
   + supprimerSeries(series: List<Serie>): void
   + appliquerGravite(): void
   + remplir(): void
   + estStable(): boolean
+  + estVide(): boolean
   + existeCoupPossible(): boolean
+  + aUneCaseMystere(): boolean
+  + ajouterCaseMystere(generateur: Generateur): void
+  + getCases(): Case[][]
+  + versTexte(): String
+  + chargerDepuisTexte(texte: String): void
 }
 
 class Case MODEL_COLOR {
   - type: TypeElement
   - verrouille: boolean
+  - mystere: boolean
   --
+  + Case(type: TypeElement)
   + getType(): TypeElement
   + setType(type: TypeElement): void
-  + estVerrouille(): boolean
+  + isVerrouille(): boolean
+  + isMystere(): boolean
   + verrouiller(): void
   + deverrouiller(): void
+  + rendreMystere(): void
+  + enleverMystere(): void
 }
 
 class Serie MODEL_COLOR {
   - positions: List<Position>
   --
-  + longueur(): int
+  + Serie()
+  + addPosition(position: Position): void
   + getPositions(): List<Position>
+  + longueur(): int
 }
 
 class Position MODEL_COLOR {
   - ligne: int
   - colonne: int
   --
+  + Position(ligne: int, colonne: int)
   + getLigne(): int
   + getColonne(): int
 }
 
-class ScoreManager MODEL_COLOR {
-  + calculerScore(series: List<Serie>): int
+class GestionScore MODEL_COLOR {
+  + calculerScore(series: List<Serie>, n: int): int
 }
 
-class VerrouManager MODEL_COLOR {
+class GestionVerrou MODEL_COLOR {
   - generateur: Generateur
+  - modeDur: boolean
   --
+  + GestionVerrou(seed: long, modeDur: boolean)
   + ajouterVerrouSiNecessaire(grille: Grille, nbCoups: int): void
 }
 
@@ -85,91 +103,34 @@ class Generateur MODEL_COLOR {
   --
   + Generateur(seed: long)
   + typeAleatoire(): TypeElement
+  + entierAleatoire(borneExclusive: int): int
 }
 
-enum TypeElement MODEL_COLOR
-
+enum TypeElement MODEL_COLOR {
+  ROUGE
+  BLEU_OCEAN
+  VERT
+  ORANGE
+  VIOLET
+  JAUNE
+  BLEU_CIEL
 }
 
-' ==============================
-' VIEW
-' ==============================
-
-package "View" {
-
-class MenuActivity VIEW_COLOR
-class JeuActivity VIEW_COLOR
-class OptionsActivity VIEW_COLOR
-class SeedActivity VIEW_COLOR
-
-interface ElementRenderer VIEW_COLOR {
-  + getDrawable(type: TypeElement): Drawable
 }
-
-class NormalRenderer VIEW_COLOR
-class DaltonienRenderer VIEW_COLOR
-
-}
-
-' ==============================
-' CONTROLLER
-' ==============================
-
-package "Controller" {
-
-class MenuController CONTROLLER_COLOR {
-  + demarrerPartieNormale(): void
-  + demarrerPartieDestinee(seed: long): void
-  + ouvrirOptions(): void
-}
-
-class JeuController CONTROLLER_COLOR {
-  - moteur: MoteurJeu
-  --
-  + glisserLigne(index: int, decalage: int): void
-  + glisserColonne(index: int, decalage: int): void
-  + verifierFin(): boolean
-}
-
-class OptionsController CONTROLLER_COLOR {
-  + activerHardMode(actif: boolean): void
-  + activerModeDaltonien(actif: boolean): void
-}
-
-class MenuClickListener LISTENER_COLOR
-class JeuTouchListener LISTENER_COLOR
-class OptionsSwitchListener LISTENER_COLOR
-
-}
-
-' ==============================
-' RELATIONS
-' ==============================
 
 MoteurJeu --> Grille
-MoteurJeu --> ScoreManager
-MoteurJeu --> VerrouManager
+MoteurJeu --> GestionScore
+MoteurJeu --> GestionVerrou
 MoteurJeu --> Generateur
 
 Grille --> Case
 Grille --> Serie
+Grille --> Generateur
 Serie --> Position
 Case --> TypeElement
-
-JeuController --> MoteurJeu
-MenuController --> MoteurJeu
-
-JeuActivity --> JeuController
-MenuActivity --> MenuController
-OptionsActivity --> OptionsController
-SeedActivity --> MenuController
-
-JeuActivity --> ElementRenderer
-ElementRenderer <|-- NormalRenderer
-ElementRenderer <|-- DaltonienRenderer
-
-MenuClickListener --> MenuController
-JeuTouchListener --> JeuController
-OptionsSwitchListener --> OptionsController
+GestionVerrou --> Grille
+GestionVerrou --> Generateur
+GestionScore --> Serie
+Generateur --> TypeElement
 
 @enduml
